@@ -1,0 +1,65 @@
+\input{preamble}
+%% end of preamble
+
+\usepackage{framed}
+\usepackage[inline]{enumitem}
+
+\title[]{\Huge \textbf{\textcolor{black}{A Machine Learning Refresher}}}
+\subtitle{\Large Q \& A on the main concepts and terminology}
+% \author{\large \textbf{Huascar A. Sanchez}}
+\author[HAS \& DS]{
+\parbox[t]{1.5in}{Huascar Sanchez \\\small\texttt{huascar.sanchez@sri.com}} \hspace{.3in}
+\and
+\parbox[t]{1.5in}{Deborah Shands \\\small\texttt{deborah.shands@sri.com}}
+}
+\institute[]{\large SRI International}
+
+\date{\today}
+
+% Left align title page
+\makeatletter
+\setbeamertemplate{title page}[default][left,colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+\makeatother
+
+\begin{document}
+%%% TIKZ STUFF
+\tikzset{
+        every picture/.style={remember picture,baseline},
+        every node/.style={anchor=base,align=center,outer sep=1.5pt},
+        every path/.style={thick},
+        }
+\newcommand\marktopleft[1]{%
+    \tikz[overlay,remember picture]
+        \node (marker-#1-a) at (-.3em,.3em) {};%
+}
+\newcommand\markbottomright[2]{%
+    \tikz[overlay,remember picture]
+        \node (marker-#1-b) at (0em,0em) {};%
+}
+\tikzstyle{every picture}+=[remember picture]
+\tikzstyle{mybox} =[draw=black, very thick, rectangle, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{mybox2} =[draw=black, very thick, rectangle, inner sep=5pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[draw=black,fill=red, text=white]
+%%%% END TIKZ STUFF
+
+% Title Slide
+\begin{frame}
+\maketitle
+% \centering
+\tiny\hspace{1em}The views expressed do not necessarily reflect the position of my employer.
+\end{frame}
+
+% INTRO
+\section{Intro}
+\begin{frame}[fragile]{\textbf{Q. What is cross-validation?}}
+Cross-validation is a technique for assessing how well a model
+performs on a new independent data set. The simplest example of
+cross-validation is when you split your data into two groups:
+\begin{enumerate*}[label=(\arabic*),itemsep=5pt]
+\item training data (\~{}60\%)
+\item testing data (\~{}40\%)
+\end{enumerate*}, where one uses training data to build the model,
+and uses testing data to test the model.
+\end{frame}
+
+\end{document}
