@@ -3,14 +3,16 @@
 
 \usepackage{framed}
 \usepackage[inline]{enumitem}
+\usepackage[backend=bibtex]{biblatex}
 
 \title[]{\Huge \textbf{\textcolor{black}{A Machine Learning Refresher}}}
 \subtitle{\Large Q \& A on the main concepts and terminology}
 % \author{\large \textbf{Huascar A. Sanchez}}
-\author[HAS \& DS]{
-\parbox[t]{1.5in}{Huascar Sanchez \\\small\texttt{huascar.sanchez@sri.com}} \hspace{.3in}
-\and
-\parbox[t]{1.5in}{Deborah Shands \\\small\texttt{deborah.shands@sri.com}}
+\author[HAS]{
+% \author[HAS \& DS]{
+\parbox[t]{1.5in}{Huascar Sanchez \\\small\texttt{huascar.sanchez@sri.com}} %\hspace{.3in}
+% \and
+% \parbox[t]{1.5in}{Second Author \\\small\texttt{second.author@sri.com}}
 }
 \institute[]{\large SRI International}
 
@@ -50,16 +52,86 @@
 \end{frame}
 
 % INTRO
-\section{Intro}
+\section{Warmup}
 \begin{frame}[fragile]{\textbf{Q. What is cross-validation?}}
-Cross-validation is a technique for assessing how well a model
-performs on a new independent data set. The simplest example of
-cross-validation is when you split your data into two groups:
-\begin{enumerate*}[label=(\arabic*),itemsep=5pt]
-\item training data (\~{}60\%)
-\item testing data (\~{}40\%)
-\end{enumerate*}, where one uses training data to build the model,
-and uses testing data to test the model.
+  \begin{wideitemize}
+    \item Cross-validation is a technique for assessing how well a model
+    performs on new independent data.
+    \item The simplest example of cross-validation is when you split your
+    data into two groups\footnote{e.g., a \~{}60\%-\~{}40\% split}:
+    (1) training data, and (2) testing data.
+    \item One uses training data to build the model and testing
+    data to test the model.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. How to define/select metrics?}}
+\begin{wideitemize}
+  \item {\large \textbf{There isn't a one-size-fits-all metric.}}
+  \item The metric(s) chosen to evaluate a ML model depends on various factors:
+  \begin{wideitemize}
+    \item Is it a regression or classification task?
+    \item What is the business objective? E.g., precision vs recall.
+    \item What is the distribution of the target variable?
+  \end{wideitemize}
+  \item E.g., Mean Absolute Error (MAE), Mean Squared Error (MSE), R-squared,
+  Confusion Matrix and related metrics (Precision, Recall, Accuracy).
+\end{wideitemize}
+\end{frame}
+
+\note[itemize]{
+\item Regression: Mean Squared Percentage Error (MSPE), Mean Absolute Error (MAE),
+Minimum Sum of Absolute Error (MSAE), Mean Squared Error (MSE), R-squared, Adjusted R-squared
+\item Classification: Confusion Matrix and related metrics (Precision, Recall, Accuracy),
+Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, F1-score
+}
+
+
+\begin{frame}[fragile]{\textbf{Q. Can you explain what precision and recall are?}}
+\begin{wideitemize}
+  \item \textbf{Recall} is a measure of completeness or quantity, whereas
+  \textbf{precision} is a measure of exactness or quality:\vspace{.2em}
+  \begin{itemize}
+    \item \parbox[t]{1.5in}{$Recall = \frac{TP}{TP + FN}$} \hspace{.3in}
+      \parbox[t]{1.5in}{$Precision = \frac{TP}{TP + FP}$}
+  \end{itemize}
+  \item In simple terms, \textbf{high} precision means your algorithm has returned
+  substantially \textit{more relevant results than irrelevant ones}, while
+  \textbf{high} recall means your algorithm has returned \textit{most of the
+  relevant results}.
+\end{wideitemize}
+\end{frame}
+
+\note[itemize]{
+\item \textbf{Recall} answers ``What proportion of \textit{actual}
+positives was identified correctly?''
+\begin{equation*}
+  Recall = \frac{TP}{TP + FN}
+\end{equation*}
+\item \textbf{Precision} answers ``What proportion of positive
+identifications was actually correct''
+\begin{equation*}
+  Precision = \frac{TP}{TP + FP}
+\end{equation*}
+}
+
+
+\begin{frame}[fragile]{\textbf{Q. Can you explain what are false positives and
+false negatives?}}
+\begin{wideitemize}
+  \item \textbf{False positives} are incorrect classifications of the presence
+  of a condition when it is actually absent.
+  \item \textbf{False negatives} are incorrect classifications of the absence
+  of a condition when it is actually present.
+\end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Provide examples when false positives are more
+important than false negatives, false negatives are more important than false
+positives and when these two types of errors are equally important}}
+\begin{wideitemize}
+  \item TODO
+\end{wideitemize}
 \end{frame}
 
 \end{document}

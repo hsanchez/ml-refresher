@@ -1,6 +1,6 @@
-main.pdf: *.tex img/*.pdf
+main.pdf: *.tex # img/*.pdf
 	pdflatex main
-	bibtex slides
+	bibtex main
 	pdflatex main
 	pdflatex main
 
