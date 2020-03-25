@@ -4,6 +4,9 @@
 \usepackage{framed}
 \usepackage[inline]{enumitem}
 \usepackage[backend=bibtex]{biblatex}
+\usepackage{amssymb}
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
 \title[]{\Huge \textbf{\textcolor{black}{A Machine Learning Refresher}}}
 \subtitle{\Large Q \& A on the main concepts and terminology}
@@ -53,6 +56,115 @@
 
 % INTRO
 \section{Warmup}
+
+\begin{frame}[fragile]{\textbf{Q. What is Machine Learning?}}
+  \begin{wideitemize}
+    \item Machine Learning is fitting a function to examples and using
+    that function to generalize and make predictions about
+    new examples.
+    \item Machine Learning, by large, falls into two categories:\vspace{.4em}
+    \begin{wideitemize}
+      \item[-] Supervised learning
+      \item[-] Unsupervised learning
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. How do you represent data in ML?}}
+  \begin{wideitemize}
+    \item In general, the given data is expressed in a form of a bunch of vectors
+    $\vec{v}_{j} \in {\Bbb R}^{d}$ that belong to some high dimensional vector space.
+    \item For instance, in image recognition, the vector of an each image is
+    a set of pixels (i.e., a pixelated version of the image).
+    \item If you have a notion of distance $\Delta(\vec{v}_{i}, \vec{v}_{j})$,
+    then you can compare which vectors are close to each other in this high
+    dimensional vector space; e.g., the norm $\norm{\vec{v}_{i} - \vec{v}_{j}}^2$
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is Supervised Learning?}}
+  \begin{wideitemize}
+    \item In \textbf{Supervised Learning} (or \textbf{SL}), you are given a
+    bunch of examples and their labels (e.g., A or B) and the goal is to
+    classify (or assign), when you are given a new example, to which label we
+    assign the new example.
+    \item \textcolor{blue}{You could think of these labels the name of the
+    \textbf{class or cluster} to which certain portions of the data belong.}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Can you give an example of Supervised Learning?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+    \item \textcolor{blue}{\textbf{Support vector machines} or \textbf{SVM}}
+    \item In \textbf{SVM}, the goal is to construct the optimal separating
+    \textit{hyperplane} between pieces of data; e.g., between clusters of data
+    represented by labels A and B.\vspace{.4em}
+    \begin{wideitemize}
+      \item[-] These clusters sit in some high dimensional space, and the idea is to
+      construct a plane that maximizes the margins between the plane and the data.
+      \item[-] If a new datum sits closer to one area of the data, say A, then
+      we assign this new datum to A.
+    \end{wideitemize}
+    \item (For historical reasons) This algorithm is called \textbf{support
+    vector machines} because the vectors that lie on the margin of the plan are
+    called the \textit{support} vectors.
+  \end{wideitemize}
+
+  \begin{framed}
+  This is a method for constructing a device to discriminate. If we're having
+  a supervised learning problem then this method gives me an optimal form of
+  discrimination.
+  \end{framed}
+
+  \note[itemize]{
+  \item This algorithm has an exponential speed up when you do it
+  quantum mechanically..
+  }
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is Unsupervised Learning?}}
+  \begin{wideitemize}
+    \item In \textbf{Unsupervised Learning} (or \textbf{UL}), you are given a
+    bunch of data and you are not told it falls naturally into clusters, but
+    you are not told what the clusters are.
+    \item \textcolor{blue}{The goal is identify the clusters of data, how many clusters there are,
+    and then be able to assign new things to these different clusters.}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Can you give an example of Unsupervised Learning?}}
+  \begin{wideitemize}
+    \item \textcolor{blue}{Principal Component Analysis (or \textbf{PCA})} is a classical UL algorithm.
+    \item In \textbf{PCA}, the way this works, we construct a \textit{covariance matrix},
+    and my covariance matrix is just the following object: $C = \sum_{j} \vec{v}_j\vec{v}^{\dagger}_{j}$,
+    where $\vec{v}^{T}_{j}$ is the transpose of $\vec{v}_{j}$.
+    \begin{wideitemize}
+      \item[-] In other words, we construct $C$ from the data by taking these vectors $\vec{v}_j$ and
+      multiply them by their transpose $\vec{v}^{\dagger}_j$.
+      \item E.g., Financial forecasting: the vectors could be, for example, can
+      represent the changes in stock prices over a 24 hr period, and the
+      covariance matrix $C$ would give the correlations (or covariances in the
+      data) between the prices of the different stocks in different times within
+      the 24 hrs period.
+    \end{wideitemize}
+    \item In \textbf{PCA}, you diagonalize $C$ and say $C = \sum_{k} P_k
+    \vec{\omega}_{k}\vec{\omega}^{\dagger}_{k}$, $P_k$ is piece of the data with size $k$,
+    and $\vec{\omega}_{k}$ are the set of vectors you need to find.
+    \item If and only if a small set of $P_k >> 0$, then $C$ is effectively low-rank,
+    and the corresponding $\vec{\omega}_{k}$ are the principal components.
+  \end{wideitemize}
+\end{frame}
+
+\section{Specifics}
+\begin{transitionframe}
+  \begin{center}
+    \Huge Harder questions, please!
+  \end{center}
+\end{transitionframe}
+
+
+
 \begin{frame}[fragile]{\textbf{Q. What is cross-validation?}}
   \begin{wideitemize}
     \item Cross-validation is a technique for assessing how well a model
