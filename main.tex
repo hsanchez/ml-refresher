@@ -154,6 +154,19 @@
     \item If and only if a small set of $P_k >> 0$, then $C$ is effectively low-rank,
     and the corresponding $\vec{\omega}_{k}$ are the principal components.
   \end{wideitemize}
+  \note[itemize]{
+  \item In this stocks example, for instance, if it turns out that all the
+  motions of stocks in the stocks market are highly correlated with each other AND
+  there is only a few forms of correlations, then this matrix $C$ will be
+  effectively low-rank and will only have a few principle components.
+  \item You see, this PCA is a way of compressing the data. That is, if there
+  is only a few principal components then this means that all my vectors can
+  be written as the sum of a few $w$s.
+  \item In general terms, this PCA process is about finding the underlying
+  patterns of the data and also gives you a method for data compression.
+  \item PCA is all about diagonalizing the covariance matrix.
+  \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
+  }
 \end{frame}
 
 \section{Specifics}
