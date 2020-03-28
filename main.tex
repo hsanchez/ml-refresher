@@ -5,8 +5,13 @@
 \usepackage[inline]{enumitem}
 \usepackage[backend=bibtex]{biblatex}
 \usepackage{amssymb}
+\usepackage{amsmath}
 
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\usepackage{multirow}
+\usepackage{booktabs}
+
 
 \title[]{\Huge \textbf{\textcolor{black}{A Machine Learning Refresher}}}
 \subtitle{\Large Q \& A on the main concepts and terminology}
@@ -55,7 +60,7 @@
 \end{frame}
 
 % INTRO
-\section{Warmup}
+\section{Warmup questions}
 
 \begin{frame}[fragile]{\textbf{Q. What is Machine Learning?}}
   \begin{wideitemize}
@@ -116,11 +121,11 @@
   discrimination.
   \end{framed}
 
-  \note[itemize]{
-  \item This algorithm has an exponential speed up when you do it
-  quantum mechanically..
-  }
 \end{frame}
+
+\note[itemize]{
+\item This algorithm has an exponential speed up when you do it quantum mechanically..
+}
 
 \begin{frame}[fragile]{\textbf{Q. What is Unsupervised Learning?}}
   \begin{wideitemize}
@@ -153,22 +158,25 @@
     \item If and only if a small set of $P_k >> 0$, then $C$ is effectively low-rank,
     and the corresponding $\vec{\omega}_{k}$ are the principal components.
   \end{wideitemize}
-  \note[itemize]{
-  \item In this stocks example, for instance, if it turns out that all the
+
+\end{frame}
+
+\note[itemize]{
+\item In this stocks example, for instance, if it turns out that all the
   motions of stocks in the stocks market are highly correlated with each other AND
   there is only a few forms of correlations, then this matrix $C$ will be
   effectively low-rank and will only have a few principle components.
-  \item You see, this PCA is a way of compressing the data. That is, if there
+\item You see, this PCA is a way of compressing the data. That is, if there
   is only a few principal components then this means that all my vectors can
   be written as the sum of a few $w$s.
-  \item In general terms, this PCA process is about finding the underlying
+\item In general terms, this PCA process is about finding the underlying
   patterns of the data and also gives you a method for data compression.
-  \item PCA is all about diagonalizing the covariance matrix.
-  \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
-  }
-\end{frame}
+\item PCA is all about diagonalizing the covariance matrix.
+\item PCA is an exercise in linear algebra on very high dimensional vector spaces.
+}
 
-\section{Specifics}
+
+\section{Data driven questions}
 \begin{transitionframe}
   \begin{center}
     \Huge Harder questions, please!
@@ -194,12 +202,12 @@
   \item {\large \textbf{There isn't a one-size-fits-all metric.}}
   \item The metric(s) chosen to evaluate a ML model depends on various factors:
   \begin{wideitemize}
-    \item Is it a regression or classification task?
+    \item Is it a regression or classification task? E.g., MSE vs Accuracy. 
     \item What is the business objective? E.g., precision vs recall.
     \item What is the distribution of the target variable?
   \end{wideitemize}
-  \item E.g., Mean Absolute Error (MAE), Mean Squared Error (MSE), R-squared,
-  Confusion Matrix and related metrics (Precision, Recall, Accuracy).
+  \item Examples of other metrics: Mean Absolute Error (MAE), Mean Squared Error
+    (MSE), R-squared, Confusion Matrix and related metrics (Precision, Recall, Accuracy).
 \end{wideitemize}
 \end{frame}
 
@@ -214,10 +222,12 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \begin{frame}[fragile]{\textbf{Q. Can you explain what precision and recall are?}}
 \begin{wideitemize}
   \item \textbf{Recall} is a measure of completeness or quantity, whereas
-  \textbf{precision} is a measure of exactness or quality:\vspace{.2em}
+   \item \textbf{Precision} is a measure of exactness or quality:\vspace{.4em}
   \begin{itemize}
-    \item \parbox[t]{1.5in}{$Recall = \frac{TP}{TP + FN}$} \hspace{.3in}
-      \parbox[t]{1.5in}{$Precision = \frac{TP}{TP + FP}$}
+    \item \parbox[t]{1.5in}{$\underbrace{Recall = \frac{TP}{TP +
+            FN}}_{\substack{\text{What proportion of actual positives}\\ \text{was identified correctly?}}}$} \hspace{.6in}
+      \parbox[t]{1.5in}{$\underbrace{Precision = \frac{TP}{TP + FP}}_{\substack{\text{What
+            proportion of positive identifications}\\\text{was actually correct?}}}$}
   \end{itemize}
   \item In simple terms, \textbf{high} precision means your algorithm has returned
   substantially \textit{more relevant results than irrelevant ones}, while
@@ -226,36 +236,97 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \end{wideitemize}
 \end{frame}
 
-\note[itemize]{
-\item \textbf{Recall} answers ``What proportion of \textit{actual}
-positives was identified correctly?''
-\begin{equation*}
-  Recall = \frac{TP}{TP + FN}
-\end{equation*}
-\item \textbf{Precision} answers ``What proportion of positive
-identifications was actually correct''
-\begin{equation*}
-  Precision = \frac{TP}{TP + FP}
-\end{equation*}
-}
-
+\begin{frame}[fragile]{\textbf{Q. What is a confusion matrix?}}
+  \begin{wideitemize}
+  \item A \textbf{Confusion Matrix} is a simple way of understanding how well an
+    algorithm is doing at classifying data. It is just the idea of \textbf{false
+      positives} and \textbf{false negatives}
+  \item
+    \begin{tabular}{cc|cc}
+      \multicolumn{1}{c}{} &\multicolumn{1}{c}{} &\multicolumn{2}{c}{Predicted} \\
+      \multicolumn{1}{c}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{No} \\ \hline
+      \multirow[c]{2}{*}{\rotatebox[origin=tr]{90}{Actual}} & Yes & TP & FN \\[1.5ex] & No & FP & TN \\ \hline
+    \end{tabular}
+  \end{wideitemize}
+\end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. Can you explain what are false positives and
-false negatives?}}
-\begin{wideitemize}
+      false negatives?}}
+  \begin{wideitemize}
+  \item There are two errors that often rear their head when you are learning
+    about hypothesis testing —- false positives and false negatives, technically
+    referred to as type I error and type II error respectively.
   \item \textbf{False positives} are incorrect classifications of the presence
-  of a condition when it is actually absent.
-  \item \textbf{False negatives} are incorrect classifications of the absence
-  of a condition when it is actually present.
-\end{wideitemize}
+    of a condition when it is actually absent. A \textbf{false positive} is \textcolor{red}{when you
+      reject a true null hypothesis}.
+  \item \textbf{False negatives} are incorrect classifications of the absence of
+    a condition when it is actually present. A \textbf{false negative} is \textcolor{red}{when you accept
+      a false null hypothesis}.
+  \end{wideitemize}
 \end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. Provide examples when false positives are more
-important than false negatives, false negatives are more important than false
-positives and when these two types of errors are equally important}}
-\begin{wideitemize}
-  \item TODO
-\end{wideitemize}
+      important than false negatives, false negatives are more important than
+      false positives and when these two types of errors are equally important}}
+  \begin{wideitemize}
+  \item E.g., cancer screening. It is much worse to say that someone
+    doesn't have cancer when they do (false negative) rather than saying that
+    someone has it when in fact they don't (false positive).
+  \item E.g., (from a psychological perspective) pregnancy test. Given the null
+    hypothesis: ``I am not pregnant.'' A false negative for someone who really
+    does not want a child, is not ready for one and when assuring themselves
+    with a negative result.
+  \item E.g., forecasting (health weather). During the covid-19 outbreak.
+    Tracking rate of false positives and false negatives in March 2020 in the
+    United States of America. 
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Can you list some of metrics derived from Confusion Matrix?}}
+  \begin{wideitemize}
+  \item Confusion matrix related metrics
+    \begin{wideitemize}
+    \item Accuracy rate: {\footnotesize $\frac{TP + TN}{Total}$}
+      where {\footnotesize Total is $TP + TN + FP + FN$},\vspace{-.5em}
+    \item Error rate: {\footnotesize $1 - \frac{TP + TN}{Total}$},\vspace{-.5em}
+    \item False positive rate: {\footnotesize $\frac{FP}{TN + FP}$},\vspace{-.5em}
+    \item Recall: {\footnotesize $\frac{TP}{TP + TN}$}, Precision: {\footnotesize $\frac{TP}{TP + FP}$},\vspace{-.5em}
+    \item Specificity: {\footnotesize $1 - \frac{FP}{TN + FP}$},\vspace{-.5em}
+    \item Prevalence: {\footnotesize $\frac{TP + FN}{Total}$}
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. How do you measure how  good your
+      classification algorithm is? You have unbalanced numbers, with our class
+      being much larger or smaller than others}}
+  \begin{wideitemize}
+  \item You use the Matthews correlation coefficient. The number it yields is
+    between plus or minus one. Plus one means perfect prediction, zero means no
+    better than random.
+  \item $\frac{TP x TN - FP x FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}$
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
+  \begin{wideitemize}
+  \item Linear regression attempts to model the relationship between two continuous
+    variables -- a scalar response (or dependent variable) and and one or more
+    explanatory variables (or independent variables) -- by fitting a linear
+    equation to observed data.
+  \item The governing equation for linear regression is also quite simple. It
+    takes the form: $y = Bx + A$ where $y$ is the dependent variable, $x$ is the
+    independent variable, and $A$ and $B$ are coefficients dictating the equation
+  \item e.g. a model that assumes a linear relationship between the input
+    variables $x$ and the single output variable $y$.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is the general form of multiple regression?}}
+  \begin{wideitemize}
+    \item The general form of the equation for linear regression.
+  \end{wideitemize}
 \end{frame}
 
 \end{document}
