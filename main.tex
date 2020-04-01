@@ -6,11 +6,24 @@
 \usepackage[backend=bibtex]{biblatex}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{gensymb}  % degrees in latex
 
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
 \usepackage{multirow}
 \usepackage{booktabs}
+
+%% borrowed from https://tex.stackexchange.com/questions/229023/expectation-operator
+\usepackage{mathtools}
+\providecommand\given{}
+\DeclarePairedDelimiterXPP\Aver[1]{\mathbb{E}}{[}{]}{}{
+\renewcommand\given{  \nonscript\:
+  \delimsize\vert
+  \nonscript\:
+  \mathopen{}
+  \allowbreak}
+#1
+}
 
 
 \title[]{\Huge \textbf{\textcolor{black}{A Machine Learning Refresher}}}
@@ -18,11 +31,11 @@
 % \author{\large \textbf{Huascar A. Sanchez}}
 \author[HAS]{
 % \author[HAS \& DS]{
-\parbox[t]{1.5in}{Huascar Sanchez \\\small\texttt{no.email.now}} %\hspace{.3in}
+\parbox[t]{1.5in}{Huascar Sanchez \\\small\texttt{github.com/hsanchez}} %\hspace{.3in}
 % \and
 % \parbox[t]{1.5in}{Second Author \\\small\texttt{second.author@sri.com}}
 }
-\institute[]{\large Some Research Lab}
+\institute[]{\large Home Research Lab}
 
 \date{\today}
 
@@ -60,18 +73,21 @@
 \end{frame}
 
 % INTRO
-\section{Warmup questions}
+\section{General matters}
 
 \begin{frame}[fragile]{\textbf{Q. What is Machine Learning?}}
   \begin{wideitemize}
-    \item Machine Learning is fitting a function to examples and using
-    that function to generalize and make predictions about
-    new examples.
-    \item Machine Learning, by large, falls into two categories:\vspace{.4em}
+    \item Machine Learning (or \textbf{ML}) is fitting a function to
+    examples\footnote{An example, or a sample, is a data point that belongs
+    to some data} and using that function to generalize and make predictions
+    about new examples.
+    \item Machine Learning, by large, falls into three categories:\vspace{.4em}
     \begin{wideitemize}
       \item[-] Supervised learning
       \item[-] Unsupervised learning
+      \item[-] Reinforcement learning
     \end{wideitemize}
+    \item And solves two types of problems: Classification and Regression.
   \end{wideitemize}
 \end{frame}
 
@@ -79,11 +95,15 @@
   \begin{wideitemize}
     \item In general, the given data is expressed in a form of a bunch of vectors
     $\vec{v}_{j} \in {\Bbb R}^{d}$ that belong to some high dimensional vector space.
-    \item For instance, in image recognition, the vector of an each image is
-    a set of pixels (i.e., a pixelated version of the image).
+    \item For instance, in image recognition, the vector\footnote{a.k.a., feature
+    vector; it could be numerical (e.g., height of tree) or descriptive
+    (e.g., eye color)} of an each image is a set of pixels\footnote{each entry
+    in the vector (e.g., pixel) represents a feature.} (i.e., a pixelated
+    version of the image).
     \item If you have a notion of distance $\Delta(\vec{v}_{i}, \vec{v}_{j})$,
     then you can compare which vectors are close to each other in this high
-    dimensional vector space; e.g., the norm $\norm{\vec{v}_{i} - \vec{v}_{j}}^2$
+    dimensional vector space; e.g., the norm $\norm{\vec{v}_{i} - \vec{v}_{j}}^2$.
+    See slide~\ref{distance} for example of distance metrics.
   \end{wideitemize}
 \end{frame}
 
@@ -175,20 +195,209 @@
 \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
 }
 
+\begin{frame}[fragile]{\textbf{Q. What is Reinforcement Learning?}}
+  \begin{wideitemize}
+    \item Reinforcement learning is one of three basic machine learning paradigms, alongside
+    supervised learning and unsupervised learning.
+    \item In reinforcement learning an algorithm learns to do something by being
+    rewarded for successful behavior and/or being punished for unsuccessful behavior.
+  \end{wideitemize}
+\end{frame}
 
-\section{Data driven questions}
+\note[itemize]{
+\item In a supervised learning model, the algorithm learns on a labeled
+dataset, providing an answer key that the algorithm can use to evaluate its
+accuracy on training data.
+\item An unsupervised model, in contrast, provides unlabeled data that the
+algorithm tries to make sense of by extracting features and patterns on its own.
+}
+
+\section{Model fitting}
 \begin{transitionframe}
   \begin{center}
-    \Huge Harder questions, please!
+    \Huge Machine learning function fitting
+  \end{center}
+\end{transitionframe}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is Machine learning function fitting?}}
+  \begin{wideitemize}
+    \item Model fitting is a measure of how well a machine learning model
+    generalizes to similar data to that on which it was trained.
+    \item A model that is well-fitted produces more accurate outcomes. A model
+    that is overfitted matches the data too closely. A model that is underfitted
+    doesn't match closely enough.
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. How do you measure a ML model performance for given data?}}
+  \begin{wideitemize}
+    \item We do that by using a cost function.
+    \item In ML, a cost function (or loss function) is used to represent how far away a mathematical
+    model is from the real data.
+    \begin{itemize}
+      \item A common way to do this is via the quadratic cost function\footnote{This is
+      just the sum of the squares of the vertical distances between the points and the straight line}:\vspace{.4em}
+      $J(\theta) = \frac{1}{2N}\sum^{N}_{n=1}(h_{\theta}(x^{(n)}) - y^{(n)})^{2}$.\vspace{.4em}
+      \item We are interested in the parameters that minimize this quadratic cost function.
+      This is called ordinary least squares (OLS).
+    \end{itemize}
+    \item One adjusts the mathematical model usually by varying parameters within the model, so as
+    to \textit{minimize the cost function}. This is interpreted as given the best model, of
+    its type, that fits the data.
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is Regularization?}}
+  \begin{wideitemize}
+    \item Regularization is a form of regression, which constrains/regularizes or shrinks
+    the (learned) coefficient estimates towards zero. In other words, this technique
+    discourages learning a more complex or flexible model, so as to avoid the
+    risk of overfitting.
+  \end{wideitemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\textbf{Q. What is Gradient Descent?}}
+  \begin{wideitemize}
+    \item Gradient descent is an optimization algorithm used to minimize
+    some \textit{convex} function by iteratively moving in the direction of
+    steepest descent as defined by the negative of the gradient.
+    \item In ML, we use gradient descent to update the parameters of a ML model.
+    \begin{wideitemize}
+      \item Start with an initial guess for each parameter $\theta_{k}$. Then
+      move $\theta_{k}$ in the \\direction of the slope.
+      \item Update all $\theta_{k}$ simultaneously (known as batch gradient descent),
+      and \\repeat until convergence.
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is Stochastic Gradient Descent?}}
+  \begin{wideitemize}
+    \item Similar to batch gradient descent except that you only update
+    using one of the data points each time.
+    \item And that data point is chosen randomly. Hence the stochastic.
+    \item In other words, stochastic gradient descent pick an $n$ at random
+    and then update using one of the data points. Repeat, picking another
+    data point at random, etc.
+  \end{wideitemize}
+\end{frame}
+
+
+\section{Training, Testing and Validation}
+\begin{transitionframe}
+  \begin{center}
+    \Huge Training, Testing and Validation
+  \end{center}
+\end{transitionframe}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is training?}}
+  \begin{wideitemize}
+    \item Most ML algorithms need to be trained. That is, you give
+    them data and they look for patterns, or best fits, etc.
+    \item They know they are doing well when perhaps a loss function
+    has been minimized, or the rewards have been maximized.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is an epoch?}}
+  \begin{wideitemize}
+    \item In some ML methods, one uses the same training data many times,
+    as the algorithm gradually converges, for example, in stochastic gradient
+    descent. Each time the whole training set of data is used in the training
+    that is called an \textbf{epoch or iteration}\footnote{Typically you won't
+    get decent results until convergence after many epochs}.
+    \item One might see a decreasing error as the number of epochs increases.
+    But that doesn't mean your algorithm is getting better, it could easily
+    mean that you are overfitting\footnote{This could happen if the learning
+    algorithm has seen the training data so many times or epochs}. To test for
+    this you introduce a test data set, the data that you've held back.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Any caveats on training and testing?}}
+  \begin{wideitemize}
+    \item Over many epochs, if the test error begins to rise (and it's much
+    bigger than the training error) then you have overfitted.
+    \item To help avoid overfitting sometimes we divide up our original data
+    into three sets. The third data set is the validation data set.
+    (One can use cross validation -- see slide~\ref{cross} -- to evaluate
+    performance of model using training, test, and validation data sets.)
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is Bias and Variance?}}
+  \begin{wideitemize}
+    \item \textbf{Bias} is how far away (or error) the trained model is from the correct
+    result \textit{on average}. Where ``on average'' means over many goes at
+    training the model, using different data:
+    \begin{wideitemize}
+    \item $Bias(\hat{f}(x^{'})) = \underbrace{\mathbb{E}[\hat{f}(x)]}_{\text{Average error}} - \quad f(x^{'})$
+    \end{wideitemize}
+    \item \textbf{Variance} is a measure of the magnitude of that error.
+    \begin{wideitemize}
+    \item $Var(\hat{f}(x^{'})) = \mathbb{E}[\hat{f}(x)^{2}] - \mathbb{E}[\hat{f}(x^{'})]^{2}$
+    \end{wideitemize}
+    \item We often find there is a trade-off between bias and variance. As one is reduced,
+    the other is increased\footnote{This the matter of over-and-underfitting}.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is Overfitting and Underfitting?}}
+  \begin{wideitemize}
+    \item \textbf{Overfitting} is
+    \item \textbf{Underfitting} is
+  \end{wideitemize}
+\end{frame}
+
+
+\section{Algorithms}
+\begin{transitionframe}
+  \begin{center}
+    \Huge Algorithms questions, please!
+  \end{center}
+\end{transitionframe}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
+  \begin{wideitemize}
+  \item Linear regression attempts to model the relationship between two continuous
+    variables -- a scalar response (or dependent variable) and and one or more
+    explanatory variables (or independent variables) -- by fitting a linear
+    equation to observed data.
+  \item The governing equation for linear regression is also quite simple. It
+    takes the form: $y = Bx + A$ where $y$ is the dependent variable, $x$ is the
+    independent variable, and $A$ and $B$ are coefficients dictating the equation
+  \item e.g. a model that assumes a linear relationship between the input
+    variables $x$ and the single output variable $y$.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is the general form of multiple regression?}}
+  \begin{wideitemize}
+    \item The general form of the equation for linear regression.
+  \end{wideitemize}
+\end{frame}
+
+\section{Evaluation questions}
+\begin{transitionframe}
+  \begin{center}
+    \Huge Evaluating algorithms!
   \end{center}
 \end{transitionframe}
 
 
 
-\begin{frame}[fragile]{\textbf{Q. What is cross-validation?}}
+\begin{frame}[fragile, label={cross}]{\textbf{Q. What is cross-validation?}}
   \begin{wideitemize}
     \item Cross-validation is a technique for assessing how well a model
-    performs on new independent data.
+    performs on new independent data. (how robust the model is.)
     \item The simplest example of cross-validation is when you split your
     data into two groups\footnote{e.g., a \~{}60\%-\~{}40\% split}:
     (1) training data, and (2) testing data.
@@ -202,7 +411,7 @@
   \item {\large \textbf{There isn't a one-size-fits-all metric.}}
   \item The metric(s) chosen to evaluate a ML model depends on various factors:
   \begin{wideitemize}
-    \item Is it a regression or classification task? E.g., MSE vs Accuracy. 
+    \item Is it a regression or classification task? E.g., MSE vs Accuracy.
     \item What is the business objective? E.g., precision vs recall.
     \item What is the distribution of the target variable?
   \end{wideitemize}
@@ -238,8 +447,8 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 
 \begin{frame}[fragile]{\textbf{Q. What is a confusion matrix?}}
   \begin{wideitemize}
-  \item A \textbf{Confusion Matrix} is a simple way of understanding how well an
-    algorithm is doing at classifying data. It is just the idea of \textbf{false
+  \item A \textbf{Confusion Matrix} is a simple way of understanding \textbf{how well an
+    algorithm is doing at classifying data}. It is just the idea of \textbf{false
       positives} and \textbf{false negatives}
   \item
     \begin{tabular}{cc|cc}
@@ -250,8 +459,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Can you explain what are false positives and
-      false negatives?}}
+\begin{frame}[fragile]{\textbf{Q. Can you explain what are false positives and false negatives?}}
   \begin{wideitemize}
   \item There are two errors that often rear their head when you are learning
     about hypothesis testing —- false positives and false negatives, technically
@@ -278,7 +486,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     with a negative result.
   \item E.g., forecasting (health weather). During the covid-19 outbreak.
     Tracking rate of false positives and false negatives in March 2020 in the
-    United States of America. 
+    United States of America.
   \end{wideitemize}
 \end{frame}
 
@@ -309,23 +517,63 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \end{frame}
 
 
-\begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
+\begin{frame}[fragile]{\textbf{Q. Is there another way to measure how well an
+      algorithm is classifying data? Also given an example}}
   \begin{wideitemize}
-  \item Linear regression attempts to model the relationship between two continuous
-    variables -- a scalar response (or dependent variable) and and one or more
-    explanatory variables (or independent variables) -- by fitting a linear
-    equation to observed data.
-  \item The governing equation for linear regression is also quite simple. It
-    takes the form: $y = Bx + A$ where $y$ is the dependent variable, $x$ is the
-    independent variable, and $A$ and $B$ are coefficients dictating the equation
-  \item e.g. a model that assumes a linear relationship between the input
-    variables $x$ and the single output variable $y$.
+  \item Another way of looking at how well an algorithm is classifying is the
+    \textbf{receiver operating characteristic} or \textbf{ROC} curve.
+    \item E.g., suppose there is a threshold (or parameter) in your
+      classification algorithm that determines whether you have an apple or a
+      non apple object.
+      \begin{wideitemize}
+      \item[-] Plot the \textit{true positive} rate against the
+        \textit{false positive} rate as the threshold (or parameter) varies.
+        Points above the $45\degree$ diagonal are good, and the further
+        into the top left of the plot the better.
+      \item[-] The area under the ROC curve (the \textbf{AUC}\footnote{AUC is
+          used to rank kaggle competitions}) is then a measure of how
+        good different algorithms are. The closer to one (the max possible) the better.
+      \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. What is the general form of multiple regression?}}
+\section{Miscellaneous}
+\label{}
+\begin{transitionframe}
+  \begin{center}
+    \Huge Miscellaneous questions, please!
+  \end{center}
+\end{transitionframe}
+
+\begin{frame}[fragile, label={CoD}]{\textbf{Q. What is the curse of dimensionality?}}
   \begin{wideitemize}
-    \item The general form of the equation for linear regression.
+    \item This phenomena involves data in high dimensions.
+    \item Suppose you are working in $M$ dimensions, that is you data has $M$
+    features. And suppose you have $N$ data points. Having a large number of
+    data points is good, the more the merrier. BUT what about number of features?
+    \item Think how these $N$ data points might be distributed in $M$ dimensions.
+    Suppose that the numerical data for each feature is $0$ or $1$. There will
+    therefore be $2^{M}$ possible combinations.
+    \item If $N$ is less than $2^{M}$ then you run the risk of having every data
+    point being on a different corner of the $M$-dimensional hypercube.
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile, label={distance}]{\textbf{Q. Why is it important about measuring distances?}}
+  \begin{wideitemize}
+    \item Because the shorter the distance between two feature vectors the closer
+    in character are the two samples they represent.
+    \item There are many ways to measure distance:
+    \begin{wideitemize}
+      \item[-] Manhattan distance ($L^{2}$ norm).The sum of the absolute values of the different between
+      entries in the vector. (Preferred distance when dealing with data in high dimensions.)
+      \item[-] Euclidean distance ($L^{2}$ norm). Square the distances between vector entries,
+      sum these and square root.
+      \item[-] Cosine similarity. Cosine of the angle between two vectors\footnote{Two vectors
+      might be similar if they are pointing in the same direction even if they are of different lengths.}.
+      Just take the \textit{dot} product of two vectors and divide by the two lengths.
+    \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
