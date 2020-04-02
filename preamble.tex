@@ -66,6 +66,7 @@
 \definecolor{red}{RGB}{213,94,0}
 \definecolor{yellow}{RGB}{240,228,66}
 \definecolor{green}{RGB}{0,158,115}
+\definecolor{gray}{RGB}{64,64,64}
 
 \hypersetup{
   colorlinks=false,
@@ -83,6 +84,15 @@
 %% Change the bg color to adjust your transition slide background color!
 \newenvironment{transitionframe}{
   \setbeamercolor{background canvas}{bg=yellow}
+  \begin{frame}}{
+    \end{frame}
+}
+
+%% Change the bg color to adjust your transition slide background color!
+\newenvironment{transitionsubframe}{
+  \setbeamercolor{normal text}{fg=white}
+  \setbeamercolor{background canvas}{bg=gray}
+  \usebeamercolor[fg]{normal text}
   \begin{frame}}{
     \end{frame}
 }
