@@ -300,6 +300,45 @@ algorithm tries to make sense of by extracting features and patterns on its own.
   \end{wideitemize}
 \end{frame}
 
+\begin{frame}[fragile]{\textbf{Q. But, what is training in ML anyway?}}
+  \begin{wideitemize}
+    \item Most ML algorithms need to be trained. That is, you give
+    them data and they look for patterns, or best fits, etc.
+    \item They know they are doing well when perhaps a loss function
+    has been minimized, or the rewards have been maximized.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Best fits? What do you mean by best fits? Performance?}}
+  \begin{wideitemize}
+    \item First of all, when we say ``fitting'' in ML we are talking about model fitting.
+    \item Model fitting is a measure of how well a machine learning model
+    generalizes\footnote{Yes, we are talking about ML model performance.} to similar data
+    on which it was \textit{trained}.
+    \item A model that is well-fitted produces more accurate outcomes\footnote{A model
+    that is overfitted matches the data too closely. A model that is underfitted
+    doesn't match closely enough.}.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. How do you measure the performance of a ML model?}}
+  \begin{wideitemize}
+    \item We do that by using a cost function or a loss function.
+    \item In ML, a cost function is used to represent how far away a mathematical
+    model is from the real data.
+    \begin{itemize}
+      \item A common way to do this is via the quadratic cost function\footnote{This is
+      just the sum of the squares of the vertical distances between the points and the straight line}:\vspace{.4em}
+      $J(\theta) = \frac{1}{2N}\sum^{N}_{n=1}(h_{\theta}(x^{(n)}) - y^{(n)})^{2}$.\vspace{.4em}
+      \item We are interested in the parameters that minimize this quadratic cost function.
+      This is called ordinary least squares (OLS).
+    \end{itemize}
+    \item One adjusts the mathematical model usually by varying parameters within the model, so as
+    to \textit{minimize the cost function}. This is interpreted as given the best model, of
+    its type, that fits the data.
+  \end{wideitemize}
+\end{frame}
+
 \begin{frame}[fragile]{\textbf{Q. What are the risks of not splitting the data?}}
   \begin{wideitemize}
     \item Overfitting or underfitting to the data
@@ -307,37 +346,23 @@ algorithm tries to make sense of by extracting features and patterns on its own.
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. What is cross-validation?}}
+\begin{frame}[fragile]{\textbf{Q. Any caveats on training and testing?}}
   \begin{wideitemize}
-    \item Cross-validation is a technique for assessing how well a model
-    performs on new independent data (holdout test set\footnote{sample of the
-    data not used in fitting a model; used to evaluate the model's ability to
-    generalize to unseen examples}). (how robust the model is.)
-    \item The simplest example of cross-validation is when you split your
-    data into three groups\footnote{e.g., a \~{}60\%-\~{}20\%-\~{}20\% split}:
-    (1) training data, (2) validation data, and (3) testing data.
-    \item both validation and test data sets are a type of holdout set.
+    \item Over many epochs, if the test error begins to rise (and it's much
+    bigger than the training error) then you have overfitted.
+    \item To help avoid overfitting sometimes we divide up our original data
+    into three sets. The third data set is the validation data set.
+    (One can use cross validation to evaluate performance of model using
+    training, test, and validation data sets.)
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. What do you do in (k-fold) cross-validation?}}
-  \begin{wideitemize}
-    \item Data is divided into $k$ subsets and the holdout method is repeated
-    $k$ times. Each time, one of the $k$ subsets is used as the test set and the
-    other $k-1$ subsets are combined to be used to train the model.
-    \item E.g., given $10,000$ examples, we divide them into $k$ or $5$ subsets
-    of data; each subset has $2000$ examples\footnote{this is sampling without replacement;
-    no single example will appear in two different subsets and all original $10,000$
-    are still accounted for in these subsets}.
-    \item No we assign one of these $5$ subsets as a test set. Then, we fit a model
-    on the training set of $8000$ examples and then we'll evaluate the model on
-    the $2000$ example test set (holdout set). The performance metric is then
-    recorded for this first iteration on the holdout set.
-    \item On the second iteration, where select another holdout test, and we perform
-    same steps as before.
-  \end{wideitemize}
-\end{frame}
-
+\subsection{Evaluation framework}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge Our evaluation framework and cross-validation
+  \end{center}
+\end{transitionsubframe}
 
 \begin{frame}[fragile]{\textbf{Q. What are the components of the Evaluation framework?}}
   \begin{wideitemize}
@@ -489,6 +514,38 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{wideitemize}
 \end{frame}
 
+\begin{frame}[fragile]{\textbf{Q. What is cross-validation?}}
+  \begin{wideitemize}
+    \item Cross-validation is a technique for assessing how well a model
+    performs on new independent data (holdout test set\footnote{sample of the
+    data not used in fitting a model; used to evaluate the model's ability to
+    generalize to unseen examples}). (how robust the model is.)
+    \item The simplest example of cross-validation is when you split your
+    data into three groups\footnote{e.g., a \~{}60\%-\~{}20\%-\~{}20\% split}:
+    (1) training data, (2) validation data, and (3) testing data.
+    \item both validation and test data sets are a type of holdout set.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What do you do in (k-fold) cross-validation?}}
+  \begin{wideitemize}
+    \item Data is divided into $k$ subsets and the holdout method is repeated
+    $k$ times. Each time, one of the $k$ subsets is used as the test set and the
+    other $k-1$ subsets are combined to be used to train the model.
+    \item E.g., given $10,000$ examples, we divide them into $k$ or $5$ subsets
+    of data; each subset has $2000$ examples\footnote{this is sampling without replacement;
+    no single example will appear in two different subsets and all original $10,000$
+    are still accounted for in these subsets}.
+    \item No we assign one of these $5$ subsets as a test set. Then, we fit a model
+    on the training set of $8000$ examples and then we'll evaluate the model on
+    the $2000$ example test set (holdout set). The performance metric is then
+    recorded for this first iteration on the holdout set.
+    \item On the second iteration, where select another holdout test, and we perform
+    same steps as before.
+  \end{wideitemize}
+\end{frame}
+
+
 \section{Optimizing a Model}
 \begin{transitionframe}
   \begin{center}
@@ -627,47 +684,26 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{wideitemize}
 \end{frame}
 
-\subsection{Model fitting}
+\subsection{Epoch vs Batch size vs Iteration}
 \begin{transitionsubframe}
   \begin{center}
-    \Huge Specifics to Model fitting
+    \Huge Epoch vs Batch size vs Iteration
   \end{center}
 \end{transitionsubframe}
 
-\begin{frame}[fragile]{\textbf{Q. What is Machine learning function fitting?}}
+\begin{frame}[fragile]{\textbf{Q. What is the difference between these terms?}}
   \begin{wideitemize}
-    \item Model fitting is a measure of how well a machine learning model
-    generalizes to similar data to that on which it was trained.
-    \item A model that is well-fitted produces more accurate outcomes. A model
-    that is overfitted matches the data too closely. A model that is underfitted
-    doesn't match closely enough.
-  \end{wideitemize}
-\end{frame}
-
-
-\begin{frame}[fragile]{\textbf{Q. How do you measure a ML model performance for given data?}}
-  \begin{wideitemize}
-    \item We do that by using a cost function.
-    \item In ML, a cost function (or loss function) is used to represent how far away a mathematical
-    model is from the real data.
-    \begin{itemize}
-      \item A common way to do this is via the quadratic cost function\footnote{This is
-      just the sum of the squares of the vertical distances between the points and the straight line}:\vspace{.4em}
-      $J(\theta) = \frac{1}{2N}\sum^{N}_{n=1}(h_{\theta}(x^{(n)}) - y^{(n)})^{2}$.\vspace{.4em}
-      \item We are interested in the parameters that minimize this quadratic cost function.
-      This is called ordinary least squares (OLS).
-    \end{itemize}
-    \item One adjusts the mathematical model usually by varying parameters within the model, so as
-    to \textit{minimize the cost function}. This is interpreted as given the best model, of
-    its type, that fits the data.
+    \item To find out the difference between these terms you need to know some
+    of the machine learning terms like Gradient Descent to help you better
+    understand.
   \end{wideitemize}
 \end{frame}
 
 
 \begin{frame}[fragile]{\textbf{Q. What is Gradient Descent?}}
   \begin{wideitemize}
-    \item Gradient descent is an optimization algorithm used to minimize
-    some \textit{convex} function by iteratively moving in the direction of
+    \item Gradient descent is an \textit{iterative} optimization algorithm used to minimize
+    some \textit{convex} function by \textit{iteratively} moving in the direction of
     steepest descent as defined by the negative of the gradient.
     \item In ML, we use gradient descent to update the parameters of a ML model.
     \begin{wideitemize}
@@ -676,6 +712,15 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
       \item Update all $\theta_{k}$ simultaneously (known as batch gradient descent),
       and \\repeat until convergence.
     \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Unpacking Gradient Descent?}}
+  \begin{wideitemize}
+    \item Gradient means the rate of inclination or declination of a slope.
+    \item Descent means the instance of descending.
+    \item The algorithm is iterative means that we need to get the results
+    \textbf{multiple times} to get the most optimal result (minima of a curve).
   \end{wideitemize}
 \end{frame}
 
@@ -690,29 +735,12 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{wideitemize}
 \end{frame}
 
-\subsection{Training, Testing and Validation}
-\begin{transitionsubframe}
-  \begin{center}
-    \Huge Training, Testing and Validation
-  \end{center}
-\end{transitionsubframe}
-
-
-\begin{frame}[fragile]{\textbf{Q. What is training?}}
-  \begin{wideitemize}
-    \item Most ML algorithms need to be trained. That is, you give
-    them data and they look for patterns, or best fits, etc.
-    \item They know they are doing well when perhaps a loss function
-    has been minimized, or the rewards have been maximized.
-  \end{wideitemize}
-\end{frame}
-
 \begin{frame}[fragile]{\textbf{Q. What is an epoch?}}
   \begin{wideitemize}
     \item In some ML methods, one uses the same training data many times,
     as the algorithm gradually converges, for example, in stochastic gradient
     descent. Each time the whole training set of data is used in the training
-    that is called an \textbf{epoch or iteration}\footnote{Typically you won't
+    that is called an \textbf{epoch}\footnote{Typically you won't
     get decent results until convergence after many epochs}.
     \item One might see a decreasing error as the number of epochs increases.
     But that doesn't mean your algorithm is getting better, it could easily
@@ -722,14 +750,30 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Any caveats on training and testing?}}
+\begin{frame}[fragile]{\textbf{Q. So, what is the right numbers of epochs?}}
   \begin{wideitemize}
-    \item Over many epochs, if the test error begins to rise (and it's much
-    bigger than the training error) then you have overfitted.
-    \item To help avoid overfitting sometimes we divide up our original data
-    into three sets. The third data set is the validation data set.
-    (One can use cross validation to evaluate performance of model using
-    training, test, and validation data sets.)
+    \item Unfortunately, there is no right answer to this question. The answer
+    is different for different data sets but you can say that the numbers of
+    epochs is related to how diverse your data is. For example, do you have
+    only black cats in your data set or is it much more diverse dataset?
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is a batch?}}
+  \begin{wideitemize}
+    \item As I said, you can't pass the entire data set into a ML algorithm at
+    once. So, you divide data set into a number of batches or sets or parts.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. What is an iteration?}}
+  \begin{wideitemize}
+    \item An iteration is the number of batches needed to complete one epoch.
+    \item Let's say we have 2000 training examples that we are going to use.
+    \begin{wideitemize}
+      \item We can divide the dataset of 2000 examples into batches of 500
+      then it will take 4 iterations to complete 1 epoch.
+    \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
