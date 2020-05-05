@@ -94,10 +94,10 @@
   \begin{wideitemize}
     \item In \textbf{Supervised Learning} (or \textbf{SL}), you are given a
     bunch of examples and their labels (e.g., A or B) and the goal is to
-    classify (or assign), when you are given a new example, to which label we
-    assign the new example.
-    \item \textcolor{blue}{You could think of these labels the name of the
-    \textbf{class or cluster} to which certain portions of the data belong.}
+    classify, when you are given a new example, to which label we
+    should assign the new example.
+    \item \textcolor{blue}{You could think of these labels as the name of the
+    \textbf{classes or clusters} to which certain portions of the data belong.}
   \end{wideitemize}
 \end{frame}
 
@@ -105,16 +105,17 @@
   \vspace{.4em}
   \begin{wideitemize}
     \item \textcolor{blue}{\textbf{Support vector machines} or \textbf{SVM}}, which
-    goal is to construct the optimal separating \textit{hyperplane} between pieces of data; e.g.,
+    goal is to construct the optimal separating \textit{hyperplane} between
+    pieces of data given input data; e.g., a plane separating A from B.
     \begin{wideitemize}
-      \item[-] Say a hyperplane between clusters of data represented by labels A and B.
-      \item[-] These clusters sit in some high dimensional space, and the idea is to
-      construct a plane that maximizes the margins between the plane and the data.
+      \item[-] A and B sit in some high dimensional space, and the idea is to
+      construct a plane that maximizes the margins\footnote{distance between points closest
+      to the line and the actual line} between the plane and the data.
       \item[-] If a new datum sits closer to one area of the data, say A, then
       we assign this new datum to A.
     \end{wideitemize}
     \item (For historical reasons) This algorithm is called \textbf{support
-    vector machines} because the vectors that lie on the margin of the plan are
+    vector machines} because the vectors that lie on the margin of the plane are
     called the \textit{support} vectors.
   \end{wideitemize}
 
@@ -130,13 +131,37 @@
 \item This algorithm has an exponential speed up when you do it quantum mechanically..
 }
 
+
+\begin{frame}[fragile]{\textbf{Q. What more can you say about SVM?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+    \item \textbf{SVM} works on both linearly and non-linearly separable data. In latter case, it use 
+    the kernel trick\footnote{adds one more dimension and calls it $z$-axis -- governed by the
+    constraint $z = x^2 + y^2$ and $z$ is the square of distance of the point from origin.} to convert
+    these data to linearly separable data in a higher dimension. 
+    \item A hyperplane in an $n$-dimensional Euclidean space is a flat, $n-1$ dimensional subset of that
+    space that divides the space into two disconnected parts.
+    \item Hyperparameters:
+    \begin{wideitemize}
+     \item $C$ is regularization parameter that controls the trade-off between smooth decision boundary
+     and classifying training points correctly. A large $C$ means you'll get more training
+     points correctly.
+     \item \textit{Gamma}. It defines how far the influence of a single training example reaches.
+     A large gamma means the decision boundary is just going to be dependent upon the points that
+     are very close to the line.
+    \end{wideitemize}
+  \end{wideitemize}
+
+\end{frame}
+
 \begin{frame}[fragile]{\textbf{Q. What is Unsupervised Learning?}}
   \begin{wideitemize}
     \item In \textbf{Unsupervised Learning} (or \textbf{UL}), you are given a
-    bunch of data and you are not told it falls naturally into clusters, but
-    you are not told what the clusters are.
-    \item \textcolor{blue}{The goal is identify the clusters of data, how many clusters there are,
-    and then be able to assign new things to these different clusters.}
+    bunch of data and you are not told they fall naturally into clusters, and
+    also you are not told what these clusters are.
+    \item \textcolor{blue}{The goal is identify the clusters within data, how
+    many clusters there are, and then be able to assign new things to
+    these different clusters.}
   \end{wideitemize}
 \end{frame}
 
@@ -149,17 +174,19 @@
     \begin{wideitemize}
       \item[-] In other words, we construct $C$ from the data by taking these vectors $\vec{v}_j$ and
       multiply them by their transpose $\vec{v}^{\dagger}_j$.
-      \item E.g., Financial forecasting: the vectors could be, for example, can
-      represent the changes in stock prices over a 24 hr period, and the
-      covariance matrix $C$ would give the correlations (or covariances in the
-      data) between the prices of the different stocks in different times within
-      the 24 hrs period.
+      %\item E.g., Financial forecasting: the vectors could be, for example, can
+      %represent the changes in stock prices over a 24 hr period, and the
+      %covariance matrix $C$ would give the correlations (or covariances in the
+      %data) between the prices of the different stocks in different times within
+      %the 24 hrs period.
     \end{wideitemize}
     \item In \textbf{PCA}, you diagonalize $C$ and say $C = \sum_{k} P_k
-    \vec{\omega}_{k}\vec{\omega}^{\dagger}_{k}$, $P_k$ is piece of the data with size $k$,
+	    \vec{\omega}_{k}\vec{\omega}^{\dagger}_{k}$\footnote{C can be decomposed into a product
+     of matrices involving involving eigenvalues and eigenvectors}, $P_k$ is piece of the data with size $k$,
     and $\vec{\omega}_{k}$ are the set of vectors you need to find.
     \item If and only if a small set of $P_k >> 0$, then $C$ is effectively low-rank,
-    and the corresponding $\vec{\omega}_{k}$ are the principal components.
+    and the corresponding $\vec{\omega}_{k}$ are the principal components. In other words,
+    you need find the eigenvectors that have the largest eigenvalues -- i.e., your principal components.
   \end{wideitemize}
 
 \end{frame}
@@ -784,24 +811,86 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{center}
 \end{transitionframe}
 
+\subsection{Regression}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge Regression algorithms
+  \end{center}
+\end{transitionsubframe}
+
+\begin{frame}[fragile]{\textbf{Q. What is Regression?}}
+  \begin{wideitemize}
+  \item \textbf{Regression} is a statistical process for estimating
+  the relationship among variables, often to make a prediction about
+  some outcome.
+  \end{wideitemize}
+\end{frame}
+
 
 \begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
   \begin{wideitemize}
+  \item \textbf{Linear regression} is one type of regression that is used when
+  you have continuous target variable (output).
   \item Linear regression attempts to model the relationship between two continuous
     variables -- a scalar response (or dependent variable) and and one or more
     explanatory variables (or independent variables) -- by fitting a linear
     equation to observed data.
-  \item The governing equation for linear regression is also quite simple. It
-    takes the form: $y = Bx + A$ where $y$ is the dependent variable, $x$ is the
-    independent variable, and $A$ and $B$ are coefficients dictating the equation
+  \item The governing algorithm or equation for linear regression is also quite simple.
+    It takes the form: $y = mx + b$ where $y$ is the dependent variable, $x$ is the
+    independent variable, and $b$ and $m$ (i.e., slope) are coefficients
+    dictating the equation.
   \item e.g. a model that assumes a linear relationship between the input
     variables $x$ and the single output variable $y$.
   \end{wideitemize}
 \end{frame}
 
+\begin{frame}[fragile]{\textbf{Q. What is logistic regression?}}
+  \begin{wideitemize}
+  \item \textbf{Logistic regression} is another type of regression where the
+  target variable is binary (zero or one, or true or false). It takes the form:
+  \begin{wideitemize}
+    \item $\frac{1}{1 + e^{-(mx + b)}}$
+  \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Why won't Linear Regression work for binary target variables?}}
+  \begin{wideitemize}
+  \item In other words, why do we need two regression algorithms?
+  i.e., linear and logistic regression.
+  \item Because \textbf{Linear regression} for binary target variable will have
+  a hard time try to come up with a best fit line that makes any sense. It will
+  try to fit a line that fits all of the data and it will end up predicting
+  negative values and values over one, which is impossible.
+  \item \textbf{Logistic regression} is built off of a logistic or sigmoid curve
+  which looks an S shape. This will always be between zero and one, which makes it
+  a better fit for a binary classification problem.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. When should you consider using Logistic Regression?}}
+  \begin{wideitemize}
+  \item In other words, why do we need two regression algorithms?
+  i.e., linear and logistic regression.
+  \end{wideitemize}
+\end{frame}
+
+
+
 \begin{frame}[fragile]{\textbf{Q. What is the general form of multiple regression?}}
   \begin{wideitemize}
     \item The general form of the equation for linear regression.
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is KMeans?}}
+  \begin{wideitemize}
+  \item \textbf{KMeans} is a unsupervised ML algorithm. You have a bunch of
+  vectors. Then you take a bunch seed-guesses for the centers of the clusters.
+  You assign each vector to the nearest cluster. And then, when everything is
+  done, you calculate the mean values of the clusters. And then you just do it
+  again: you re-assign the nearest mean. Then you keep on going until it converges.
   \end{wideitemize}
 \end{frame}
 
