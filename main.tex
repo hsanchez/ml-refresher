@@ -97,7 +97,7 @@
     bunch of examples and their labels (e.g., A or B) and the goal is to
     classify, when you are given a new example, to which label we
     should assign the new example.
-    \item \textcolor{blue}{You could think of these labels as the name of the
+    \item \textcolor{blue}{You could think of these labels as the names of the
     \textbf{classes or clusters} to which certain portions of the data belong.}
   \end{wideitemize}
 \end{frame}
@@ -105,9 +105,9 @@
 \begin{frame}[fragile]{\textbf{Q. Can you give an example of Supervised Learning?}}
   \vspace{.4em}
   \begin{wideitemize}
-    \item \textcolor{blue}{\textbf{Support vector machines} or \textbf{SVM}}, which
-    goal is to construct the optimal separating \textit{hyperplane} between
-    pieces of data; e.g., a plane separating A from B.
+    \item \textcolor{blue}{\textbf{Support vector machines} or \textbf{SVM}},
+    is a ML algorithm that takes some data as input and returns as output
+    and optimal separating \textit{hyperplane} between pieces of data; e.g., a plane separating A from B.
     \begin{wideitemize}
       \item[-] In this example, A and B sit in some high dimensional space, and the idea is to
       construct a plane that maximizes the margins\footnote{distance between points closest
@@ -137,20 +137,49 @@
   \vspace{.4em}
   \begin{wideitemize}
     \item \textbf{SVM} works on both linearly and non-linearly separable data. In latter case, it use
-    the kernel trick\footnote{adds one more dimension and calls it $z$-axis -- governed by the
-    constraint $z = x^2 + y^2$ and $z$ is the square of distance of the point from origin.} to convert
-    these data to linearly separable data in a higher dimension.
-    %\item A hyperplane in an $n$-dimensional Euclidean space is a flat, $n-1$ dimensional subset of that
-    %space that divides the space into two disconnected parts.
-    \item Hyperparameter and hyperparameter tuning:
+    the kernel trick\footnote{adds one more dimension and call it $z$-axis -- governed by the
+    constraint $z = x^2 + y^2$ and $z$ is the squared distance of the points from origin.} to convert
+    these data to linearly separable data in a higher dimension. This transformation is called kernel.
+    \item A hyperplane in an $n$-dimensional Euclidean space is a flat, $n-1$ dimensional subset of that
+    space that divides the space into two disconnected parts.
+  \end{wideitemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Tuning SVM Hyper-parameters?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+    \item \textbf{Hyperparameter and hyper-parameter tuning:}
     \begin{wideitemize}
-     \item $C$ is regularization parameter that controls the trade-off between smooth decision
-     boundary\footnote{a decision boundary or decision surface is a hyper-surface that partitions
-     the underlying vector space into two sets, one for each class.} and classifying training
-     points correctly. A large $C$ means you'll get more training points correctly.
-     \item \textit{Gamma}. It defines how far the influence of a single training example reaches.
-     A large gamma means the decision boundary is just going to be dependent upon the points that
-     are very close to the line.
+      \item Kernel: The main function of the kernel is to transform the given dataset input data into the required form. There are various types of functions such as linear, polynomial, and radial basis function (RBF). Polynomial and RBF are useful for non-linear hyperplane. Kernels can lead to more accurate classifiers.
+      \item Regularization: $C$ is regularization parameter that controls the trade-off between smooth decision
+      boundary\footnote{a decision boundary or decision surface is a hyper-surface that partitions
+      the underlying vector space into two sets, one for each class.} and classifying training
+      points correctly. A large $C$ means you'll get more training points correctly.
+      \item \textit{Gamma}: Gamma defines how far the influence of a single training example reaches.
+      A large gamma means the decision boundary is just going to be dependent upon the points that
+      are very close to the line.
+    \end{wideitemize}
+  \end{wideitemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Advantages and Disadvantages SVM ?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+    \item \textbf{Advantages}
+    \begin{wideitemize}
+      \item SVM Classifiers offer good accuracy and perform faster prediction
+      compared to Naive Bayes algorithm. They also use less memory because they
+      use a subset of training points in the decision phase. SVM works well with
+      a clear margin of separation and with high dimensional space.
+    \end{wideitemize}
+    \item \textbf{Disadvantages}
+    \begin{wideitemize}
+      \item SVM is not suitable for large datasets because of its high training
+      time and it also takes more time in training compared to Naive Bayes. It
+      works poorly with overlapping classes and is also sensitive to the type
+      of kernel used.
     \end{wideitemize}
   \end{wideitemize}
 
