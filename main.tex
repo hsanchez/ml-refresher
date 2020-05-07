@@ -164,7 +164,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Advantages and Disadvantages SVM ?}}
+\begin{frame}[fragile]{\textbf{Q. Advantages and Disadvantages SVM?}}
   \vspace{.4em}
   \begin{wideitemize}
     \item \textbf{Advantages}
@@ -241,6 +241,46 @@
   effectively low-rank and will only have a few principle components.
 }
 
+\begin{frame}[fragile]{\textbf{Q. When to use PCA?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+    \item \textbf{When to use it}
+    \begin{wideitemize}
+      \item PCA should be used if one to figure out if there are latent features
+      driving the patterns in the data. E.g., The big shots at SRI International.
+      \item Dimensionality reduction. E.g., helps you visualize high dimensional data,
+      helps you reduce noise in your data, make other ML algos work better (regression, classification)
+      because fewer inputs.
+    \end{wideitemize}
+    \item \textbf{When not to use it}
+    \begin{wideitemize}
+      \item PCA is not suitable in many cases: For example, if all the components of PCA
+      have quite a high variance, there is no \textit{good} universal stopping rule that
+      allows you to discard some exact \textit{k} Principal Components, meaning no good
+      data compression.
+      \item Not good when working with fine-grained classes\footnote{hard-to-distinguish object classes}.
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Recap: Advantages and Disadvantages of PCA?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+    \item \textbf{Advantages}
+    \begin{wideitemize}
+      \item Dimensionality reduction
+      \item Allows estimation of probabilities in high-dimensional data.
+      \item It renders a set of components that are uncorrelated.
+    \end{wideitemize}
+    \item \textbf{Disadvantages}
+    \begin{wideitemize}
+      \item It has a high computational cost, therefore it cannot be applied to
+      very large datasets.
+      \item Non-linear structure is hard to model with PCA.
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
 \begin{frame}[fragile]{\textbf{Q. What is Reinforcement Learning?}}
   \begin{wideitemize}
     \item Reinforcement learning is one of three basic machine learning paradigms, alongside
@@ -257,6 +297,28 @@ accuracy on training data.
 \item An unsupervised model, in contrast, provides unlabeled data that the
 algorithm tries to make sense of by extracting features and patterns on its own.
 }
+
+\begin{frame}[fragile]{\textbf{Q. Can you give an example of Reinforcement Learning?}}
+  \begin{wideitemize}
+    \item Policy Gradient (PG)
+    \begin{wideitemize}
+      \item In this method, we have the policy $\pi$ that has a parameter $\theta$. This $\pi$
+      outputs a probability distribution of actions.
+      \item Then we must find the best parameters ($\theta$) to maximize (optimize) a score
+      function $J(\theta)$, given the discount factor $\gamma$ and the reward $r.$
+      \item Main steps: (1) Measure the quality of a policy with the policy score function, and
+      (2) Use policy gradient ascent to find the best parameter that improves the policy.
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\subsection{Machine Learning problems}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge Examples of Classification and Regression problems
+  \end{center}
+\end{transitionsubframe}
+
 
 \begin{frame}[fragile]{\textbf{Q. Can you give an example of a Classification Problem?}}
   \begin{wideitemize}
