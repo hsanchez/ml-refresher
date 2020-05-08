@@ -751,7 +751,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \begin{frame}[fragile]{\textbf{Q. How do you measure the performance of a ML model?}}
   \begin{wideitemize}
     \item We do that by using a \textbf{cost function} or a loss function.
-    \item In ML, a cost function is used to represent how far away our model is from the real data.
+    \item A cost function is used to represent how far away our model is from the real data.
     \begin{itemize}
       \item A common way to do this is via the quadratic cost function\footnote{This is
       just the sum of the squares of the vertical distances between the points and the straight line}:\vspace{.4em}
@@ -1471,11 +1471,12 @@ every example in the training data.
   based on $k$ averages (i.e. means).} (the output).\medskip
   \begin{wideitemize}
     \item This $k$ is called a hyper-parameter; a variable whose value we set before training.
-    \item The idea is simple: You have a bunch of vectors. Then you take a bunch seed-guesses for the
-    $k$ centers (centroid) of the clusters. You assign each vector to the nearest cluster. And then,
-    when everything is done, you calculate the mean values of the clusters (updated $k$ centers).
-    And then you just do it again: you re-assign the nearest mean. Then you keep on going
-    until it converges\footnote{Once those centroids stop moving, the algorithm stop}.
+    \item The idea is simple: You have a bunch of vectors $\in {\Bbb R}^{d}$. Then you init a bunch
+    seed-guesses for the $k$ centers (centroids) of the clusters. You assign each vector to the
+    nearest cluster. And then, when everything is done, you calculate the mean values of the
+    clusters (updated $k$ centers). And then you just do it again: you re-assign the nearest mean.
+    Then you keep on going until it converges\footnote{Once those centroids stop moving(no further
+    change in cost), the algorithm stop}.
   \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -1486,7 +1487,7 @@ every example in the training data.
     \item \textbf{When to use it}
     \begin{wideitemize}
       \item You have unlabeled data and don't know the number of clusters within it.
-      \item You a have a decently large data set ( less than 10K) with
+      \item You a have a decently large data set (less than 10K) with
       a smaller number of dimensions, these data are numeric, or continuous.
     \end{wideitemize}
     \item \textbf{When not to use it}
@@ -1496,6 +1497,13 @@ every example in the training data.
     \end{wideitemize}
   \end{wideitemize}
 \end{frame}
+
+\note[itemize]{
+\item The user has to specify $k$ (the number of clusters) in the beginning
+\item k-means can only handle numerical data
+\item k-means assumes that we deal with spherical clusters and that each cluster
+has roughly equal numbers of observations
+}
 
 
 \subsection{Naive Bayes}
@@ -1508,7 +1516,70 @@ every example in the training data.
 
 \begin{frame}[fragile]{\textbf{Q. What is Naive Bayes?}}
   \begin{wideitemize}
-  \item \textbf{Naive Bayes} is a supervised ML algorithm.
+  \item \textbf{Naive Bayes} is is a classification technique (Generative model) based
+  on \textbf{Bayes Theorem} with an assumption of independence among predictors (features).
+  In other words, a Naive Bayes classifier assumes that the presence of a particular feature in a
+  class is unrelated to the presence of any other feature.
+  \item Some \textbf{benefits} include:\medskip
+  \begin{wideitemize}
+    \item It's \textit{easy to build} and particularly \textit{useful for very large data sets}.
+    \item Along with \textit{simplicity}, it's is known to outperform even highly
+    sophisticated classification methods (NB has better \textit{resilience to missing} data than SVM).
+  \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Bayes Theorem (Quick Overview)?}}
+  \makebox[\linewidth][c]{
+    \resizebox{.3\linewidth}{!}{
+      \includegraphics{figures/BayesTheorem.pdf}
+    }
+  }
+  \begin{wideitemize}\small
+  \item \textbf{Bayes theorem} \medskip
+    \begin{wideitemize}\small
+      \item Offers a way of calculating posterior probability $\Pr( c \mid x )$ from
+      $\Pr( c )$, $\Pr( x )$, and $\Pr( x \mid c )$.
+      \item $\Pr( c \mid x )$ simply means, ``given some feature vector $x_i \in X$, what is the
+      probability of sample $i$ belonging to class $c_j \in C$?''
+  \end{wideitemize}
+  \end{wideitemize}
+
+  \begin{framed}
+  The \textbf{objective function} of \textbf{Naive Bayes}: Maximize $\Pr( C \mid X )$ given
+  the training data to formulate a decision rule for new data.
+  \end{framed}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. How does Naive Bayes work?}}
+  \begin{wideitemize}
+  \item Step 1: Convert the data set into a frequency table (co-occurance matrix)
+  \item Step 2: Create Likelihood table by finding the probabilities like ``Spam'' probability
+  ($0.29$) and probability of ``No Spam'' ($0.64$).
+  \item Step 3: Now, use Naive Bayesian equation to calculate the posterior probability
+  for each class. The class with the highest posterior probability is the outcome
+  of prediction.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Example: Naive Bayes?}}
+  \begin{wideitemize}
+  \item \textbf{Problem:} Players will play if weather is sunny. Is this statement is correct?\medskip
+  \begin{wideitemize}
+  \item We can solve it using above discussed method of posterior probability.
+  \item $\Pr( Y \mid \text{Sunny} ) = \Pr( \text{Sunny} \mid Y ) * \Pr( Y ) / \Pr( \text{Sunny} )$
+  % P(Yes | Sunny) = P( Sunny | Yes) * P(Yes) / P (Sunny)
+  \item Here we have $\Pr( \text{Sunny} \mid Y ) = 3/9 = 0.33$, $\Pr( Y ) = 9/14 = 0.64$,
+  $\Pr( \text{Sunny} = 5/14 = 0.36$
+  % P (Sunny |Yes) = 3/9 = 0.33, P(Sunny) = 5/14 = 0.36, P( Yes)= 9/14 = 0.64
+  \item Now, $\Pr( Y \mid \text{Sunny} ) = 0.33 * 0.64 / 0.36 = 0.60$, which has higher probability.
+  % P (Yes | Sunny) = 0.33 * 0.64 / 0.36 = 0.60, which has higher probability.
+  \end{wideitemize}
+  \item Naive Bayes uses a similar method to predict the probability of different
+  class based on various attributes. This algorithm is mostly used in text classification
+  and with problems having multiple classes.
   \end{wideitemize}
 \end{frame}
 
