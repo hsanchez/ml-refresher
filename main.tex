@@ -1465,7 +1465,8 @@ every example in the training data.
 \begin{frame}[fragile]{\textbf{Q. What is KMeans?}}
   \begin{wideitemize}
   \item \textbf{KMeans} is a unsupervised ML algorithm. It takes some data points
-  as input and groups\footnote{grouping is the training phase of KMeans} them into $k$
+  as input and groups\footnote{grouping is the training phase of KMeans, and uses
+  the square of the L2 norm as its cost function} them into $k$
   clusters\footnote{It uses the distance between points as a measure of similarity,
   based on $k$ averages (i.e. means).} (the output).\medskip
   \begin{wideitemize}
@@ -1484,8 +1485,7 @@ every example in the training data.
   \begin{wideitemize}
     \item \textbf{When to use it}
     \begin{wideitemize}
-      \item You have unlabeled data and don't know the number of categories
-      within the data.
+      \item You have unlabeled data and don't know the number of clusters within it.
       \item You a have a decently large data set ( less than 10K) with
       a smaller number of dimensions, these data are numeric, or continuous.
     \end{wideitemize}
