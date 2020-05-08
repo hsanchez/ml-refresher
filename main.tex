@@ -1479,6 +1479,24 @@ every example in the training data.
   \end{wideitemize}
 \end{frame}
 
+\begin{frame}[fragile]{\textbf{Q. When to use KMeans?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+    \item \textbf{When to use it}
+    \begin{wideitemize}
+      \item You have unlabeled data and don't know the number of categories
+      within the data.
+      \item You a have a decently large data set ( less than 10K) with
+      a smaller number of dimensions, these data are numeric, or continuous.
+    \end{wideitemize}
+    \item \textbf{When not to use it}
+    \begin{wideitemize}
+      \item High dimensional data, or data of varying sizes and density.
+      \item Messy data with lots of outliers (as it can centroids can be dragged by outliers).
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
 
 \subsection{Naive Bayes}
 \begin{transitionsubframe}
