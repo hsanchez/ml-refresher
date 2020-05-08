@@ -107,7 +107,7 @@
   \begin{wideitemize}
     \item \textcolor{blue}{\textbf{Support vector machines} or \textbf{SVM}},
     is a ML algorithm that takes some data as input and returns as output
-    and optimal separating \textit{hyperplane} between pieces of data; e.g., a plane separating A from B.
+    an optimal separating \textit{hyperplane} between pieces of data; e.g., a plane separating A from B.
     \begin{wideitemize}
       \item[-] In this example, A and B sit in some high dimensional space, and the idea is to
       construct a plane that maximizes the margins\footnote{distance between points closest
@@ -228,19 +228,22 @@
 \begin{frame}[fragile]{\textbf{Q. What else can you say about PCA?}}
   \begin{wideitemize}
     \item In general terms, this PCA process is about finding the underlying
-    patterns of the data and also gives you a method for data compression.
-    \item That is, if there is only a few principal components then this means that all my vectors can
-    be written as the sum of a few $w$s.
+    patterns of the data and also gives you a method for data compression.\medskip
+    \begin{wideitemize}
+      \item If you want to \textit{approximate}\footnote{All your vectors can be written as the sum of a few $w$s.} the whole matrix with few vectors, the best vectors to choose are top PCA vectors (the principal components).
+    \end{wideitemize}
     \item PCA is all about diagonalizing the covariance matrix.
-    \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
+    \begin{wideitemize}
+      \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
+    \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
 \note[itemize]{
-\item In this stocks example, for instance, if it turns out that all the
-  motions of stocks in the stocks market are highly correlated with each other AND
-  there is only a few forms of correlations, then this matrix $C$ will be
-  effectively low-rank and will only have a few principle components.
+\item SVD vs PCA: SVD allows us to extract and untangle information, decompose a
+matrix into several component matrices (factorization), meaning it exposes many
+of the useful and interesting properties of the original matrix.  PCA can be
+computed form SVD but that will be much more expensive.
 }
 
 \begin{frame}[fragile]{\textbf{Q. When to use PCA?}}
@@ -250,9 +253,9 @@
     \begin{wideitemize}
       \item PCA should be used if one to figure out if there are latent features
       driving the patterns in the data. E.g., The big shots at SRI International.
-      \item Dimensionality reduction. E.g., helps you visualize high dimensional data,
-      helps you reduce noise in your data, make other ML algos work better (regression, classification)
-      because fewer inputs.
+      \item Dimensionality reduction (and feature selection). E.g., helps you
+      visualize high dimensional data, helps you reduce noise in your data, make
+      other ML algos work better (regression, classification) because fewer inputs.
     \end{wideitemize}
     \item \textbf{When not to use it}
     \begin{wideitemize}
@@ -265,22 +268,22 @@
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Recap: Advantages and Disadvantages of PCA?}}
-  \vspace{.4em}
-  \begin{wideitemize}
-    \item \textbf{Advantages}
-    \begin{wideitemize}
-      \item Dimensionality reduction
-      \item Allows estimation of probabilities in high-dimensional data.
-      \item It renders a set of components that are uncorrelated (latent features).
-    \end{wideitemize}
-    \item \textbf{Disadvantages}
-    \begin{wideitemize}
-      \item It has a high computational cost, meaning it'll struggle with very large datasets.
-      \item Non-linear structure is hard to model with PCA.
-    \end{wideitemize}
-  \end{wideitemize}
-\end{frame}
+% \begin{frame}[fragile]{\textbf{Q. Recap: Advantages and Disadvantages of PCA?}}
+%   \vspace{.4em}
+%   \begin{wideitemize}
+%     \item \textbf{Advantages}
+%     \begin{wideitemize}
+%       \item Dimensionality reduction
+%       \item Allows estimation of probabilities in high-dimensional data.
+%       \item It renders a set of components that are uncorrelated (latent features).
+%     \end{wideitemize}
+%     \item \textbf{Disadvantages}
+%     \begin{wideitemize}
+%       \item It has a high computational cost, meaning it'll struggle with very large datasets.
+%       \item Non-linear structure is hard to model with PCA.
+%     \end{wideitemize}
+%   \end{wideitemize}
+% \end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. What is Reinforcement Learning?}}
   \begin{wideitemize}
@@ -307,8 +310,11 @@ algorithm tries to make sense of by extracting features and patterns on its own.
       outputs a probability distribution of actions.
       \item Then we must find the best parameters ($\theta$) to maximize (optimize) a score
       function $J(\theta)$, given the discount factor $\gamma$ and the reward $r.$
-      \item Main steps: (1) Measure the quality of a policy with the policy score function, and
-      (2) Use policy gradient ascent to find the best parameter that improves the policy.
+      \item Main steps:\medskip
+      \begin{wideitemize}
+        \item Measure the quality of a policy with the policy score function
+        \item Use policy gradient ascent to find the best param that improves the policy.
+      \end{wideitemize}
     \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -348,7 +354,7 @@ algorithm tries to make sense of by extracting features and patterns on its own.
   \begin{wideitemize}
     \item Classification is the task of predicting a discrete class label.
     \item Regression is the task of predicting a continuous quantity.
-    \item There is some overlap between the algorithms for classification and regression; for example
+    \item There's some overlap between classification and regression algorithms; for example
     \begin{wideitemize}
       \item A classification algorithm may predict a continuous value, but the continuous value is in the form of a probability for a class label.
       \item A regression algorithm may predict a discrete value, but the discrete value in the form of an integer quantity.
@@ -385,11 +391,11 @@ algorithm tries to make sense of by extracting features and patterns on its own.
     in character are the two samples they represent.
     \item There are many ways to measure distance:
     \begin{wideitemize}
-      \item[-] Manhattan distance ($L^{1}$ norm). The sum of the absolute values of the different between
-      entries in the vector. (Preferred distance when dealing with data in high dimensions.)
-      \item[-] Euclidean distance ($L^{2}$ norm). Square the distances between vector entries,
+      \item[-] \textbf{Manhattan distance} ($L^{1}$ norm). The sum of the absolute values of the different between
+      entries in the vector. (Preferred dist. when dealing with high dimensional data.)
+      \item[-] \textbf{Euclidean distance} ($L^{2}$ norm). Square the distances between vector entries,
       sum these and square root.
-      \item[-] Cosine similarity. Cosine of the angle between two vectors\footnote{Two vectors
+      \item[-] \textbf{Cosine similarity}. Cosine of the angle between two vectors\footnote{Two vectors
       might be similar if they are pointing in the same direction even if they are of different lengths.}.
       Just take the \textit{dot} product of two vectors and divide by the two lengths.
     \end{wideitemize}
@@ -402,11 +408,13 @@ algorithm tries to make sense of by extracting features and patterns on its own.
     \item Suppose you are working in $M$ dimensions, that is you data has $M$
     features. And suppose you have $N$ data points. Having a large number of
     data points is good, the more the merrier. BUT what about number of features?
-    \item Think how these $N$ data points might be distributed in $M$ dimensions.
-    Suppose that the numerical data for each feature is $0$ or $1$. There will
-    therefore be $2^{M}$ possible combinations.
-    \item If $N$ is less than $2^{M}$ then you run the risk of having every data
-    point being on a different corner of the $M$-dimensional hypercube.
+    \item Think how these $N$ data points might be distributed over $M$ dimensions.
+    Suppose that the numerical data for each feature is $0$ or $1$. Therefore, there
+    will be $2^{M}$ possible combinations.\medskip
+    \begin{wideitemize}
+      \item If $N$ is less than $2^{M}$ then you run the risk of having every data
+      point being on a different corner of the $M$-dimensional hypercube.
+    \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
@@ -426,12 +434,11 @@ algorithm tries to make sense of by extracting features and patterns on its own.
     % We will use 5-fold cross
     % validation o the training set to fit an initial model to see what we can expect
     % for the baseline performance of the model.
-    \item \textbf{Tune hyper-parameters using GridSearch + 5-fold CV} to find the best models\footnote{those models that beat our baseline}.
+    \item \textbf{Tune hyper-parameters using GridSearchCV} to find the best models\footnote{those models that beat our baseline}.
     \item \textbf{Evaluate best models on validation set} and select the top model of each
     algorithm, and we evaluate them against each other on the validation set.
-    \item \textbf{Select and evaluate the final model on the test set}. We select
-    the top model based on the validation set and we will evaluate it on the test
-    set to get an unbiased view of the model performance on completely unseen data.
+    \item \textbf{Select and evaluate the final model on the test set}. We'll evaluate top
+    model on the test set to get an unbiased view of the model performance on completely unseen data.
   \end{wideitemize}
 \end{frame}
 
@@ -444,36 +451,44 @@ algorithm tries to make sense of by extracting features and patterns on its own.
 
 \begin{frame}[fragile, label={distance}]{\textbf{Q. What does it mean to measure success of the model?}}
   \begin{wideitemize}
-    \item Now that we have a decent idea of how to explore and clean our data, we want to start
-    setting the stage for building a model by understanding what it means to measure success of
-    the model.
+    \item So the question is how do we make sure the model is learning the underlying pattern
+    and not just memorizing the examples?
+    \item We can do this by splitting our data into three data sets: the training, validation,
+    and testing data sets.\medskip
     \begin{wideitemize}
-      \item[-] The first step is walking through why it's necessary to split up our data before
-      we build a model. Please recall the definition of ML that we settled on back in the first
-      section of these slides. Particularly, recall the part on generalizing to make predictions
-      about new examples. This part is about the model needing to learn the underlying pattern
-      (or correlation) that will allow it to make predictions about future examples.
-      \item[-] So the question is how do we make sure the model is learning the underlying pattern
-      and not just memorizing the examples? We can do this by splitting our data into three data sets:
-      the training, validation, and testing data sets. Next section discusses these in detail.
+      % \item[-] This part is about the model needing to learn the underlying pattern
+      % (or correlation) that will allow it to make predictions about future examples.
+      % The first step is walking through why it's necessary to split up our data before
+      % we build a model. Please recall the definition of ML that we settled on back in the first
+      % section of these slides. Particularly, recall the part on generalizing to make predictions
+      % about new examples. This part is about the model needing to learn the underlying pattern
+      % (or correlation) that will allow it to make predictions about future examples.
+      \item This part is about making sure the model is learn the underlying pattern
+      (or correlation) and able to make predictions about future examples.
     \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
+\note[itemize]{
+\item Now that we have a decent idea of how to explore and clean our data, we want to start
+setting the stage for building a model by understanding what it means to measure success of
+the model.
+}
 
-\begin{frame}[fragile]{\textbf{Q. Why do we split the data?}}
+
+\begin{frame}[fragile]{\textbf{Q. But why do we split the data?}}
   \begin{wideitemize}
-    \item To make sure that a model is learning the underlying pattern and not
-    just memorizing the examples. We don't know how well the model will generalize
-    because we don't have any additional data to test this.
-    \item We can solve that by splitting our dataset into three separate segments;
-    training (60\%), validation (20\%), and testing (20\%) data sets.
+    \item \textbf{Ans.} We do it to make sure\footnote{We don't know how well the model will generalize
+    because we don't have any additional data to test this.} our model is learning
+    the underlying pattern and not just memorizing the examples.
+    \item We do that by splitting our dataset into three separate segments;
+    training (60\%), validation (20\%), and testing (20\%) data sets.\medskip
     \begin{wideitemize}
-      \item training data, or examples, that the model will learn
+      \item \textbf{Training data}, or examples that the model will learn
       those general patterns from.
-      \item validation data is used to select the best model (optimal algorithm
+      \item \textbf{Validation data}, or examples we use to select the best model (optimal algorithm
       and hyper-parameter settings).
-      \item test data is used to provide an unbiased evaluation of what
+      \item \textbf{Test data}, or examples we use to provide an unbiased evaluation of what
       the model will look like in its real environment.
     \end{wideitemize}
   \end{wideitemize}
@@ -482,50 +497,54 @@ algorithm tries to make sense of by extracting features and patterns on its own.
 
 \begin{frame}[fragile]{\textbf{Q. Why does the evaluation process look like with these datasets?}}
   \begin{wideitemize}
-    \item You start train your ML algorithm on the training data, evaluate it
-    using the validation data, then at this point.
-    \item If none of your models are any good based on the performance on the
-    validation set, then you need to revisit the training phase and consider
-    some new variables or new models.
-    \item If the performance is quite good, then you can select your best model
-    and pass it onto the testing phase.
-    \item Now, if you evaluate it on the test set and performance is what you
-    expect, then that model is ready to go.
-  \end{wideitemize}
-\end{frame}
-
-\begin{frame}[fragile]{\textbf{Q. What is cross-validation? I.e., Holdout test set}}
-  \begin{wideitemize}
-    \item The previous process how to use training, validation and test set to measure
-    our model's ability to generalize.
-    \item Now, we're going to add one additional layer on top of this process;
-    i.e., something called cross validation. Before describing this process, we need
-    to define a few terms first:
+    \item[1.] You start train your ML algorithm on the training data, evaluate it
+    using the validation data, then at this point:\medskip
     \begin{wideitemize}
-      \item \textbf{Holdout test set:} A generalization of the test set. It's just any data set
-      that was not used in fitting a model that is set aside for evaluating the model's ability
-      to generalize.
-      \item \textbf{K-Fold Cross-Validation:} Data is divided into $k$ subsets and the holdout method
-      is repeated $k$ times. Each time, one of the $k$ subsets is used as the test set and the other
-      $k - 1$ subsets are combined to be used to train the model.
+      \item If none of your models are any good based on the performance on the
+      validation set, then you need to revisit the training phase and consider
+      some new variables or new models. (Go back to step 1.)
+      \item If the performance is quite good, then you can select your best model
+      and pass it onto the testing phase. (Go to step 2.)
+    \end{wideitemize}
+    \item[2.] You evaluate the best model on the test set.\medskip
+    \begin{wideitemize}
+      \item If the performance is what you expect, then that model is ready to go.
+      Otherwise go to step to the drawing board.
     \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
+\begin{frame}[fragile]{\textbf{Q. What is cross-validation? Holdout test set?}}
+  \begin{wideitemize}
+    \item \textbf{Holdout test set:} A generalization of the test set. It's just any data set
+    that was not used in fitting a model (data set aside for evaluating the model's ability to generalize).
+    \item \textbf{K-Fold Cross-Validation:} Data is divided into $k$ subsets and the holdout method
+    is repeated $k$ times. Each time, one of the $k$ subsets is used as the test set and the other
+    $k - 1$ subsets are combined to be used to train the model.
+  \end{wideitemize}
+\end{frame}
+
+\note[itemize]{
+\item The previous process how to use training, validation and test set to measure
+our model's ability to generalize.
+}
+
 \begin{frame}[fragile]{\textbf{Q. 5-Fold Cross-Validation Example?}}
   \begin{wideitemize}
     \item E.g., $5$-fold CV: Given $10,000$ examples, you partition into $5$ buckets, each consisting
-    of $2,000$ examples\footnote{this is sampling without replacement; no single example will appear
-    in two different subsets and all original $10,000$ are still accounted for in these subsets}.
-    \item On trial $1$, we set aside the last bucket (holdout test set) and the other $4$ buckets are the
-    training set, then compute its predictive performance. On trial $2$, we set aside the penultimate
-    bucket, and so on. At the end we \textit{average} the performance of model.
+    of $2,000$ examples\footnote{this is partitioning is done thru sampling without replacement; no
+    single example will appear in two different subsets and all original $10,000$ are still
+    accounted for in these subsets}.
+    \item \textbf{On trial} $1$, we set aside the last bucket (holdout test set) and the other $4$ buckets are the
+    training set, then compute its predictive performance. On \textbf{trial} $2$, we set aside the penultimate
+    bucket, and the other $4$ buckets are the training set. This will be similar for the other $3$ \textbf{trials}.
+    \item At the end we \textit{average} the performance of model over the many trails.
   \end{wideitemize}
 \end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. Establishing our Evaluation framework?}}
   \begin{wideitemize}
-    \item A cohesive framework for evaluating our model, consisting of two components:
+    \item A cohesive framework for evaluating our model, consisting of two components:\medskip
     \begin{wideitemize}
       \item \textbf{Evaluation metrics}: how are gauging the accuracy of the model?
       \item \textbf{Process (how to split the data)}: how do we leverage a given
@@ -537,13 +556,13 @@ algorithm tries to make sense of by extracting features and patterns on its own.
 \subsection{Evaluation metrics}
 \begin{transitionsubframe}
   \begin{center}
-    \Huge \textbf{There isn't a one-size-fits-all metric.}
+    \Huge Evaluation metrics:\\\textbf{There isn't a one-size-fits-all metric.}
   \end{center}
 \end{transitionsubframe}
 
 \begin{frame}[fragile]{\textbf{Q. What are the evaluation metrics that we'll use?}}
 \begin{wideitemize}
-  \item The metric(s) chosen to evaluate a ML model depends on various factors:
+  \item The metric(s) chosen to evaluate a ML model depends on various factors:\medskip
   \begin{wideitemize}
     \item Is it a regression or a classification task? E.g., MSE vs Accuracy.
     \item What is the business objective? E.g., precision vs recall.
@@ -563,13 +582,14 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 
 \begin{frame}[fragile]{\textbf{Q. Metrics for classification problem?}}
 \begin{wideitemize}
-  \item So, for a classification problem, we're going to use three commonly
-  used evaluation metrics. The first is accuracy:
-  $\frac{\# predicted correctly}{total \# of examples}$
-  \item The next evaluation metric is something called precision:
-  $\frac{\# predicted as class A that actually class A}{total \# predicted to be in class A}$
-  \item The last evaluation metric is something called recall:
-  $\frac{\# predicted as class A that actually class A}{total \# that we actually in class A}$
+  \item We're going to use 3 commonly used evaluation metrics:\medskip
+  \begin{wideitemize}
+    \item Accuracy: $\frac{\# \text{predicted correctly}}{\text{total } \# \text{ of examples}}$
+    \item Precision:
+    $\frac{\# \text{ predicted as class A that was actually class A}}{\text{total } \# \text{ predicted to be in class A}}$
+    \item Recall:
+    $\frac{\# \text{ predicted as class A that was actually class A}}{\text{total } \# \text{ that were actually in class A}}$
+  \end{wideitemize}
 \end{wideitemize}
 \end{frame}
 
@@ -583,9 +603,9 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
       \parbox[t]{1.5in}{$\underbrace{Precision = \frac{TP}{TP + FP}}_{\substack{\text{What
             proportion of positive identifications}\\\text{was actually correct?}}}$}
   \end{itemize}
-  \item In simple terms, \textbf{high} precision means your algorithm has returned
+  \item \textbf{High precision} means your algorithm has returned
   substantially \textit{more relevant results than irrelevant ones}, while
-  \textbf{high} recall means your algorithm has returned \textit{most of the
+  \textbf{high recall} means your algorithm has returned \textit{most of the
   relevant results}.
 \end{wideitemize}
 \end{frame}
@@ -607,7 +627,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \begin{frame}[fragile]{\textbf{Q. Can you explain what are false positives and false negatives?}}
   \begin{wideitemize}
   \item There are two errors that often rear their head when you are learning
-    about hypothesis testing —- false positives and false negatives, technically
+    about hypothesis testing —- \textbf{false positives} and \textbf{false negatives}, technically
     referred to as type I error and type II error respectively.
   \item \textbf{False positives} are incorrect classifications of the presence
     of a condition when it is actually absent. A \textbf{false positive} is \textcolor{red}{when you
@@ -622,16 +642,14 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
       important than false negatives, false negatives are more important than
       false positives and when these two types of errors are equally important}}
   \begin{wideitemize}
-  \item E.g., cancer screening. It is much worse to say that someone
-    doesn't have cancer when they do (false negative) rather than saying that
-    someone has it when in fact they don't (false positive).
-  \item E.g., (from a psychological perspective) pregnancy test. Given the null
-    hypothesis: ``I am not pregnant.'' A false negative for someone who really
-    does not want a child, is not ready for one and when assuring themselves
-    with a negative result.
-  \item E.g., forecasting (health weather). During the covid-19 outbreak.
-    Tracking rate of false positives and false negatives in March 2020 in the
-    United States of America.
+    \item Case 1, \textbf{Airport security}. Ensuring that truly dangerous items like
+    weapons cannot be brought on board an aircraft. Getting false positives is better than
+    getting false negatives: missing cases of actual weapons could lead to dangerous situations.
+  \item Case 2, \textbf{cancer screening}. Even though false-positive results could create
+  anxiety and lead to unnecessary and invasive follow-up tests like biopsies, missing cases of
+  actual cancer could lead to delays in treatment that negatively affect somebody's life.
+  \item Case 3, \textbf{forecasting} (health weather). Measuring success of testing cases
+  of covid-19 in the US. Tracking rate of false positives and false negatives seems to make sense.
   \end{wideitemize}
 \end{frame}
 
@@ -642,7 +660,11 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     \item Accuracy rate: {\footnotesize $\frac{TP + TN}{Total}$}
       where {\footnotesize Total is $TP + TN + FP + FN$},\vspace{-.5em}
     \item Error rate: {\footnotesize $1 - \frac{TP + TN}{Total}$},\vspace{-.5em}
-    \item False positive rate: {\footnotesize $\frac{FP}{TN + FP}$},\vspace{-.5em}
+    \item False positive rate\footnote{It's a measure of accuracy for a test}:
+    {\footnotesize $\frac{FP}{TN + FP}$},\vspace{-.5em}
+    \item False negative rate\footnote{It's proportion of the individuals with a known
+    positive condition for which the test result is negative}:
+    {\footnotesize $\frac{FN}{TP + FN}$},\vspace{-.5em}
     \item Recall: {\footnotesize $\frac{TP}{TP + TN}$}, Precision: {\footnotesize $\frac{TP}{TP + FP}$},\vspace{-.5em}
     \item Specificity: {\footnotesize $1 - \frac{FP}{TN + FP}$},\vspace{-.5em}
     \item Prevalence: {\footnotesize $\frac{TP + FN}{Total}$}
@@ -657,7 +679,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \item You use the Matthews correlation coefficient. The number it yields is
     between plus or minus one. Plus one means perfect prediction, zero means no
     better than random.
-  \item $\frac{TP x TN - FP x FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}$
+  \item $\frac{\text{TP x TN - FP x FN}}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}$
   \end{wideitemize}
 \end{frame}
 
@@ -693,9 +715,8 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \begin{frame}[fragile]{\textbf{Q. Process description?}}
   \begin{wideitemize}
   \item Run fivefold cross-validation and select the best models.
-  \item Re-fit models on full training set, evaluate those models
-  on the validation set and pick the best one.
-  \item Evaluate that best model on the test set to gauge its ability
+  \item Re-fit models on full training set, evaluate them on the validation set, pick the best one.
+  \item Evaluate best model on the test set to gauge its ability
   to generalize to unseen data.
   \end{wideitemize}
 \end{frame}
@@ -722,17 +743,15 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     \item Model fitting is a measure of how well a machine learning model
     generalizes\footnote{Yes, we are talking about ML model performance.} to similar data
     on which it was \textit{trained}.
-    \item A model that is well-fitted produces more accurate outcomes\footnote{A model
-    that is overfitted matches the data too closely. A model that is underfitted
-    doesn't match closely enough.}.
+    \item A model that is well-fitted produces more accurate outcomes\footnote{An overfitted model
+    matches the data too closely. An underfitted model doesn't match closely enough.}.
   \end{wideitemize}
 \end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. How do you measure the performance of a ML model?}}
   \begin{wideitemize}
-    \item We do that by using a cost function or a loss function.
-    \item In ML, a cost function is used to represent how far away a mathematical
-    model is from the real data.
+    \item We do that by using a \textbf{cost function} or a loss function.
+    \item In ML, a cost function is used to represent how far away our model is from the real data.
     \begin{itemize}
       \item A common way to do this is via the quadratic cost function\footnote{This is
       just the sum of the squares of the vertical distances between the points and the straight line}:\vspace{.4em}
@@ -741,8 +760,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
       This is called ordinary least squares (OLS).
     \end{itemize}
     \item One adjusts the mathematical model usually by varying parameters within the model, so as
-    to \textit{minimize the cost function}. This is interpreted as given the best model, of
-    its type, that fits the data.
+    to \textit{minimize the cost function}. This is interpreted as given the best model that fits the data.
   \end{wideitemize}
 \end{frame}
 
@@ -757,10 +775,12 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \begin{wideitemize}
     \item Over many epochs, if the test error begins to rise (and it's much
     bigger than the training error) then you have overfitted.
-    \item To help avoid overfitting sometimes we divide up our original data
-    into three sets. The third data set is the validation data set.
-    (One can use cross validation to evaluate performance of model using
-    training, test, and validation data sets.)
+    \item (Please refer to the Measuring success section to discuss ways in
+    which we can void overfitting.)
+    % \item To help avoid overfitting sometimes we divide up our original data
+    % into three sets. The third data set is the validation data set.
+    % (One can use cross validation to evaluate performance of model using
+    % training, test, and validation data sets.)
   \end{wideitemize}
 \end{frame}
 
@@ -802,7 +822,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     \begin{wideitemize}
     \item $Var(\hat{f}(x^{'})) = \mathbb{E}[\hat{f}(x)^{2}] - \mathbb{E}[\hat{f}(x^{'})]^{2}$
     \end{wideitemize}
-    \item We often find there is a trade-off between bias and variance. As one is reduced,
+    \item There' a trade-off between bias and variance: As one is reduced,
     the other is increased\footnote{This the matter of over-and-underfitting}.
   \end{wideitemize}
 \end{frame}
@@ -859,29 +879,81 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 % \end{transitionsubframe}
 
 \begin{frame}[fragile]{\textbf{Q. What is Underfitting?}}
-  \begin{wideitemize}
-    \item (Recall high bias.) Underfitting occurs when an algorithm
-    cannot capture the underlying trend of the data. This happens
-    when the model is too simple with high bias and low variance, and
-    results in high total error.
-    \item Underfitting: High bias + low variance (The left side of this plot represents underfitting).
-  \end{wideitemize}
+  Underfitting occurs when an algorithm cannot capture the underlying trend of the data.
+  \begin{columns}[T]
+  \begin{column}{.58\textwidth}
+    \only<1>{\resizebox{\textwidth}{!}{
+        \includegraphics{figures/underfit.pdf}
+      }
+    }
+    \only<2>{\resizebox{\textwidth}{!}{
+        \includegraphics{figures/underfit.pdf}
+      }
+    }
+  \end{column}
+  \hfill
+  \begin{column}{.4\textwidth}
+    \footnotesize
+    \begin{wideitemize}
+      \item<1-> Underfitting happens when the model is too simple with high bias
+      and low variance, and results in high total error.
+      \item<2-> \textbf{Underfitting}: High bias + low variance
+    \end{wideitemize}
+    \end{column}
+  \end{columns}
+  % \begin{wideitemize}
+  %   \item (Recall high bias.) Underfitting occurs when an algorithm
+  %   cannot capture the underlying trend of the data. This happens
+  %   when the model is too simple with high bias and low variance, and
+  %   results in high total error.
+  %   \item Underfitting: High bias + low variance (The left side of this plot represents underfitting).
+  % \end{wideitemize}
 \end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. What is Overfitting?}}
-  \begin{wideitemize}
-    \item (Recall high variance.) Overfitting occurs when an algorithm
-    fits too closely to a limited set of data (i.e., training set). In other
-    words, the model might just memorize the examples that it has seen in
-    the training data.
+  Overfitting occurs when an algorithm
+  fits too closely to a limited set of data (i.e., training set).
+  \begin{columns}[T]
+  \begin{column}{.58\textwidth}
+    \only<1>{\resizebox{\textwidth}{!}{
+        \includegraphics{figures/overfit.pdf}
+      }
+    }
+    \only<2>{\resizebox{\textwidth}{!}{
+        \includegraphics{figures/overfit.pdf}
+      }
+    }
+  \end{column}
+  \hfill
+  \begin{column}{.4\textwidth}
+    \footnotesize
     \begin{wideitemize}
-      \item Then when it sees a new example that looks a lot like an
-      example it has seen before it can make a very accurate prediction.
-      \item And when it sees a new example that looks nothing like any
-      other examples it has seen before it will make a very poor prediction.
+      \item<1-> In other words, the model might just memorize the examples that it has seen in
+      the training data.\medskip
+      % \begin{wideitemize}
+      %   \item<1-> Then when it sees a new example that looks a lot like an
+      %   example it has seen before it can make a very accurate prediction.
+      %   \item<1-> And when it sees a new example that looks nothing like any
+      %   other examples it has seen before it will make a very poor prediction.
+      % \end{wideitemize}
+      \item<2-> \textbf{Overfitting}: Low bias + high variance.
     \end{wideitemize}
-    \item Overfitting: Low bias + high variance (The right side of this plot represents overfitting).
-  \end{wideitemize}
+    \end{column}
+  \end{columns}
+
+  % \begin{wideitemize}
+  %   \item<1-> (Recall high variance.) Overfitting occurs when an algorithm
+  %   fits too closely to a limited set of data (i.e., training set). In other
+  %   words, the model might just memorize the examples that it has seen in
+  %   the training data.\medskip
+  %   \begin{wideitemize}
+  %     \item<1-> Then when it sees a new example that looks a lot like an
+  %     example it has seen before it can make a very accurate prediction.
+  %     \item<1-> And when it sees a new example that looks nothing like any
+  %     other examples it has seen before it will make a very poor prediction.
+  %   \end{wideitemize}
+  %   \item<2-> \textbf{Overfitting}: Low bias + high variance.
+  % \end{wideitemize}
 \end{frame}
 
 \subsection{Finding optimal model complexity}
@@ -893,22 +965,53 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 
 \begin{frame}[fragile]{\textbf{Q. How do you find the optimal tradeoff?}}
   \begin{wideitemize}
-    \item The goal is to find something in the middle (a model with medium
-    complexity). This would learn the true pattern in the data w/o memorizing
-    every example in the training data.
-    \item Optimal tradeoff: Low bias + Low variance. OKAY, \textcolor{red}{but
-    how do you identify underfit and overfit?}
-    \begin{wideitemize}
-      \item With underfit, we'll have high training error and high test error.
-      \item Optimal tradeoff, we'll have low training error and low test error.
-      \item With overfit, we'll have low training error and high test error.
-    \end{wideitemize}
+    \item The goal is to find something in the middle\footnote{This would learn the
+    true pattern in the data w/o memorizing every example in the training data.} (a
+    model with medium complexity); i.e., \textbf{Optimal tradeoff:} Low bias + Low variance.
+    \item OKAY, \textcolor{red}{but how do you identify underfit and overfit?}
+    % \begin{wideitemize}
+    %   \item With underfit, we'll have high training error and high test error.
+    %   \item Optimal tradeoff, we'll have low training error and low test error.
+    %   \item With overfit, we'll have low training error and high test error.
+    % \end{wideitemize}
   \end{wideitemize}
+
+  \begin{columns}[T]
+  \begin{column}{.58\textwidth}
+    \only<1>{\resizebox{\textwidth}{!}{
+        \includegraphics{figures/detectunderandoverfit.pdf}
+      }
+    }
+    \only<2>{\resizebox{\textwidth}{!}{
+        \includegraphics{figures/detectunderandoverfit.pdf}
+      }
+    }
+    \only<3>{\resizebox{\textwidth}{!}{
+        \includegraphics{figures/detectunderandoverfit.pdf}
+      }
+    }
+  \end{column}
+  \hfill
+  \begin{column}{.4\textwidth}
+    \footnotesize
+    \begin{wideitemize}\footnotesize
+    \item<1-> With underfit, we'll have high training error and high test error.
+    \item<2-> Optimal tradeoff, we'll have low training error and low test error.
+    \item<3-> With overfit, we'll have low training error and high test error.
+    \end{wideitemize}
+    \end{column}
+  \end{columns}
 \end{frame}
+
+\note[itemize]{
+\item The goal is to find something in the middle (a model with medium
+complexity). This would learn the true pattern in the data w/o memorizing
+every example in the training data.
+}
 
 \begin{frame}[fragile]{\textbf{Q. How do you tune a model for optimal complexity?}}
   \begin{wideitemize}
-    \item There are two methods to tune a model for optimal complexity:
+    \item There are two methods to tune a model for optimal complexity:\medskip
     \begin{wideitemize}
       \item Hyper-parameter tuning -- choosing a set of optimal hyper-parameters
       for fitting a ML algorithm (e.g., linear regression)
@@ -940,7 +1043,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     The goal of Regularization is to allow enough flexibility for the algorithm
     to learn the underlying patterns in the data but provides guardrails so it
     doesn't overfit. See Occam's razor -- whenever possible, choose the simplest
-    answer (or model) to a problem.
+    model to a problem.
   \end{framed}
 \end{frame}
 
@@ -975,11 +1078,11 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     \item Gradient descent is an \textit{iterative} optimization algorithm used to minimize
     some \textit{convex} function by \textit{iteratively} moving in the direction of
     steepest descent as defined by the negative of the gradient.
-    \item In ML, we use gradient descent to update the parameters of a ML model.
+    \item In ML, we use gradient descent to update the parameters of a ML model.\medskip
     \begin{wideitemize}
       \item Start with an initial guess for each parameter $\theta_{k}$. Then
       move $\theta_{k}$ in the \\direction of the slope.
-      \item Update all $\theta_{k}$ simultaneously (known as batch gradient descent),
+      \item Update all $\theta_{k}$ parameters simultaneously (known as batch gradient descent),
       and \\repeat until convergence.
     \end{wideitemize}
   \end{wideitemize}
@@ -988,7 +1091,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \begin{frame}[fragile]{\textbf{Q. Unpacking Gradient Descent?}}
   \begin{wideitemize}
     \item Gradient means the rate of inclination or declination of a slope.
-    \item Descent means the instance of descending.
+    \item Descent means we are dealing with the inclination of a slope.
     \item The algorithm is iterative means that we need to get the results
     \textbf{multiple times} to get the most optimal result (minima of a curve).
   \end{wideitemize}
@@ -1134,12 +1237,12 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     \item Next, we'll evaluate the best model on the test set. This will give us
     a truly unbiased view of how it should preform moving forward.
     \item Why do we need to evaluate it on test data, given they have already evaluated on unseen data?
+    \medskip
     \begin{wideitemize}
-      \item Because, the validation set was created by just randomly distributing examples from
-      the full data set.
-      % So if that validation set was slightly different perhaps we would
-      % have chosen a different model.
-      \item So by nature of the fact that testing on the validation set impacted what model
+      \item For the validation set was created by \textbf{randomly} distributing examples from
+      the full data set. So if that validation set was slightly different perhaps we would
+      have chosen a different model.
+      \item So by nature of this fact that testing on the validation set impacted what model
       was chosen as our final model, it's technically part of the model training process.
       \item So this final test set is purely for evaluation purposes to see that it matches
       the performance that we've seen before and to give us more confidence in the performance
@@ -1166,7 +1269,12 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \begin{wideitemize}
   \item \textbf{Regression} is a statistical process for estimating
   the relationship among variables, often used to make a prediction about
-  some outcome.
+  some outcome.\medskip
+  \begin{wideitemize}
+    \item \textit{From a Machine Learning perspective, the modeling of this relationship
+    is done to ensure generalization -- giving the model the ability to predict
+    outputs for inputs it has never seen before.}
+  \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
@@ -1174,12 +1282,20 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 \begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
   \begin{wideitemize}
   \item \textbf{Linear regression} is one type of regression that is used when
-  you have a continuous target variable (output).
+  you want to predict a continuous target variable (output).\medskip
+  \begin{wideitemize}
+    \item The essence of LR is that given some correlated data, LR tries to find
+    the line that best fits the data, so that we can yield a continuous quantity output.
+  \end{wideitemize}
   \item For instance, to predict the number of umbrellas sold by the amount of
-  rainfall and the algorithm definition for linear regression is $y = mx + b$,
+  rainfall you use the algorithm definition for linear regression is $y = mx + b$,
   where $y$ is the dependent variable, $x$ is the independent variable, and $b$
   and $m$ (i.e., slope) are coefficients dictating the equation\footnote{e.g., a
-  model that assumes a linear relationship between the input}.
+  model that assumes a linear relationship between the input}.\medskip
+  \begin{wideitemize}
+    \item Based on the rainfall data, you could infer the number of umbrellas sold
+    for an amount of rainfall for which we don't any data.
+  \end{wideitemize}
   % \item Linear regression attempts to model the relationship between two continuous
   %   variables -- a scalar response (or dependent variable) and and one or more
   %   explanatory variables (or independent variables) -- by fitting a linear
@@ -1193,10 +1309,54 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{wideitemize}
 \end{frame}
 
+\begin{frame}[fragile]{\textbf{Q. How does linear regression work?}}
+  \begin{wideitemize}
+  \item The way Linear Regression works is by trying to find the weights (namely, $m$ and $b$)
+  that lead to the best-fitting line for the input data (i.e. X features) we have.
+  The best-fitting line is determined in terms of \textbf{lowest cost}.\medskip
+  \begin{wideitemize}
+    \item Generally, cost refers to the loss or error that the model yields in terms
+    of \textit{how off it is from the actual Training data}.
+    \item When it comes to Linear Regression, the \textbf{cost function} we usually
+    use is the Squared Error Cost (i.e., Mean Square Error):
+    $\frac{1}{N} \sum_{i=1}^N (y_{i}-(mx_{i} + b))^2$
+    \item The goal is to try to find\footnote{Using Gradient descent} the values for
+    $m$ and $b$ that will give you the lowest MSE score. (Training is basically finding
+    these values.) The best fitted line is the one with the lowest MSE value.
+  \end{wideitemize}
+  % \item Linear regression attempts to model the relationship between two continuous
+  %   variables -- a scalar response (or dependent variable) and and one or more
+  %   explanatory variables (or independent variables) -- by fitting a linear
+  %   equation to observed data.
+  % \item The governing algorithm or equation for linear regression is also quite simple.
+  %   It takes the form: $y = mx + b$ where $y$ is the dependent variable, $x$ is the
+  %   independent variable, and $b$ and $m$ (i.e., slope) are coefficients
+  %   dictating the equation.
+  % \item e.g. a model that assumes a linear relationship between the input
+  %   variables $x$ and the single output variable $y$.
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. Side notes: Linear regression?}}
+  \begin{wideitemize}
+    \item Linear Regression is the process of finding a line that best fits the data
+    points available on the plot, so that we can use it to predict output values for
+    inputs that are not present in the data.
+    \item Performance (and error rates) depends on various factors including the
+    how clean and consistent the data is.
+    \item In case of bad model performance, we usually go for a \textbf{higher polynomial function}.
+    This is basically the introduction of new variables into the Regressor function so
+    that we allow more flexibility to it\footnote{However, this will cause the LR line
+    not to be a straight line anymore.}
+  \end{wideitemize}
+\end{frame}
+
 \begin{frame}[fragile]{\textbf{Q. What is logistic regression?}}
   \begin{wideitemize}
   \item \textbf{Logistic regression} is a form or regression where the
-  target variable is binary (zero or one, or true or false). It takes the form: {\Large $\frac{1}{1 + e^{-(mx + b)}}$}
+  target variable is binary (zero or one, or true or false). It takes the form:
+  {\Large $\frac{1}{1 + e^{-(mx + b)}}$}
   \item Let's say I wanted to examine the relationship between my basketball
   shooting accuracy and the distance that I shoot from. More specifically, I want
   a model that takes in ``distance from the basket'' in feet and spits out the
@@ -1205,7 +1365,8 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     \item In this context, $-(mx + b)$, labeled as $z$, represents
     \textit{log(odds of making shot)}\footnote{odss = P(Event) / [1-P(Event)]},
     so the probability of making a shot (i.e., $y$) is $\frac{1}{1 + e^{-z}}$.
-    Here, $m$ and $b$ are the coefficients we're interested in finding thru optimization, and $x$ is \textit{distance from basket}.
+    Here, $m$ and $b$ are the coefficients we're interested in finding thru optimization,
+    and $x$ is \textit{distance from basket}.
   \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -1287,20 +1448,49 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. What is the general form of multiple regression?}}
-  \begin{wideitemize}
-    \item The general form of the equation for linear regression.
-  \end{wideitemize}
-\end{frame}
+% \begin{frame}[fragile]{\textbf{Q. What is the general form of multiple regression?}}
+%   \begin{wideitemize}
+%     \item The general form of the equation for linear regression.
+%   \end{wideitemize}
+% \end{frame}
+
+\subsection{Clustering}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge KMeans Clustering Algorithm
+  \end{center}
+\end{transitionsubframe}
 
 
 \begin{frame}[fragile]{\textbf{Q. What is KMeans?}}
   \begin{wideitemize}
-  \item \textbf{KMeans} is a unsupervised ML algorithm. You have a bunch of
-  vectors. Then you take a bunch seed-guesses for the centers of the clusters.
-  You assign each vector to the nearest cluster. And then, when everything is
-  done, you calculate the mean values of the clusters. And then you just do it
-  again: you re-assign the nearest mean. Then you keep on going until it converges.
+  \item \textbf{KMeans} is a unsupervised ML algorithm. It takes some data points
+  as input and groups\footnote{grouping is the training phase of KMeans} them into $k$
+  clusters\footnote{It uses the distance between points as a measure of similarity,
+  based on $k$ averages (i.e. means).} (the output).\medskip
+  \begin{wideitemize}
+    \item This $k$ is called a hyper-parameter; a variable whose value we set before training.
+    \item The idea is simple: You have a bunch of vectors. Then you take a bunch seed-guesses for the
+    $k$ centers (centroid) of the clusters. You assign each vector to the nearest cluster. And then,
+    when everything is done, you calculate the mean values of the clusters (updated $k$ centers).
+    And then you just do it again: you re-assign the nearest mean. Then you keep on going
+    until it converges\footnote{Once those centroids stop moving, the algorithm stop}.
+  \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+
+\subsection{Naive Bayes}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge Naive Bayes Classifier
+  \end{center}
+\end{transitionsubframe}
+
+
+\begin{frame}[fragile]{\textbf{Q. What is Naive Bayes?}}
+  \begin{wideitemize}
+  \item \textbf{Naive Bayes} is a supervised ML algorithm.
   \end{wideitemize}
 \end{frame}
 
