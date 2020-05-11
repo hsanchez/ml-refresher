@@ -77,17 +77,18 @@
 \section{General matters}
 \begin{frame}[fragile]{\textbf{Q. What is Machine Learning?}}
   \begin{wideitemize}
-    \item \say{\textit{Machine Learning (or \textbf{ML}) is fitting a function to
-    examples\footnote{An example, or a sample, is a data point that belongs
-    to some data} and using that function to generalize and make predictions
-    about new examples.}}\\\hspace{25em}\textit{Derek Jedamski, GitHub}
-    \item Machine Learning, by large, falls into three categories:\vspace{.4em}
+  \item \say{\textit{Machine Learning (or \textbf{ML}) is fitting a function to
+        examples\footnote{An example, or a sample, is a data point that belongs
+          to some data} and using that function to generalize and make
+        predictions about new examples.}}\\\hspace{25em}\textit{Derek Jedamski,
+      GitHub}
+  \item Machine Learning, by large, falls into three categories:\vspace{.4em}
     \begin{wideitemize}
-      \item[-] Supervised learning
-      \item[-] Unsupervised learning
-      \item[-] Reinforcement learning
+    \item[-] Supervised learning
+    \item[-] Unsupervised learning
+    \item[-] Reinforcement learning
     \end{wideitemize}
-    \item And solves two types of problems: Classification and Regression.
+  \item And solves two types of problems: Classification and Regression.
   \end{wideitemize}
 \end{frame}
 
@@ -1261,7 +1262,7 @@ every example in the training data.
 \subsection{Regression}
 \begin{transitionsubframe}
   \begin{center}
-    \Huge Regression algorithms
+    \Huge Regression algorithms (Supervised learning)
   \end{center}
 \end{transitionsubframe}
 
@@ -1270,10 +1271,11 @@ every example in the training data.
   \item \textbf{Regression} is a statistical process for estimating
   the relationship among variables, often used to make a prediction about
   some outcome.\medskip
-  \begin{wideitemize}
+  \begin{wideitemize} 
     \item \textit{From a Machine Learning perspective, the modeling of this relationship
     is done to ensure generalization -- giving the model the ability to predict
-    outputs for inputs it has never seen before.}
+    outputs (dependent variable) for inputs (independent variables) it has never
+    seen before.}
   \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -1282,19 +1284,25 @@ every example in the training data.
 \begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
   \begin{wideitemize}
   \item \textbf{Linear regression} is one type of regression that is used when
-  you want to predict a continuous target variable (output).\medskip
+  trying to predict a continuous target variable (output).\medskip
   \begin{wideitemize}
-    \item The essence of LR is that given some correlated data, LR tries to find
-    the line that best fits the data, so that we can yield a continuous quantity output.
+    \item The essence of LR is that given some correlated data, LR tries to
+      explain a dependent variable in terms of independent variables.
+    \item The independent variables are numerical (continuous) and we \textit{fit} straight
+      lines, polynomials or other functions to predict the dependent variables.
   \end{wideitemize}
+  \item Example: Find a relationship between the number of tomatoes on a plant
+    and how much they are watered. Using the algorithm definition for linear
+    regression is $y = mx + b$, where $y$ is the tomatoes number (dependent
+    var), $x$ is how much they are watered (independent var), and 
   \item For instance, to predict the number of umbrellas sold by the amount of
   rainfall you use the algorithm definition for linear regression is $y = mx + b$,
   where $y$ is the dependent variable, $x$ is the independent variable, and $b$
-  and $m$ (i.e., slope) are coefficients dictating the equation\footnote{e.g., a
+  and $m$ (i.e., slope) are coefficients dictating the best fit line\footnote{e.g., a
   model that assumes a linear relationship between the input}.\medskip
   \begin{wideitemize}
-    \item Based on the rainfall data, you could infer the number of umbrellas sold
-    for an amount of rainfall for which we don't any data.
+    \item Based on the water data, you could infer the number of tomatoes on a
+      plant for an amount of water for which we don't any data.
   \end{wideitemize}
   % \item Linear regression attempts to model the relationship between two continuous
   %   variables -- a scalar response (or dependent variable) and and one or more
@@ -1320,9 +1328,9 @@ every example in the training data.
     \item When it comes to Linear Regression, the \textbf{cost function} we usually
     use is the Squared Error Cost (i.e., Mean Square Error):
     $\frac{1}{N} \sum_{i=1}^N (y_{i}-(mx_{i} + b))^2$
-    \item The goal is to try to find\footnote{Using Gradient descent} the values for
-    $m$ and $b$ that will give you the lowest MSE score. (Training is basically finding
-    these values.) The best fitted line is the one with the lowest MSE value.
+    \item Using Gradient descent, it tries to find the values for $m$ and $b$
+      that will give you the lowest MSE score. (Training is basically finding
+      these values.) \textbf{The best fitted line is the one with the lowest MSE value.}
   \end{wideitemize}
   % \item Linear regression attempts to model the relationship between two continuous
   %   variables -- a scalar response (or dependent variable) and and one or more
@@ -1338,7 +1346,24 @@ every example in the training data.
 \end{frame}
 
 
-\begin{frame}[fragile]{\textbf{Q. Side notes: Linear regression?}}
+
+\begin{frame}[fragile]{\textbf{Q. Linear regression on many dimensions?}}
+  \begin{wideitemize}
+    \item We now have $M$ independent, explanatory, variables, representing the
+      features, and we write all $x_s$ as vectors. For each of $N$ data points
+      we'll have the independent variable $x^{(n)}$ (e.g., squared footage of a
+      house, number of rage bays) and the independent variable $y^{(n)}$
+      (property value).
+    \item We fit the linear function $h_{\theta}(x) = \theta^{T}x$ to the $y_s$,
+      where $\theta$ is the vector of the as-yet-unknown parameters.
+    \item The cost function remains the same as in the one dimension LR: the
+      quadratic function. And the coefficients are learned using batch or
+      stochastic gradient descent.
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. Linear regression Recap?}}
   \begin{wideitemize}
     \item Linear Regression is the process of finding a line that best fits the data
     points available on the plot, so that we can use it to predict output values for
@@ -1354,15 +1379,15 @@ every example in the training data.
 
 \begin{frame}[fragile]{\textbf{Q. What is logistic regression?}}
   \begin{wideitemize}
-  \item \textbf{Logistic regression} is a form or regression where the
-  target variable is binary (zero or one, or true or false). It takes the form:
-  {\Large $\frac{1}{1 + e^{-(mx + b)}}$}
-  \item Let's say I wanted to examine the relationship between my basketball
-  shooting accuracy and the distance that I shoot from. More specifically, I want
-  a model that takes in ``distance from the basket'' in feet and spits out the
-  probability that I will make the shot ($1$ for a make, $0$ for a miss).
+  \item \textbf{Logistic regression} or logistic classifier is a form or
+    regression where the target variable is binary (zero or one, or true or
+    false). It takes the form: $\frac{1}{1 + e^{-(mx + b)}}$
+  \item \textbf{Example:} Let's say you wanted to examine the relationship between
+    your basketball shooting accuracy and the distance that you shoot from. More
+    specifically, you want a model that takes in ``distance from the basket'' in
+    feet and spits out the probability that you'll make the shot ($1$ for a make, $0$ for a miss).
   \begin{wideitemize}\vspace{2mm}\small
-    \item In this context, $-(mx + b)$, labeled as $z$, represents
+    \item In this example, the equation $-(mx + b)$, labeled as $z$, represents
     \textit{log(odds of making shot)}\footnote{odss = P(Event) / [1-P(Event)]},
     so the probability of making a shot (i.e., $y$) is $\frac{1}{1 + e^{-z}}$.
     Here, $m$ and $b$ are the coefficients we're interested in finding thru optimization,
@@ -1374,21 +1399,23 @@ every example in the training data.
 
 \begin{frame}[fragile]{\textbf{Q. Logistic regression example?}}
   \begin{wideitemize}
-  \item \textbf{Shooting Baskets}. Generally, the further I get from the basket,
-  the less accurately I shoot: when given a small distance, the model should predict
-  a high probability and when given a large distance it should predict a low probability.
-  \begin{wideitemize}\vspace{2mm}\small
-    \item In logistic regression the output $Y$ is in log odds. Let's say I shot
-    $100$ free throws and made $70$. Based on this sample, my probability of making
-    a free throw is $70$\%. My odds of making a free throw is $2.33$, which we
-    want to bound between $0$ and $1$ using \textit{log} and the \textit{sigmoid} function,
-    as odds go from $0$ to $INF$\footnote{log odds are just probability stated another way}:
-    \item We can write our logistic regression equation: $z = log(mx + b)$, where
-    $m$ and $b$ are the coefficients to be learned.
-    \item And to get probability from $z$, which is in log odds, we apply the sigmoid
-    function: $\frac{1}{1 + e^{-z}}$\footnote{This shows how we can go from a linear
-    estimate of log odds to a probability.} In this case, a high probability means
-    I will be able to shoot and a lot probability means I won't.
+  \item \textbf{Shooting Baskets}. Generally, the further you get from the basket,
+    the less accurately you shoot: when given a small distance, the model should
+    predict a high probability and when given a large distance it should predict
+    a low probability.
+    \begin{wideitemize}\vspace{2mm}\small
+    \item In logistic regression the output $Y$ is in log odds. Let's say you shot
+      $100$ free throws and made $70$. Based on this sample, your probability of
+      making a free throw is $70$\%. Your odds of making a free throw is $2.33$,
+      which we want to bound between $0$ and $1$ using \textit{log} and the
+      \textit{sigmoid} function as odds go from $0$ to $INF$\footnote{log odds
+        are just probability stated another way}:
+    \item We can write our logistic regression equation: $z = log(mx + b)$,
+      where $m$ and $b$ are the coefficients to be learned.
+    \item And to get probability from $z$, which is in log odds, we apply the
+      sigmoid function: $\frac{1}{1 + e^{-z}}$\footnote{This shows how we can go
+        from a linear estimate of log odds to a probability.} In this case, a
+      high probability means you'll be able to shoot and a lot probability means you won't.
   \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -1414,12 +1441,13 @@ every example in the training data.
   \begin{column}{.4\textwidth}
     \footnotesize
     \begin{wideitemize}
-    \item<1-> \textbf{Linear regression} for binary target variable will have a hard time
-    try to come up with a best fit line that makes any sense.
-    \item<2-> It'll try to fit a line that fits all of the data and it will end up
-    predicting negative values and values over one, which is impossible.
-    \item<3-> \textbf{Logistic regression} is built off of a logistic or sigmoid curve (S shape)
-    and will always be between zero and one, which makes it a better fit for a binary classification problem.
+    \item<1-> \textbf{Linear regression} for binary target variable will have a
+      hard time try to come up with a best fit line that makes any sense.
+    \item<2-> It'll try to fit a line that fits all of the data and it will end
+      up predicting negative values and values over one, which is impossible.
+    \item<3-> \textbf{Logistic regression} is built off of a logistic or sigmoid
+      curve (S shape) and will always be between zero and one, which makes it a
+      better fit for a binary classification problem.
     \end{wideitemize}
     \end{column}
   \end{columns}
@@ -1464,19 +1492,21 @@ every example in the training data.
 
 \begin{frame}[fragile]{\textbf{Q. What is KMeans?}}
   \begin{wideitemize}
-  \item \textbf{KMeans} is a unsupervised ML algorithm. It takes some data points
-  as input and groups\footnote{grouping is the training phase of KMeans, and uses
-  the square of the L2 norm as its cost function} them into $k$
-  clusters\footnote{It uses the distance between points as a measure of similarity,
-  based on $k$ averages (i.e. means).} (the output).\medskip
+  \item \textbf{KMeans} is a unsupervised ML algorithm. It takes some data
+    points as input and groups\footnote{grouping is the training phase of KMeans,
+      and uses the square of the L2 norm as its cost function} them into $k$
+    clusters\footnote{It uses the distance between points as a measure of
+      similarity, based on $k$ averages (i.e. means).} (the output).\medskip
   \begin{wideitemize}
-    \item This $k$ is called a hyper-parameter; a variable whose value we set before training.
-    \item The idea is simple: You have a bunch of vectors $\in {\Bbb R}^{d}$. Then you init a bunch
-    seed-guesses for the $k$ centers (centroids) of the clusters. You assign each vector to the
-    nearest cluster. And then, when everything is done, you calculate the mean values of the
-    clusters (updated $k$ centers). And then you just do it again: you re-assign the nearest mean.
-    Then you keep on going until it converges\footnote{Once those centroids stop moving(no further
-    change in cost), the algorithm stop}.
+    \item This $k$ is called a hyper-parameter; a variable whose value we set
+      before training.
+    \item The idea is simple: You have a bunch of vectors $\in {\Bbb R}^{d}$.
+      Then you init a bunch seed-guesses for the $k$ centers (centroids) of the
+      clusters. You assign each vector to the nearest cluster. And then, when
+      everything is done, you calculate the mean values of the clusters (updated $k$
+      centers). And then you just do it again: you re-assign the nearest mean. Then
+      you keep on going until it converges\footnote{Once those centroids stop
+        moving(no further change in cost), the algorithm stop}.
   \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -1516,15 +1546,15 @@ has roughly equal numbers of observations
 
 \begin{frame}[fragile]{\textbf{Q. What is Naive Bayes?}}
   \begin{wideitemize}
-  \item \textbf{Naive Bayes} is is a classification technique (Generative model) based
-  on \textbf{Bayes Theorem} with an assumption of independence among predictors (features).
-  In other words, a Naive Bayes classifier assumes that the presence of a particular feature in a
-  class is unrelated to the presence of any other feature.
+  \item \textbf{Naive Bayes} is a classification technique (Generative model) based
+    on \textbf{Bayes Theorem} with an assumption of independence among predictors (features).
+    In other words, a Naive Bayes classifier assumes that the presence of a particular feature in a
+    class is unrelated to the presence of any other feature.
   \item Some \textbf{benefits} include:\medskip
   \begin{wideitemize}
     \item It's \textit{easy to build} and particularly \textit{useful for very large data sets}.
     \item Along with \textit{simplicity}, it's is known to outperform even highly
-    sophisticated classification methods (NB has better \textit{resilience to missing} data than SVM).
+      sophisticated classification methods (NB has better \textit{resilience to missing} data than SVM).
   \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -1546,8 +1576,8 @@ has roughly equal numbers of observations
   \end{wideitemize}
 
   \begin{framed}
-  The \textbf{objective function} of \textbf{Naive Bayes}: Maximize $\Pr( C \mid X )$ given
-  the training data to formulate a decision rule for new data.
+    The \textbf{objective function} of \textbf{Naive Bayes}: Maximize $\Pr( C
+    \mid X )$ given the training data to formulate a decision rule for new data.
   \end{framed}
 
 \end{frame}
@@ -1556,30 +1586,29 @@ has roughly equal numbers of observations
 \begin{frame}[fragile]{\textbf{Q. How does Naive Bayes work?}}
   \begin{wideitemize}
   \item Step 1: Convert the data set into a frequency table (co-occurance matrix)
-  \item Step 2: Create Likelihood table by finding the probabilities like ``Spam'' probability
-  ($0.29$) and probability of ``No Spam'' ($0.64$).
-  \item Step 3: Now, use Naive Bayesian equation to calculate the posterior probability
-  for each class. The class with the highest posterior probability is the outcome
-  of prediction.
+  \item Step 2: Create Likelihood table by finding the probabilities like
+    ``Spam'' probability ($0.29$) and probability of ``No Spam'' ($0.64$).
+  \item Step 3: Now, use Naive Bayesian equation to calculate the posterior
+    probability for each class. The class with the highest posterior probability
+    is the outcome of prediction.
   \end{wideitemize}
 \end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. Example: Naive Bayes?}}
   \begin{wideitemize}
   \item \textbf{Problem:} Players will play if weather is sunny. Is this statement is correct?\medskip
-  \begin{wideitemize}
-  \item We can solve it using above discussed method of posterior probability.
-  \item $\Pr( Y \mid \text{Sunny} ) = \Pr( \text{Sunny} \mid Y ) * \Pr( Y ) / \Pr( \text{Sunny} )$
-  % P(Yes | Sunny) = P( Sunny | Yes) * P(Yes) / P (Sunny)
-  \item Here we have $\Pr( \text{Sunny} \mid Y ) = 3/9 = 0.33$, $\Pr( Y ) = 9/14 = 0.64$,
-  $\Pr( \text{Sunny} = 5/14 = 0.36$
-  % P (Sunny |Yes) = 3/9 = 0.33, P(Sunny) = 5/14 = 0.36, P( Yes)= 9/14 = 0.64
-  \item Now, $\Pr( Y \mid \text{Sunny} ) = 0.33 * 0.64 / 0.36 = 0.60$, which has higher probability.
-  % P (Yes | Sunny) = 0.33 * 0.64 / 0.36 = 0.60, which has higher probability.
-  \end{wideitemize}
-  \item Naive Bayes uses a similar method to predict the probability of different
-  class based on various attributes. This algorithm is mostly used in text classification
-  and with problems having multiple classes.
+    \begin{wideitemize}
+    \item We can solve it using above discussed method of posterior probability.
+    \item $\Pr( Y \mid \text{Sunny} ) = \Pr( \text{Sunny} \mid Y ) * \Pr( Y ) /
+      \Pr( \text{Sunny} )$
+    \item Here we have $\Pr( \text{Sunny} \mid Y ) = 3/9 = 0.33$, $\Pr( Y ) =
+      9/14 = 0.64$, $\Pr( \text{Sunny} = 5/14 = 0.36$
+    \item Now, $\Pr( Y \mid \text{Sunny} ) = 0.33 * 0.64 / 0.36 = 0.60$, which
+      has higher probability.
+    \end{wideitemize}
+  \item Naive Bayes uses a similar method to predict the probability of
+    different class based on various attributes. This algorithm is mostly used
+    in text classification and with problems having multiple classes.
   \end{wideitemize}
 \end{frame}
 
