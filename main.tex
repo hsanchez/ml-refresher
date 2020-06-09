@@ -27,7 +27,7 @@
 }
 
 
-\title[]{\Huge \textbf{\textcolor{black}{A Machine Learning Refresher}}}
+\title[]{\Huge \textbf{\textcolor{black}{A Foray Into Machine Learning}}}
 \subtitle{\Large Q \& A on the main concepts and terminology}
 % \author{\large \textbf{Huascar A. Sanchez}}
 \author[HAS]{
@@ -103,29 +103,64 @@
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Can you give an example of Supervised Learning?}}
+\begin{frame}[fragile]{\textbf{Q. Examples of supervised learning?}}
+  \begin{wideitemize}
+  \item \textbf{Classification} (pattern recognition):
+    \begin{wideitemize}
+    \item Speech recognition, machine translation, ...
+    \item Medical diagnosis: often, variables are missing (tests are costly).
+    \end{wideitemize}
+  \item \textbf{Regression} (the labels to be predicted are continuous)
+    \begin{wideitemize}
+    \item Predict the price of a car from its mileage, ...
+    \item Kinematics of a robot arm: predict workspace location from angles
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. Classification vs Regression?}}
+  \begin{wideitemize}
+  \item Classification is the task of predicting a discrete class label.
+  \item Regression is the task of predicting a continuous quantity.
+  \item There's some overlap between classification and regression algorithms; for example
+    \begin{wideitemize}
+    \item A classification algorithm may predict a continuous value, but the
+      continuous value is in the form of a probability for a class label.
+    \item A regression algorithm may predict a discrete value, but the discrete
+      value in the form of an integer quantity.
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\textbf{Q. Example of supervised learning algorithm?}}
   \vspace{.4em}
   \begin{wideitemize}
     \item \textcolor{blue}{\textbf{Support vector machines} or \textbf{SVM}},
     is a ML algorithm that takes some data as input and returns as output
-    an optimal separating \textit{hyperplane} between pieces of data; e.g., a plane separating A from B.
+    an optimal separating \textit{hyperplane} between pieces of data; e.g., a
+    plane separating A from B.
     \begin{wideitemize}
-      \item[-] In this example, A and B sit in some high dimensional space, and the idea is to
-      construct a plane that maximizes the margins\footnote{distance between points closest
-      to the line and the actual line} between the plane and the data.
-      \item[-] If a new datum sits closer to one area of the data, say A, then
-      we assign this new datum to A.
+    \item[-] In this Ex, the data sit in some high dimensional space, and
+      the idea is to construct a plane that maximizes the
+      margins\footnote{distance between points closest to the line and the
+        actual line} between the plane and the data. {\footnotesize If a new
+        datum sits closer to one area of the data, say A, then we assign this
+        new datum to A.}
+      % \item[-] If a new datum sits closer to one area of the data, say A, then
+      % we assign this new datum to A.
     \end{wideitemize}
     \item (For historical reasons) This algorithm is called \textbf{support
-    vector machines} because the vectors that lie on the margin of the plane are
-    called the \textit{support} vectors.
+    vector machines} because \textit{the vectors that lie on the margin of the plane} are
+    called the \textbf{support vectors}.
   \end{wideitemize}
 
-  \begin{framed}
-  This is a method for constructing a device to discriminate. If we're having
-  a supervised learning problem then this method gives me an optimal form of
-  discrimination.
-  \end{framed}
+  % \begin{framed}
+  % This is a method for constructing a device to discriminate. If we're having
+  % a supervised learning problem then this method gives me an optimal form of
+  % discrimination.
+  % \end{framed}
 
 \end{frame}
 
@@ -137,57 +172,180 @@
 \begin{frame}[fragile]{\textbf{Q. What more can you say about SVM?}}
   \vspace{.4em}
   \begin{wideitemize}
-    \item \textbf{SVM} works on both linearly and non-linearly separable data. In latter case, it use
-    the kernel trick\footnote{adds one more dimension and call it $z$-axis -- governed by the
-    constraint $z = x^2 + y^2$ and $z$ is the squared distance of the points from origin.} to convert
-    these data to linearly separable data in a higher dimension. This transformation is called kernel.
-    \item A hyperplane in an $n$-dimensional Euclidean space is a flat, $n-1$ dimensional subset of that
-    space that divides the space into two disconnected parts.
+  \item In summary, SVM is a method for constructing a device to discriminate. If we're
+    having a supervised learning problem then this method gives me an optimal
+    form of discrimination (i.e., optimal separating hyperplane\footnote{A
+      hyperplane in an $n$-dimensional Euclidean space is a flat, $n-1$
+      dimensional subset of that space that divides the space into two
+      disconnected parts.}).
+  \item \textbf{SVM} works on both linearly and non-linearly separable data. In
+    latter case, it use the kernel trick\footnote{adds one more dimension
+      (called $z$-axis) -- governed by the constraint $z = x^2 + y^2$ and $z$ is
+      the squared distance of the points from origin.} to convert these data to
+    linearly separable data in a higher dimension. \textbf{This transformation is called kernel}.
+  % \item A hyperplane in an $n$-dimensional Euclidean space is a flat, $n-1$ dimensional subset of that
+  %   space that divides the space into two disconnected parts.
   \end{wideitemize}
 
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Tuning SVM Hyper-parameters?}}
-  \vspace{.4em}
-  \begin{wideitemize}
-    \item \textbf{Hyperparameter and hyper-parameter tuning:}
-    \begin{wideitemize}
-      \item \textbf{Kernel:} The main function of the kernel\footnote{Kernels can lead to more accurate classifiers.}
-      is to transform the given dataset input data into the required form. There are various types of
-      functions such as linear, polynomial, and radial basis function (RBF). Polynomial and RBF are
-      useful for non-linear hyperplane.
-      \item \textbf{Regularization:} $C$ is regularization parameter that controls the trade-off between smooth decision
-      boundary\footnote{a decision boundary or decision surface is a hyper-surface that partitions
-      the underlying vector space into two sets, one for each class.} and classifying training
-      points correctly. A large $C$ means you'll get more training points correctly.
-      \item \textbf{Gamma}: Gamma defines how far the influence of a single training example reaches.
-      A large gamma means the decision boundary is just going to be dependent upon the points that
-      are very close to the line.
-    \end{wideitemize}
-  \end{wideitemize}
-
-\end{frame}
 
 \begin{frame}[fragile]{\textbf{Q. Advantages and Disadvantages SVM?}}
   \vspace{.4em}
   \begin{wideitemize}
-    \item \textbf{Advantages}
+  \item \textbf{Advantages}
     \begin{wideitemize}
-      \item SVM Classifiers offer \textbf{good accuracy and perform faster prediction}
-      compared to Naive Bayes algorithm. They also use less memory because they
+    \item SVM Classifiers offer \textbf{good accuracy and perform faster prediction}
+      compared to Naive Bayes algorithm. They also \textbf{use less memory} because they
       use a subset of training points in the decision phase. SVM works well with
-      a clear margin of separation and with high dimensional space.
+      a clear margin of separation and with high dimensional spaces.
     \end{wideitemize}
-    \item \textbf{Disadvantages}
+  \item \textbf{Disadvantages}
     \begin{wideitemize}
-      \item SVM is \textbf{not suitable for large datasets} because of its high training
+    \item SVM is \textbf{not suitable for large data sets} because of its high training
       time and it also takes more time in training compared to Naive Bayes. It
       \textbf{works poorly with overlapping classes} and is also \textbf{sensitive} to the type
       of \textbf{kernel} used.
     \end{wideitemize}
   \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. SVM hyperparameters?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+  \item \textbf{SVM} has a few hyperparameters~\footnote{\textbf{Hyperparameters}
+      are the properties that govern the entire ML training process. They are
+      external to the model and whose values cannot be estimated from data. We
+      use them to help estimate model parameters.}; however, its most popular include:\vspace{.4em}
+    \begin{wideitemize}
+    \item[$1$] Kernel parameter (data transformation; kernel trick).
+    \item[$2$] C regularization parameter (misclassification penalty).
+    \item[$3$] $\gamma$ (\textit{Gamma}) parameter (spread of kernel/decision boundary).
+    \end{wideitemize}
+  \end{wideitemize}
 
 \end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. SVM's kernel hyperparameter?}}
+  \vspace{.4em}
+  \begin{wideitemize}
+  \item \textbf{Kernel} is a transformation that ``transforms'' a given
+    data input into a desired form; e.g., from non-linearly separable data to
+    linearly separable data {\footnotesize in a higher dimension}.
+    \item There are various types of kernels such as linear, polynomial, and
+      \textit{radial basis function} (RBF). Polynomial and RBF\footnote{Unlike
+        the polynomial kernel which looks at $d$ extra dimensions, RBF expands
+        into an infinite number of dimensions; enabling the inner product of
+        data points that have an infinite number of dimensions.} are useful for
+      non-linear hyperplanes.
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. SVM's C (regularization) hyperparameter?}}
+  \begin{columns}[T] % align columns
+    \begin{column}{.7\textwidth}
+      \begin{wideitemize}
+      \item $C$ is the penalty for misclassifying data points:
+        \begin{wideitemize}
+        \item[-]<1-> When $C$ is small, the classifier is okay with misclassifying data
+          points; {\footnotesize if it's too small it can lead to underfitting
+            (high bias, low variance)}.
+        \item[-]<2-> When $C$ is large, the classifier is heavily penalized for misclassifying
+          data points and therefore it bends over backwards avoiding any misclassified
+          data points; {\footnotesize if it's too large it can lead to overfitting (low bias, high variance)}.
+        \end{wideitemize}
+      \end{wideitemize}
+    \end{column}%
+    \hfill%
+    \begin{column}{.28\textwidth}
+      \only<1>{
+        \makebox[\linewidth][c]{
+          \resizebox{\linewidth}{!}{
+            \includegraphics{figures/c-01.pdf}
+          }
+        }
+      }
+      \vspace{2.5cm}
+      \only<2>{
+        \makebox[\linewidth][c]{
+          \resizebox{\linewidth}{!}{
+            \includegraphics{figures/c-02.pdf}
+          }
+        }
+      }
+    \end{column}%
+  \end{columns}
+\end{frame}
+
+
+% \begin{frame}[fragile]{\textbf{Q. SVM's C (regularization) hyperparameter?}}
+%   \vspace{.4em}
+%   \begin{wideitemize}
+%   \item $C$ is the penalty for misclassifying data points:
+%   \vspace{.4em}
+%   \begin{wideitemize}
+%   \item[-] When $C$ is small, the classifier is okay with misclassifying data
+%     points; {\footnotesize if it's too small it can lead to underfitting (high bias, low variance)}.
+%   \item[-] When $C$ is large, the classifier is heavily penalized for misclassifying
+%     data points and therefore it bends over backwards avoiding any misclassified
+%     data points; {\footnotesize if it's too large it can lead to overfitting (low bias, high variance)}.
+%   \end{wideitemize}
+%   \end{wideitemize}
+% \end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. SVM's $\gamma$ hyperparameter (of Radial Basis
+      Function (RBF) Kernel)?}}
+  \begin{columns}[T] % align columns
+    \begin{column}{.7\textwidth}
+      \begin{wideitemize}
+      \item $\gamma$ (\textit{Gamma}) is the ``spread'' of the RBF kernel $\&$
+        hence the decision region.
+        \begin{wideitemize}
+        \item[-]<1-> When $\gamma$ is low, the ``curve'' of the decision boundary is very
+          low (like an arch) and thus the decision region is very broad.
+        \item[-]<2-> When $\gamma$ is high, the ``curve'' of the decision boundary is
+          high; meaning the decision boundary mostly depends on individual data
+          points, creating islands of decision-boundaries around data points (may overfit).
+        \end{wideitemize}
+      \end{wideitemize}
+    \end{column}%
+    \hfill%
+    \begin{column}{.28\textwidth}
+      \only<1>{
+        \makebox[\linewidth][c]{
+          \resizebox{\linewidth}{!}{
+            \includegraphics{figures/gamma-01.pdf}
+          }
+        }
+      }
+      \vspace{3cm}
+      \only<2>{
+        \makebox[\linewidth][c]{
+          \resizebox{\linewidth}{!}{
+            \includegraphics{figures/gamma-02.pdf}
+          }
+        }
+      }
+    \end{column}%
+  \end{columns}
+\end{frame}
+
+% \begin{frame}[fragile]{\textbf{Q. SVM's $\gamma$ hyperparameter (of Radial Basis
+%       Function (RBF) Kernel)?}}
+%   \vspace{.4em}
+%   \begin{wideitemize}
+%   \item $\gamma$ (\textit{Gamma}) is the ``spread'' of the RBF kernel $\&$ hence the decision region.
+%     \begin{wideitemize}
+%     \item[-] When $\gamma$ is low, the ``curve'' of the decision boundary is very
+%       low (like an arch) and thus the decision region is very broad.
+%     \item[-] When $\gamma$ is high, the ``curve'' of the decision boundary is
+%       high; meaning the decision boundary mostly depends on individual data
+%       points, creating islands of decision-boundaries around data points (may overfit).
+%     \end{wideitemize}
+%   \end{wideitemize}
+% \end{frame}
+
 
 \begin{frame}[fragile]{\textbf{Q. What is Unsupervised Learning?}}
   \begin{wideitemize}
@@ -200,7 +358,50 @@
   \end{wideitemize}
 \end{frame}
 
+
+\begin{frame}[fragile]{\textbf{Q. Examples of unsupervised learning?}}
+  \begin{wideitemize}
+  \item \textbf{Learning associations}\vspace{.4em}
+    \begin{wideitemize}
+    \item[-] Basket analysis. Let $\Pr(Y \mid X)$ the probability that a
+      customer who buys $X$ also buys $Y$ -- estimated from past purchases. If
+      $\Pr(Y \mid X)$ is $0.7$ then associate X to Y ($X \rightarrow Y$);
+      meaning when someone buys $X$, recommend $Y$.
+    \end{wideitemize}
+  \item \textbf{Clustering} (group similar data points).
+  \item \textbf{Density estimation} (where are data points likely to lie?)
+  \item \textbf{Feature selection} (keep only useful features).
+  \item \textbf{Outlier/novelty detection}.
+  \end{wideitemize}
+\end{frame}
+
 \begin{frame}[fragile]{\textbf{Q. Can you give an example of Unsupervised Learning?}}
+  \begin{wideitemize}
+  \item \textcolor{blue}{Principal Component Analysis (or \textbf{PCA})}. In
+    general terms, PCA is about finding the underlying patterns of the data and
+    also gives you a method for data compression.\medskip
+    \begin{wideitemize}
+    \item If you want to \textit{approximate}\footnote{All your vectors can be
+        written as the sum of a few $w$s.} the whole matrix with few vectors,
+      the best vectors to choose are top PCA vectors (the principal components).
+    \end{wideitemize}
+  \item PCA is all about diagonalizing the covariance matrix.
+    \begin{wideitemize}
+    \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
+    \end{wideitemize}
+  \end{wideitemize}
+\end{frame}
+
+
+\note[itemize]{
+\item SVD vs PCA: SVD allows us to extract and untangle information, decompose a
+  matrix into several component matrices (factorization), meaning it exposes many
+  of the useful and interesting properties of the original matrix.  PCA can be
+  computed form SVD but that will be much more expensive.
+}
+
+
+\begin{frame}[fragile]{\textbf{Q. Unpacking PCA?}}
   \begin{wideitemize}
     \item \textcolor{blue}{Principal Component Analysis (or \textbf{PCA})} is a classical UL algorithm.
     \item In \textbf{PCA}, the way this works, we construct a \textit{covariance matrix},
@@ -226,26 +427,6 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. What else can you say about PCA?}}
-  \begin{wideitemize}
-    \item In general terms, this PCA process is about finding the underlying
-    patterns of the data and also gives you a method for data compression.\medskip
-    \begin{wideitemize}
-      \item If you want to \textit{approximate}\footnote{All your vectors can be written as the sum of a few $w$s.} the whole matrix with few vectors, the best vectors to choose are top PCA vectors (the principal components).
-    \end{wideitemize}
-    \item PCA is all about diagonalizing the covariance matrix.
-    \begin{wideitemize}
-      \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
-    \end{wideitemize}
-  \end{wideitemize}
-\end{frame}
-
-\note[itemize]{
-\item SVD vs PCA: SVD allows us to extract and untangle information, decompose a
-matrix into several component matrices (factorization), meaning it exposes many
-of the useful and interesting properties of the original matrix.  PCA can be
-computed form SVD but that will be much more expensive.
-}
 
 \begin{frame}[fragile]{\textbf{Q. When to use PCA?}}
   \vspace{.4em}
@@ -291,7 +472,9 @@ computed form SVD but that will be much more expensive.
     \item Reinforcement learning is one of three basic machine learning paradigms, alongside
     supervised learning and unsupervised learning.
     \item In reinforcement learning an algorithm learns to do something by being
-    rewarded for successful behavior and/or being punished for unsuccessful behavior.
+    rewarded for successful behavior and/or being punished for unsuccessful
+    behavior. {\footnotesize No supervised output but delayed reward.
+      \textbf{Ex:} playing chess or a computer game, robot in a maze.}
   \end{wideitemize}
 \end{frame}
 
@@ -320,48 +503,48 @@ algorithm tries to make sense of by extracting features and patterns on its own.
   \end{wideitemize}
 \end{frame}
 
-\subsection{Machine Learning problems}
-\begin{transitionsubframe}
-  \begin{center}
-    \Huge Examples of Classification and Regression problems
-  \end{center}
-\end{transitionsubframe}
+% \subsection{Machine Learning problems}
+% \begin{transitionsubframe}
+%   \begin{center}
+%     \Huge Examples of Classification and Regression problems
+%   \end{center}
+% \end{transitionsubframe}
 
 
-\begin{frame}[fragile]{\textbf{Q. Can you give an example of a Classification Problem?}}
-  \begin{wideitemize}
-    \item E.g., trying to write a machine learning program that will be able to detect cancerous
-    tumors in lungs. It takes in images of lung x-rays as input and determines if there is a tumor.
-    If there is a tumor, we'd like the computer to output ``yes'' and if there is not a tumor, we'd
-    like the computer to output ``no.'' We’d like the computer to output the correct answer as much as possible.
-    \item Say the training set for this algorithm consists of several images of x-rays, half of the images
-    contain tumors and are labelled ``yes'' and the other half do not contain tumors and are labelled ``no.''
-  \end{wideitemize}
-\end{frame}
+% \begin{frame}[fragile]{\textbf{Q. Can you give an example of a Classification Problem?}}
+%   \begin{wideitemize}
+%     \item E.g., trying to write a machine learning program that will be able to detect cancerous
+%     tumors in lungs. It takes in images of lung x-rays as input and determines if there is a tumor.
+%     If there is a tumor, we'd like the computer to output ``yes'' and if there is not a tumor, we'd
+%     like the computer to output ``no.'' We’d like the computer to output the correct answer as much as possible.
+%     \item Say the training set for this algorithm consists of several images of x-rays, half of the images
+%     contain tumors and are labelled ``yes'' and the other half do not contain tumors and are labelled ``no.''
+%   \end{wideitemize}
+% \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Can you give an example of a Regression Problem?}}
-  \begin{wideitemize}
-    \item In regression problem the goal of the algorithm is to predict real-valued output.
-    \item E.g., Let’s consider the problem of predicting the marks of a student based on the number of hours he/she
-    put for the preparation.
-    \begin{wideitemize}
-      \item Assume for the sake of understanding that the marks of a student (M) do depend on the number of hours (H) he/she put up for preparation.
-      \item The following formula can represent the model: $M = m*H + c$
-    \end{wideitemize}
-  \end{wideitemize}
-\end{frame}
+% \begin{frame}[fragile]{\textbf{Q. Can you give an example of a Regression Problem?}}
+%   \begin{wideitemize}
+%     \item In regression problem the goal of the algorithm is to predict real-valued output.
+%     \item E.g., Let’s consider the problem of predicting the marks of a student based on the number of hours he/she
+%     put for the preparation.
+%     \begin{wideitemize}
+%       \item Assume for the sake of understanding that the marks of a student (M) do depend on the number of hours (H) he/she put up for preparation.
+%       \item The following formula can represent the model: $M = m*H + c$
+%     \end{wideitemize}
+%   \end{wideitemize}
+% \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Classification vs Regression?}}
-  \begin{wideitemize}
-    \item Classification is the task of predicting a discrete class label.
-    \item Regression is the task of predicting a continuous quantity.
-    \item There's some overlap between classification and regression algorithms; for example
-    \begin{wideitemize}
-      \item A classification algorithm may predict a continuous value, but the continuous value is in the form of a probability for a class label.
-      \item A regression algorithm may predict a discrete value, but the discrete value in the form of an integer quantity.
-    \end{wideitemize}
-  \end{wideitemize}
-\end{frame}
+% \begin{frame}[fragile]{\textbf{Q. Classification vs Regression?}}
+%   \begin{wideitemize}
+%     \item Classification is the task of predicting a discrete class label.
+%     \item Regression is the task of predicting a continuous quantity.
+%     \item There's some overlap between classification and regression algorithms; for example
+%     \begin{wideitemize}
+%       \item A classification algorithm may predict a continuous value, but the continuous value is in the form of a probability for a class label.
+%       \item A regression algorithm may predict a discrete value, but the discrete value in the form of an integer quantity.
+%     \end{wideitemize}
+%   \end{wideitemize}
+% \end{frame}
 
 
 \subsection{Data representation}
@@ -393,7 +576,7 @@ algorithm tries to make sense of by extracting features and patterns on its own.
     \item There are many ways to measure distance:
     \begin{wideitemize}
       \item[-] \textbf{Manhattan distance} ($L^{1}$ norm). The sum of the absolute values of the different between
-      entries in the vector. (Preferred dist. when dealing with high dimensional data.)
+      entries in the vector. {\footnotesize (Preferred dist. when dealing with high dimensional data.)}
       \item[-] \textbf{Euclidean distance} ($L^{2}$ norm). Square the distances between vector entries,
       sum these and square root.
       \item[-] \textbf{Cosine similarity}. Cosine of the angle between two vectors\footnote{Two vectors
@@ -406,16 +589,14 @@ algorithm tries to make sense of by extracting features and patterns on its own.
 \begin{frame}[fragile, label={CoD}]{\textbf{Q. Any other issues we should care to learn?}}
   \begin{wideitemize}
     \item The curse of dimensionality. This phenomena involves data in high dimensions.
-    \item Suppose you are working in $M$ dimensions, that is you data has $M$
+    \item \textbf{Ex}. Suppose you are working in $M$ dimensions, that is you data has $M$
     features. And suppose you have $N$ data points. Having a large number of
     data points is good, the more the merrier. BUT what about number of features?
     \item Think how these $N$ data points might be distributed over $M$ dimensions.
     Suppose that the numerical data for each feature is $0$ or $1$. Therefore, there
-    will be $2^{M}$ possible combinations.\medskip
-    \begin{wideitemize}
-      \item If $N$ is less than $2^{M}$ then you run the risk of having every data
-      point being on a different corner of the $M$-dimensional hypercube.
-    \end{wideitemize}
+    will be $2^{M}$ possible combinations.
+   \item {\footnotesize If $N$ is less than $2^{M}$ then you run the risk of
+      having every data point being on a different corner of the $M$-dimensional hypercube.}
   \end{wideitemize}
 \end{frame}
 
@@ -1351,16 +1532,11 @@ every example in the training data.
   \item Example: Find a relationship between the number of tomatoes on a plant
     and how much they are watered. Using the algorithm definition for linear
     regression is $y = mx + b$, where $y$ is the tomatoes number (dependent
-    var), $x$ is how much they are watered (independent var), and 
-  \item For instance, to predict the number of umbrellas sold by the amount of
-  rainfall you use the algorithm definition for linear regression is $y = mx + b$,
-  where $y$ is the dependent variable, $x$ is the independent variable, and $b$
-  and $m$ (i.e., slope) are coefficients dictating the best fit line\footnote{e.g., a
-  model that assumes a linear relationship between the input}.\medskip
-  \begin{wideitemize}
-    \item Based on the water data, you could infer the number of tomatoes on a
-      plant for an amount of water for which we don't any data.
-  \end{wideitemize}
+    var), $x$ is how much they are watered (independent var), and $b$ and $m$
+    (i.e., slope) are coefficients dictating the best fit line\footnote{e.g., a
+      model that assumes a linear relationship between the input}.
+    {\footnotesize Based on the water data, you could infer the number of tomatoes on a
+      plant for an amount of water for which we don't any data.}\medskip
   % \item Linear regression attempts to model the relationship between two continuous
   %   variables -- a scalar response (or dependent variable) and and one or more
   %   explanatory variables (or independent variables) -- by fitting a linear
