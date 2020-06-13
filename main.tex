@@ -378,14 +378,18 @@
 \begin{frame}[fragile]{\textbf{Q. Can you give an example of Unsupervised Learning?}}
   \begin{wideitemize}
   \item \textcolor{blue}{Principal Component Analysis (or \textbf{PCA})}. In
-    general terms, PCA is about finding the underlying patterns of the data and
-    also gives you a method for data compression.\medskip
+    general terms, PCA is about finding the underlying patterns of the data
+    (i.e., those simply expressable correlations between your
+    data\footnote{Represented as a covariance matrix}) and also giving you a
+    method for data compression.\medskip
     \begin{wideitemize}
-    \item If you want to \textit{approximate}\footnote{All your vectors can be
-        written as the sum of a few $w$s.} the whole matrix with few vectors,
-      the best vectors to choose are top PCA vectors (the principal components).
+      \item For instance, if your data points in your data are highly correlated
+        with each other and there are only a few forms of correlations, then
+        your covariance matrix is low rank and can be approximated\footnote{All
+          your vectors can be written as the sum of a few $w$s.} by only a few
+        principal components.
     \end{wideitemize}
-  \item PCA is all about diagonalizing the covariance matrix.
+  \item PCA is all about diagonalizing this covariance matrix.
     \begin{wideitemize}
     \item PCA is an exercise in linear algebra on very high dimensional vector spaces.
     \end{wideitemize}
@@ -405,7 +409,7 @@
   \begin{wideitemize}
     \item \textcolor{blue}{Principal Component Analysis (or \textbf{PCA})} is a classical UL algorithm.
     \item In \textbf{PCA}, the way this works, we construct a \textit{covariance matrix},
-    and my covariance matrix is just the following object: $C = \sum_{j} \vec{v}_j\vec{v}^{\dagger}_{j}$,
+    and this covariance matrix is just the following object: $C = \sum_{j} \vec{v}_j\vec{v}^{\dagger}_{j}$,
     where $\vec{v}^{T}_{j}$ is the transpose of $\vec{v}_{j}$.
     \begin{wideitemize}
       \item[-] In other words, we construct $C$ from the data by taking these vectors $\vec{v}_j$ and
@@ -416,11 +420,11 @@
       %data) between the prices of the different stocks in different times within
       %the 24 hrs period.
     \end{wideitemize}
-    \item In \textbf{PCA}, you diagonalize $C$ and say $C = \sum_{k} P_k
+    \item Then, we diagonalize $C$ and say $C = \sum_{k} P_k
 	  \vec{\omega}_{k}\vec{\omega}^{\dagger}_{k}$\footnote{C can be decomposed into a product
     of matrices involving eigenvalues and eigenvectors}, $P_k$ is piece of the data with size $k$,
     and $\vec{\omega}_{k}$ are the set of vectors you need to find.
-    \item If and only if a small set of $P_k >> 0$, then $C$ is effectively low-rank,
+    \item And if only a small number of $P_k >> 0$, then $C$ is effectively low-rank,
     and the corresponding $\vec{\omega}_{k}$ are the principal components. In other words,
     you need find the eigenvectors that have the largest eigenvalues -- i.e., your principal components.
   \end{wideitemize}
@@ -609,35 +613,50 @@ algorithm tries to make sense of by extracting features and patterns on its own.
 
 \begin{frame}[fragile]{\textbf{Q. What does this process looks like?}}
   \begin{wideitemize}
-    \item \textbf{Explore and clean the data}. Explore the data to really understand
-    what those features look like, then we use some of these learnings to clean the data.
-    \item \textbf{Split data into train/validation/test data sets}.
-    \item \textbf{Fit an initial model (baseline) and evaluate using 5-fold cross-validation}.
+  \item[$1$] \textbf{Explore $\&$ clean the data} {\footnotesize to
+      learn about feature relationships, the shape of the data, correlations to
+      the target variable, missing values, and then to make the signal
+      clear and easy for a model to pick up.}\vspace{-.5em}
+    \item[$2$] \textbf{Split data into train/validation/test data sets}
+      {\footnotesize to ensure model does not memorize the examples and learns
+        the underlying pattern}.\vspace{-.5em}
+    \item[$3$] \textbf{Fit a basic model $\&$ evaluate} {\footnotesize using cross
+        validation (e.g., $5$-fold) on the training set to set a baseline.}\vspace{-.5em}
     % We will use 5-fold cross
     % validation o the training set to fit an initial model to see what we can expect
     % for the baseline performance of the model.
-    \item \textbf{Tune hyper-parameters using GridSearchCV} to find the best models\footnote{those models that beat our baseline}.
-    \item \textbf{Evaluate best models on validation set} and select the top model of each
-    algorithm, and we evaluate them against each other on the validation set.
-    \item \textbf{Select and evaluate the final model on the test set}. We'll evaluate top
-    model on the test set to get an unbiased view of the model performance on completely unseen data.
+    \item[$4$] \textbf{Tune hyper parameters using GridSearchCV} {\footnotesize
+        to explore different hyper parameters combinations and select those
+        hyper parameter settings that generate the best model\footnote{those
+          models that beat our baseline}}.\vspace{-.5em}
+    \item[$5$] \textbf{Evaluate best models on validation set} {\footnotesize to select the
+        best model after refitting the top model of each algorithm.}\vspace{-.5em}
+    \item[$6$] \textbf{Select and evaluate the best model on the test set}
+      {\footnotesize to get an unbiased view of the model performance on
+        completely unseen data.}\vspace{-.5em}
   \end{wideitemize}
 \end{frame}
 
 \section{Measuring success}
 \begin{transitionframe}
   \begin{center}
-    \Huge Measuring success
+    \Huge Measuring success\\
+    (\textbf{hint:} we are in step $2$ of process for building ML models)
   \end{center}
 \end{transitionframe}
 
 \begin{frame}[fragile, label={distance}]{\textbf{Q. What does it mean to measure success of the model?}}
   \begin{wideitemize}
-    \item So the question is how do we make sure the model is learning the underlying pattern
-    and not just memorizing the examples?
-    \item We can do this by splitting our data into three data sets: the training, validation,
-    and testing data sets.\medskip
-    \begin{wideitemize}
+    \item \textbf{Q.} \textit{how do we make sure the model is learning the underlying
+      pattern and not just memorizing the examples?}
+    \item $\rightarrow$ \textbf{A.} we split our data into $3$ data sets:
+      \textbf{training, validation, and testing}.
+    \item \textbf{(Again)}, this step is about making sure\footnote{We
+        don't know how well the model will generalize for we don't have any
+        additional data to test this.} the model \textbf{learns} the underlying pattern
+      (or correlation) and be able to \textbf{generalize} and \textbf{make
+        predictions} about future examples.
+    % \begin{wideitemize}
       % \item[-] This part is about the model needing to learn the underlying pattern
       % (or correlation) that will allow it to make predictions about future examples.
       % The first step is walking through why it's necessary to split up our data before
@@ -645,9 +664,12 @@ algorithm tries to make sense of by extracting features and patterns on its own.
       % section of these slides. Particularly, recall the part on generalizing to make predictions
       % about new examples. This part is about the model needing to learn the underlying pattern
       % (or correlation) that will allow it to make predictions about future examples.
-      \item This part is about making sure the model is learn the underlying pattern
-      (or correlation) and able to make predictions about future examples.
-    \end{wideitemize}
+    % \item \textbf{(Again)}, this step is about making sure\footnote{Because we
+    %     don't know how well the model will generalize because we don't have any
+    %     additional data to test this.} the model \textbf{learns} the underlying pattern
+    %   (or correlation) and be able to \textbf{generalize} and \textbf{make
+    %     predictions} about future examples.
+    % \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
@@ -658,51 +680,67 @@ the model.
 }
 
 
-\begin{frame}[fragile]{\textbf{Q. But why do we split the data?}}
+\begin{frame}[fragile]{\textbf{Q. Training, validation, and test data sets?}}
   \begin{wideitemize}
-    \item \textbf{Ans.} We do it to make sure\footnote{We don't know how well the model will generalize
-    because we don't have any additional data to test this.} our model is learning
-    the underlying pattern and not just memorizing the examples.
-    \item We do that by splitting our dataset into three separate segments;
-    training (60\%), validation (20\%), and testing (20\%) data sets.\medskip
-    \begin{wideitemize}
-      \item \textbf{Training data}, or examples that the model will learn
-      those general patterns from.
-      \item \textbf{Validation data}, or examples we use to select the best model (optimal algorithm
-      and hyper-parameter settings).
-      \item \textbf{Test data}, or examples we use to provide an unbiased evaluation of what
-      the model will look like in its real environment.
-    \end{wideitemize}
+    \item We typically split a data set into three separate data sets;
+      training (60\%), validation (20\%), and testing (20\%) data sets.\medskip
+      \begin{framed}
+        { \scriptsize
+\begin{verbatim}
+from sklearn.model_selection import train_test_split
+
+X_train, X_text, y_train, y_test = train_test_split(features, labels,
+test_size=0.4, random_state=42)
+
+X_test, X_val, y_test, y_val = train_test_split(X_test, y_test,
+test_size=0.5, random_state=42)
+\end{verbatim}
+        }        
+      \end{framed}
+  \item \textbf{Training data}, or examples from which the model will learn the general patterns.\vspace{-0.5em}
+  \item \textbf{Validation data}, or examples we use to select the best model (algorithm
+    and hyper-parameter settings).\vspace{-0.5em}
+  \item \textbf{Test data}, or examples we use to provide an unbiased evaluation of what
+    the model will look like in its real environment.\vspace{-0.5em}
+    % \begin{wideitemize}
+    %   \item \textbf{Training data}, or examples from which the model will learn the general patterns.
+    %   \item \textbf{Validation data}, or examples we use to select the best model (optimal algorithm
+    %   and hyper-parameter settings).
+    %   \item \textbf{Test data}, or examples we use to provide an unbiased evaluation of what
+    %   the model will look like in its real environment.
+    % \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
 
-\begin{frame}[fragile]{\textbf{Q. Why does the evaluation process look like with these datasets?}}
+\begin{frame}[fragile]{\textbf{Q. How do we use the training, validation and test sets?}}
   \begin{wideitemize}
     \item[1.] You start train your ML algorithm on the training data, evaluate it
     using the validation data, then at this point:\medskip
     \begin{wideitemize}
-      \item If none of your models are any good based on the performance on the
+      \item IF none of your models are any good based on the performance on the
       validation set, then you need to revisit the training phase and consider
       some new variables or new models. (Go back to step 1.)
-      \item If the performance is quite good, then you can select your best model
+      \item ELSE (performance is quite good) select your best model
       and pass it onto the testing phase. (Go to step 2.)
     \end{wideitemize}
-    \item[2.] You evaluate the best model on the test set.\medskip
+    \item[2.] You then evaluate the best model on the test set.\medskip
     \begin{wideitemize}
-      \item If the performance is what you expect, then that model is ready to go.
-      Otherwise go to step to the drawing board.
+      \item IF the performance is what you expected, that model is ready to go.
+      ELSE go back to the drawing board. (Got to step 1.)
     \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. What is cross-validation? Holdout test set?}}
+\begin{frame}[fragile]{\textbf{Q. Supporting this process with cross-validation? Holdout test set?}}
   \begin{wideitemize}
-    \item \textbf{Holdout test set:} A generalization of the test set. It's just any data set
-    that was not used in fitting a model (data set aside for evaluating the model's ability to generalize).
-    \item \textbf{K-Fold Cross-Validation:} Data is divided into $k$ subsets and the holdout method
+  \item \textbf{K-Fold Cross-Validation:} Data is divided into $k$ subsets and the \textbf{holdout method}
     is repeated $k$ times. Each time, one of the $k$ subsets is used as the test set and the other
     $k - 1$ subsets are combined to be used to train the model.
+  \item \textbf{Holdout method} uses the \textbf{Holdout test set}, a
+    generalization of the test set. The holdout test set is just any data set
+    that was not used in fitting a model (data set aside for evaluating the
+    model's ability to generalize).
   \end{wideitemize}
 \end{frame}
 
@@ -714,22 +752,24 @@ our model's ability to generalize.
 \begin{frame}[fragile]{\textbf{Q. 5-Fold Cross-Validation Example?}}
   \begin{wideitemize}
     \item E.g., $5$-fold CV: Given $10,000$ examples, you partition into $5$ buckets, each consisting
-    of $2,000$ examples\footnote{this is partitioning is done thru sampling without replacement; no
-    single example will appear in two different subsets and all original $10,000$ are still
-    accounted for in these subsets}.
-    \item \textbf{On trial} $1$, we set aside the last bucket (holdout test set) and the other $4$ buckets are the
-    training set, then compute its predictive performance. On \textbf{trial} $2$, we set aside the penultimate
-    bucket, and the other $4$ buckets are the training set. This will be similar for the other $3$ \textbf{trials}.
+    of $2,000$ examples\footnote{this partitioning is done thru sampling without
+      replacement; i.e., no single example will appear in two different subsets
+      and all original $10,000$ are still accounted for in these subsets}.
+    \item \textbf{On trial} $1$, we set aside the last bucket (holdout test set)
+      and the other $4$ buckets are the training set, then compute its
+      predictive performance. On \textbf{trial} $2$, we set aside the
+      penultimate bucket, and the other $4$ buckets are the training set. This
+      will be similar for the other $3$ \textbf{trials}.
     \item At the end we \textit{average} the performance of model over the many trails.
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Establishing our Evaluation framework?}}
+\begin{frame}[fragile]{\textbf{Q. Putting it all together (An evaluation framework)}}
   \begin{wideitemize}
-    \item A cohesive framework for evaluating our model, consisting of two components:\medskip
+    \item Our cohesive framework for evaluating our model, by large, consists of two components:\medskip
     \begin{wideitemize}
-      \item \textbf{Evaluation metrics}: how are gauging the accuracy of the model?
-      \item \textbf{Process (how to split the data)}: how do we leverage a given
+      \item[1.] \textbf{Evaluation metrics}: how are gauging the accuracy of the model?
+      \item[2.] \textbf{Process (how to split the data)}: how do we leverage a given
       data set to mitigate the likelihood of overfitting and underfitting.
     \end{wideitemize}
   \end{wideitemize}
@@ -802,7 +842,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \item $K > 2$ classes:\medskip
     \begin{wideitemize}
     \item Again, the most basic measure is the classification error.
-    \item \textit{Confusion matrix:} $\text{K}\times \text{ K}$ matrix where entry \textit{(i, j)} contains the
+    \item \textbf{Confusion matrix:} $\text{K}\times \text{ K}$ matrix where entry \textit{(i, j)} contains the
       number of instances of class $C_i$ that are classified as $C_j$.
     \item {\footnotesize It allows us to identify which types of misclassification errors tend
         to occur, e.g. if there are two classes that are frequently confused.
@@ -816,7 +856,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \begin{wideitemize}
   \item A \textbf{Confusion Matrix} is a simple way of understanding \textbf{how well an
       algorithm is doing at classifying data}. It is just the idea of \textbf{false
-      positives} and \textbf{false negatives}
+      positives} and \textbf{false negatives}\vspace{0.5em}
     \begin{flushleft}
       \makebox[\linewidth][l]{
         \resizebox{.60\linewidth}{!}{
@@ -845,8 +885,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{itemize}
   \item \textbf{High precision} means your algorithm has returned
   substantially \textit{more relevant results than irrelevant ones}, while
-  \textbf{high recall} means your algorithm has returned \textit{most of the
-  relevant results}.
+  \textbf{high recall} means it has returned \textit{most of the relevant results}.
 \end{wideitemize}
 \end{frame}
 
@@ -874,7 +913,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \item Case 2, \textbf{Cancer screening}. Even though false-positive results could create
   anxiety and lead to unnecessary and invasive follow-up tests like biopsies, missing cases of
   actual cancer could lead to delays in treatment that negatively affect somebody's life.
-  \item Case 3, \textbf{General forecasting} (health weather). Measuring success of testing cases
+  \item Case 3, \textbf{General forecasting}. Measuring success of testing cases
   of covid-19 in the US. Tracking rate of false positives and false negatives seems to make sense.
   \end{wideitemize}
 \end{frame}
@@ -923,7 +962,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   %   \textbf{receiver operating characteristic} or \textbf{ROC} curve.
     \item E.g., suppose there is a threshold (or parameter) in your
       classification algorithm that determines whether you have an apple or a
-      non apple object:\\
+      non apple object:\medskip
       \begin{flushleft}
         \makebox[\linewidth][l]{
           \resizebox{.60\linewidth}{!}{
@@ -951,10 +990,10 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
   \end{center}
 \end{transitionsubframe}
 
-\begin{frame}[fragile]{\textbf{Q. Process description?}}
+\begin{frame}[fragile]{\textbf{Q. Process description (Summary)?}}
   \begin{wideitemize}
   \item Run fivefold cross-validation and select the best models.
-  \item Re-fit models on full training set, evaluate them on the validation set, pick the best one.
+  \item Re-fit models on training set, evaluate them on the validation set, pick the best one.
   \item Evaluate best model on the test set to gauge its ability
   to generalize to unseen data.
   \end{wideitemize}
@@ -998,8 +1037,8 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
       \item We are interested in the parameters that minimize this quadratic cost function.
       This is called ordinary least squares (OLS).
     \end{itemize}
-    \item One adjusts the mathematical model usually by varying parameters within the model, so as
-    to \textit{minimize the cost function}. This is interpreted as given the best model that fits the data.
+    \item One adjusts the mathematical model by varying parameters within the model, so as
+    to \textit{minimize the cost function}: giving the best model that fits the data.
   \end{wideitemize}
 \end{frame}
 
@@ -1061,7 +1100,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
     \begin{wideitemize}
     \item $Var(\hat{f}(x^{'})) = \mathbb{E}[\hat{f}(x)^{2}] - \mathbb{E}[\hat{f}(x^{'})]^{2}$
     \end{wideitemize}
-    \item There' a trade-off between bias and variance: As one is reduced,
+    \item \textbf{Bias and Variance tradeoff}: As one is reduced,
     the other is increased\footnote{This the matter of over-and-underfitting}.
   \end{wideitemize}
 \end{frame}
@@ -1151,7 +1190,7 @@ Receiver Operating Characteristics \& Area under the curve (ROC-AUC), log-loss, 
 
 \begin{frame}[fragile]{\textbf{Q. What is Overfitting?}}
   Overfitting occurs when an algorithm
-  fits too closely to a limited set of data (i.e., training set).
+  fits too closely to a limited set of data (training set?).
   \begin{columns}[T]
   \begin{column}{.58\textwidth}
     \only<1>{\resizebox{\textwidth}{!}{
@@ -1415,7 +1454,7 @@ every example in the training data.
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. Tunning Hyper-parameters?}}
+\begin{frame}[fragile]{\textbf{Q. Tuning Hyper-parameters?}}
   \begin{wideitemize}
     \item Run grid search to find the optimal hyper-parameter settings for our models.
     \item Our goal of this step is to find the optimal model that beats that baseline performance.
@@ -1475,7 +1514,7 @@ every example in the training data.
   \begin{wideitemize}\small
     \item Next, we'll evaluate the best model on the test set. This will give us
     a truly unbiased view of how it should preform moving forward.
-    \item Why do we need to evaluate it on test data, given they have already evaluated on unseen data?
+    \item Why do we need to evaluate it on test data, given they've already evaluated on unseen data?
     \medskip
     \begin{wideitemize}
       \item For the validation set was created by \textbf{randomly} distributing examples from
@@ -1497,10 +1536,10 @@ every example in the training data.
   \end{center}
 \end{transitionframe}
 
-\subsection{Regression}
+\subsection{Linear Regression}
 \begin{transitionsubframe}
   \begin{center}
-    \Huge Regression algorithms (Supervised learning)
+    \Huge Linear Regression algorithm\\(Supervised learning)
   \end{center}
 \end{transitionsubframe}
 
@@ -1518,65 +1557,92 @@ every example in the training data.
   \end{wideitemize}
 \end{frame}
 
-
-\begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
+\begin{frame}[fragile]{\textbf{Q. What is Linear Regression?}}
   \begin{wideitemize}
   \item \textbf{Linear regression} is one type of regression that is used when
-  trying to predict a continuous target variable (output).\medskip
-  \begin{wideitemize}
-    \item The essence of LR is that given some correlated data, LR tries to
-      explain a dependent variable in terms of independent variables.
-    \item The independent variables are numerical (continuous) and we \textit{fit} straight
-      lines, polynomials or other functions to predict the dependent variables.
-  \end{wideitemize}
-  \item Example: Find a relationship between the number of tomatoes on a plant
-    and how much they are watered. Using the algorithm definition for linear
-    regression is $y = mx + b$, where $y$ is the tomatoes number (dependent
-    var), $x$ is how much they are watered (independent var), and $b$ and $m$
-    (i.e., slope) are coefficients dictating the best fit line\footnote{e.g., a
-      model that assumes a linear relationship between the input}.
-    {\footnotesize Based on the water data, you could infer the number of tomatoes on a
-      plant for an amount of water for which we don't any data.}\medskip
-  % \item Linear regression attempts to model the relationship between two continuous
-  %   variables -- a scalar response (or dependent variable) and and one or more
-  %   explanatory variables (or independent variables) -- by fitting a linear
-  %   equation to observed data.
-  % \item The governing algorithm or equation for linear regression is also quite simple.
-  %   It takes the form: $y = mx + b$ where $y$ is the dependent variable, $x$ is the
-  %   independent variable, and $b$ and $m$ (i.e., slope) are coefficients
-  %   dictating the equation.
-  % \item e.g. a model that assumes a linear relationship between the input
-  %   variables $x$ and the single output variable $y$.
+    trying to predict a continuous target variable (output).
+    \begin{wideitemize} 
+    \item \textbf{The way it works} it attempts to model the relationship between two variables by fitting
+      a linear equation (i.e., a line $Y = a + bX$) to observed data $D$, where $X$
+      is the explanatory variable and $Y$ is the dependent variable.
+      {\footnotesize For example, a modeler might want to relate the weights of individuals to
+        their heights using a linear regression model.}
+    % \item A linear regression line has an equation of the form $Y = a + bX$,
+    %   where $X$ is the explanatory (independent) variable and $Y$ is the dependent variable.
+    \item To fit this regression line, it often uses \textbf{least-squares
+        method}\footnote{Because the deviations are first squared, then summed,
+        there are no cancellations between positive and negative values.},
+      {\footnotesize which calculates the best-fitting line for
+        $D$ by minimizing the sum of the squares of the vertical
+        deviations from each data point to the line (if a point lies on the
+        fitted line exactly, then its vertical deviation is $0$).}      
+    \item This minimization of error is wrt to values of $a$ and $b$, which are
+      found using \textbf{gradient descent} (training is basically finding
+      these values.)
+    \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{Q. How does linear regression work?}}
-  \begin{wideitemize}
-  \item The way Linear Regression works is by trying to find the weights (namely, $m$ and $b$)
-  that lead to the best-fitting line for the input data (i.e. X features) we have.
-  The best-fitting line is determined in terms of \textbf{lowest cost}.\medskip
-  \begin{wideitemize}
-    \item Generally, cost refers to the loss or error that the model yields in terms
-    of \textit{how off it is from the actual Training data}.
-    \item When it comes to Linear Regression, the \textbf{cost function} we usually
-    use is the Squared Error Cost (i.e., Mean Square Error):
-    $\frac{1}{N} \sum_{i=1}^N (y_{i}-(mx_{i} + b))^2$
-    \item Using Gradient descent, it tries to find the values for $m$ and $b$
-      that will give you the lowest MSE score. (Training is basically finding
-      these values.) \textbf{The best fitted line is the one with the lowest MSE value.}
-  \end{wideitemize}
-  % \item Linear regression attempts to model the relationship between two continuous
-  %   variables -- a scalar response (or dependent variable) and and one or more
-  %   explanatory variables (or independent variables) -- by fitting a linear
-  %   equation to observed data.
-  % \item The governing algorithm or equation for linear regression is also quite simple.
-  %   It takes the form: $y = mx + b$ where $y$ is the dependent variable, $x$ is the
-  %   independent variable, and $b$ and $m$ (i.e., slope) are coefficients
-  %   dictating the equation.
-  % \item e.g. a model that assumes a linear relationship between the input
-  %   variables $x$ and the single output variable $y$.
-  \end{wideitemize}
-\end{frame}
+
+
+% \begin{frame}[fragile]{\textbf{Q. What is linear regression?}}
+%   \begin{wideitemize}
+%   \item \textbf{Linear regression} is one type of regression that is used when
+%   trying to predict a continuous target variable (output).\medskip
+%   \begin{wideitemize}
+%     \item The essence of LR is that given some correlated data, LR tries to
+%       explain a dependent variable in terms of independent variables.
+%     \item The independent variables are numerical (continuous) and we \textit{fit} straight
+%       lines, polynomials or other functions to predict the dependent variables.
+%   \end{wideitemize}
+%   \item Example: Find a relationship between the number of tomatoes on a plant
+%     and how much they are watered. Using the algorithm definition for linear
+%     regression is $y = mx + b$, where $y$ is the tomatoes number (dependent
+%     var), $x$ is how much they are watered (independent var), and $b$ and $m$
+%     (i.e., slope) are coefficients dictating the best fit line\footnote{e.g., a
+%       model that assumes a linear relationship between the input}.
+%     {\footnotesize Based on the water data, you could infer the number of tomatoes on a
+%       plant for an amount of water for which we don't any data.}\medskip
+%   % \item Linear regression attempts to model the relationship between two continuous
+%   %   variables -- a scalar response (or dependent variable) and and one or more
+%   %   explanatory variables (or independent variables) -- by fitting a linear
+%   %   equation to observed data.
+%   % \item The governing algorithm or equation for linear regression is also quite simple.
+%   %   It takes the form: $y = mx + b$ where $y$ is the dependent variable, $x$ is the
+%   %   independent variable, and $b$ and $m$ (i.e., slope) are coefficients
+%   %   dictating the equation.
+%   % \item e.g. a model that assumes a linear relationship between the input
+%   %   variables $x$ and the single output variable $y$.
+%   \end{wideitemize}
+% \end{frame}
+
+% \begin{frame}[fragile]{\textbf{Q. How does linear regression work?}}
+%   \begin{wideitemize}
+%   \item The way Linear Regression works is by trying to find the weights (namely, $m$ and $b$)
+%   that lead to the best-fitting line for the input data (i.e. X features) we have.
+%   The best-fitting line is determined in terms of \textbf{lowest cost}.\medskip
+%   \begin{wideitemize}
+%     \item Generally, cost refers to the loss or error that the model yields in terms
+%     of \textit{how off it is from the actual Training data}.
+%     \item When it comes to Linear Regression, the \textbf{cost function} we usually
+%     use is the Squared Error Cost (i.e., Mean Square Error):
+%     $\frac{1}{N} \sum_{i=1}^N (y_{i}-(mx_{i} + b))^2$
+%     \item Using Gradient descent, it tries to find the values for $m$ and $b$
+%       that will give you the lowest MSE score. (Training is basically finding
+%       these values.) \textbf{The best fitted line is the one with the lowest MSE value.}
+%   \end{wideitemize}
+%   % \item Linear regression attempts to model the relationship between two continuous
+%   %   variables -- a scalar response (or dependent variable) and and one or more
+%   %   explanatory variables (or independent variables) -- by fitting a linear
+%   %   equation to observed data.
+%   % \item The governing algorithm or equation for linear regression is also quite simple.
+%   %   It takes the form: $y = mx + b$ where $y$ is the dependent variable, $x$ is the
+%   %   independent variable, and $b$ and $m$ (i.e., slope) are coefficients
+%   %   dictating the equation.
+%   % \item e.g. a model that assumes a linear relationship between the input
+%   %   variables $x$ and the single output variable $y$.
+%   \end{wideitemize}
+% \end{frame}
 
 
 
@@ -1596,19 +1662,26 @@ every example in the training data.
 \end{frame}
 
 
-\begin{frame}[fragile]{\textbf{Q. Linear regression Recap?}}
-  \begin{wideitemize}
-    \item Linear Regression is the process of finding a line that best fits the data
-    points available on the plot, so that we can use it to predict output values for
-    inputs that are not present in the data.
-    \item Performance (and error rates) depends on various factors including the
-    how clean and consistent the data is.
-    \item In case of bad model performance, we usually go for a \textbf{higher polynomial function}.
-    This is basically the introduction of new variables into the Regressor function so
-    that we allow more flexibility to it\footnote{However, this will cause the LR line
-    not to be a straight line anymore.}
-  \end{wideitemize}
-\end{frame}
+% \begin{frame}[fragile]{\textbf{Q. Linear regression Recap?}}
+%   \begin{wideitemize}
+%     \item Linear Regression is the process of finding a line that best fits the data
+%     points available on the plot, so that we can use it to predict output values for
+%     inputs that are not present in the data.
+%     \item Performance (and error rates) depends on various factors including the
+%     how clean and consistent the data is.
+%     \item In case of bad model performance, we usually go for a \textbf{higher polynomial function}.
+%     This is basically the introduction of new variables into the Regressor function so
+%     that we allow more flexibility to it\footnote{However, this will cause the LR line
+%     not to be a straight line anymore.}
+%   \end{wideitemize}
+% \end{frame}
+
+\subsection{Logistic Regression}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge Logistic Regression algorithm (Supervised learning)
+  \end{center}
+\end{transitionsubframe}
 
 \begin{frame}[fragile]{\textbf{Q. What is logistic regression?}}
   \begin{wideitemize}
@@ -1729,17 +1802,18 @@ every example in the training data.
     points as input and groups\footnote{grouping is the training phase of KMeans,
       and uses the square of the L2 norm as its cost function} them into $k$
     clusters\footnote{It uses the distance between points as a measure of
-      similarity, based on $k$ averages (i.e. means).} (the output).\medskip
+      similarity, based on $k$ averages (i.e. means).} (the output).
+    {\footnotesize This $k$ is called a hyper-parameter; a variable whose value we set
+      before training.} \medskip
   \begin{wideitemize}
-    \item This $k$ is called a hyper-parameter; a variable whose value we set
-      before training.
     \item The idea is simple: You have a bunch of vectors $\in {\Bbb R}^{d}$.
-      Then you init a bunch seed-guesses for the $k$ centers (centroids) of the
-      clusters. You assign each vector to the nearest cluster. And then, when
-      everything is done, you calculate the mean values of the clusters (updated $k$
-      centers). And then you just do it again: you re-assign the nearest mean. Then
-      you keep on going until it converges\footnote{Once those centroids stop
-        moving(no further change in cost), the algorithm stop}.
+      \textbf{(1)} Then you init a bunch seed-guesses for the $k$ centers (centroids) of the
+      clusters. \textbf{(2)} You assign each vector to the nearest cluster.
+      \textbf{(3)} And then, when everything is done, you calculate the mean
+      values of the clusters (updated $k$ centers). \textbf{(4)} And then you just do it
+      again: you re-assign the nearest mean.
+    \item Then you keep on going until it converges\footnote{Once those
+        centroids stop moving(no further change in cost), the algorithm stop}.
   \end{wideitemize}
   \end{wideitemize}
 \end{frame}
@@ -1780,9 +1854,9 @@ has roughly equal numbers of observations
 \begin{frame}[fragile]{\textbf{Q. What is Naive Bayes?}}
   \begin{wideitemize}
   \item \textbf{Naive Bayes} is a classification technique (Generative model) based
-    on \textbf{Bayes Theorem} with an assumption of independence among predictors (features).
-    In other words, a Naive Bayes classifier assumes that the presence of a particular feature in a
-    class is unrelated to the presence of any other feature.
+    on \textbf{Bayes Theorem} with an assumption of independence\footnote{In
+      other words, it assumes that each feature makes an independent and
+      equal contribution to the outcome.} among predictors (features).
   \item Some \textbf{benefits} include:\medskip
   \begin{wideitemize}
     \item It's \textit{easy to build} and particularly \textit{useful for very large data sets}.
@@ -1794,7 +1868,7 @@ has roughly equal numbers of observations
 
 \begin{frame}[fragile]{\textbf{Q. Bayes Theorem (Quick Overview)?}}
   \makebox[\linewidth][c]{
-    \resizebox{.3\linewidth}{!}{
+    \resizebox{.4\linewidth}{!}{
       \includegraphics{figures/BayesTheorem.pdf}
     }
   }
@@ -1818,12 +1892,24 @@ has roughly equal numbers of observations
 
 \begin{frame}[fragile]{\textbf{Q. How does Naive Bayes work?}}
   \begin{wideitemize}
-  \item Step 1: Convert the data set into a frequency table (co-occurance matrix)
-  \item Step 2: Create Likelihood table by finding the probabilities like
-    ``Spam'' probability ($0.29$) and probability of ``No Spam'' ($0.64$).
-  \item Step 3: Now, use Naive Bayesian equation to calculate the posterior
-    probability for each class. The class with the highest posterior probability
-    is the outcome of prediction.
+    \item \textbf{First}, this classifier uses the Bayes's theorem to calculate the
+      probability of a class, say $y_i$, given a set of feature values (i.e.
+      $\Pr(y_i \mid x_1, x_1 , \ldots , x_n)$) {\footnotesize where the
+        numerator ($\Pr(x_1, x_1 , \ldots, x_n \mid y_i)$) is probability of a
+        specific combination of features given a class label and the
+        denominator\footnote{A normalization term we often exclude.}
+        ($\Pr(x_1) \Pr(x_2) \ldots, \Pr(x_n))$) is the probability of all the
+        evidence irrespective of our knowledge about the class label $y_i$.}
+      \textbf{And then} find the class label $y_i$ with max probability.
+    \item More specifically:
+      \begin{wideitemize}
+      \item[1.] Convert the data set into a frequency table (co-occurrence matrix)
+      \item[2.] Create Likelihood table by finding the probabilities like
+        ``Spam'' probability ($0.29$) and probability of ``No Spam'' ($0.64$).
+      \item[3.] Now, use Naive Bayesian equation to calculate the posterior
+        probability for each class. The class with the highest posterior prob.
+        is the outcome of prediction.
+      \end{wideitemize}
   \end{wideitemize}
 \end{frame}
 
@@ -1842,6 +1928,127 @@ has roughly equal numbers of observations
   \item Naive Bayes uses a similar method to predict the probability of
     different class based on various attributes. This algorithm is mostly used
     in text classification and with problems having multiple classes.
+  \end{wideitemize}
+\end{frame}
+
+\subsection{Perceptron}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge Perceptron\\
+    Perceptron is a single layer neural network (a multi-layer
+      perceptron is called Neural Networks).
+  \end{center}
+\end{transitionsubframe}
+
+
+\begin{frame}[fragile]{\textbf{Q. What the Hell is Perceptron?}}
+  \begin{wideitemize}
+  \item \textbf{Perceptron} is a linear binary classifier, used in supervised
+    learning to classify data.
+  \item It consists of $4$ components: (1) Input values or One input layer, (2)
+    Weights and Bias, (3) Weighted sum, and (4) Activation function.
+  \item The perceptron works on these simple steps:\vspace{0.3em}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      {\footnotesize
+      \begin{itemize}
+      \item[1.] All inputs $x$ are multiplied with their weights $w$.
+      \item[2.] Add all the multiplied values and call them Weighted Sum.
+      \item[3.] Apply that weighted sum to the correct Activation Function (e.g.,
+        rectified linear unit or simply ReLU) to return an output.
+      \end{itemize}
+      }
+    \end{column}
+
+    \begin{column}{.6\textwidth}
+      \makebox[\linewidth][c]{
+        \resizebox{.8\linewidth}{!}{
+          \includegraphics{figures/perceptron.pdf}
+        }
+      }
+    \end{column}
+  \end{columns}
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. When to use the Perceptron algorithm?}}
+  \begin{columns}[t]
+    \begin{column}{.4\textwidth}
+      \adjincludegraphics[width=.8\linewidth, valign=t]{figures/perceptron-example-1.pdf}
+    \end{column}
+    \begin{column}{.6\textwidth}
+      \begin{wideitemize}\vspace{-0.9em}
+      \item \textbf{When to use it:} A single perceptron can only be used to
+        implement \textbf{linearly separable} functions. It takes both real and
+        boolean inputs and associates some weights to them, along with a bias
+        (the threshold of some sort). We learn the weights, then we get the function.
+      \item \textbf{When not to use it:} Non-linearly separable data.
+      \end{wideitemize}
+    \end{column}
+  \end{columns}
+  % \begin{wideitemize}
+  % \item \textbf{When to use it}
+  %   \begin{wideitemize}
+  %   \item A single perceptron can only be used to implement \textbf{linearly separable}
+  %     functions. It takes both real and boolean inputs and associates some 
+  %     weights to them, along with a bias (the threshold of some sort). We learn
+  %     the weights, then we get the function. \medskip
+  %     % \begin{figure}
+  %     %   \centering
+  %     %   \subfloat[]{\includegraphics[width=.3\linewidth]{figures/perceptron-example-1.pdf}}\qquad
+  %     %   \subfloat[]{\includegraphics[width=.3\linewidth]{figures/perceptron-example.pdf}}
+  %     %   \caption{Some main caption for the above figures.}
+  %     % \end{figure}
+
+  %   \end{wideitemize}
+  % \item \textbf{When not to use it}
+  %   \begin{wideitemize}
+  %   \item Non-linearly separable data.
+  %   \end{wideitemize}
+  % \end{wideitemize}
+\end{frame}
+
+
+\subsection{Decision trees}
+\begin{transitionsubframe}
+  \begin{center}
+    \Huge Decision Trees Classifier
+  \end{center}
+\end{transitionsubframe}
+
+
+\begin{frame}[fragile]{\textbf{Q. Decision Trees?}}
+  \begin{wideitemize}
+  \item \textbf{Decision trees} are a non-parametric model for supervised learning
+    whose local region is identified in a sequence of recursive splits in a smaller
+    number of steps.
+  \item It consists of internal decision nodes and terminal leaves.
+    Each decision node implements a test function with discrete outcomes labeling
+    the branches.
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{Q. How do Decision Trees work?}}
+  \begin{wideitemize}
+  \item \textbf{Decision trees (induction):} Given an input, at each node, a test is applied
+    and one of the branches is taken depending on the outcome.
+  \item This process starts at the root of the tree, and is repeated recursively until
+    a leaf node is hit, at which point the value written in the leaft constitutes
+    the output.    
+  \end{wideitemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{\textbf{Q. Building a decision tree (a tree learning approach)?}}
+  \begin{wideitemize}
+  \item \textbf{Tree learning algorithms} are greedy, and at each step, starting at the
+    root with the complete training data, we look for the best split.
+  \item This splits the training data into two or $n$, depending
+    on whether the chosen attribute is numeric or discrete (purer
+    subsets\footnote{$\rightarrow$ if all records in at that level belong to the same class.}).
+  \item We continue splitting (recursively) with the corresponding subset until
+    no need to split anymore, at which point.
   \end{wideitemize}
 \end{frame}
 
