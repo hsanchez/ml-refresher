@@ -34,6 +34,7 @@
 \usepackage{dcolumn}
 \usepackage{bbm}
 \newcolumntype{d}[0]{D{.}{.}{5}}
+\usepackage{fontspec}
 
 \usepackage{changepage}
 \usepackage{appendixnumberbeamer}
@@ -43,7 +44,8 @@
    \setbeamertemplate{footline}
    {
      \leavevmode%
-     \hline
+     % \hline
+     \midrule
      box{%
        \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex,right]{footlinecolor}%
 %         \insertframenumber  \hspace*{2ex}
@@ -69,6 +71,96 @@
 \definecolor{yellow}{RGB}{240,228,66}
 \definecolor{green}{RGB}{0,158,115}
 \definecolor{gray}{RGB}{64,64,64}
+
+%% Additional colors
+\definecolor{DarkBlack}{HTML}{2E3440}     % nord0
+\definecolor{Black}{HTML}{3B4252}         % nord1
+\definecolor{MediumBlack}{HTML}{434C5e}   % nord2
+\definecolor{BrightBlack}{HTML}{4C566A}   % nord3
+% Snow Storm
+\definecolor{White}{HTML}{D8DEE9}         % nord4
+\definecolor{BrighterWhite}{HTML}{E5E9F0}         % nord5
+\definecolor{BrightestWhite}{HTML}{FFFFFF}   % nord6'
+% Frost
+\definecolor{Cyan}{HTML}{8FBCBB}          % nord7
+\definecolor{BrightCyan}{HTML}{88C0D0}    % nord8
+\definecolor{Blue}{HTML}{81A1C1}          % nord9
+\definecolor{BrightBlue}{HTML}{5E81AC}    % nord10
+% Aurora
+\definecolor{Red}{HTML}{BF616A}           % nord11
+\definecolor{Orange}{HTML}{D08770}        % nord12
+\definecolor{Yellow}{HTML}{EBCB8B}        % nord13
+\definecolor{Green}{HTML}{A3BE8C}         % nord14
+\definecolor{Magenta}{HTML}{B48EAD}       % nord15
+
+\colorlet{ColorAlertedText}{Red}
+\colorlet{ColorSubtitle}{BrightBlack}
+\colorlet{ColorSubsectionInToc}{ColorSubtitle}
+
+\colorlet{ColorBackground}{BrightestWhite}
+\colorlet{ColorText}{BrightBlack}
+\colorlet{ColorExampleText}{Cyan}
+\colorlet{ColorStructure}{BrightBlack}
+\colorlet{ColorTitle}{DarkBlack}
+\colorlet{ColorSubsectionInTocShaded}{ColorSubsectionInToc!30!ColorBackground}
+\colorlet{ColorItemizeItem}{ColorStructure}
+\colorlet{ColorBlockTitleBg}{Green!50}
+\colorlet{ColorExampleBlockTitleBg}{ColorExampleText!50}
+\colorlet{ColorAlertedBlockTitleBg}{ColorAlertedText!50}
+\colorlet{ColorBlockBodyBg}{Green!20}
+\colorlet{ColorExampleBlockBodyBg}{ColorExampleText!20}
+\colorlet{ColorAlertedBlockBodyBg}{ColorAlertedText!20}
+\colorlet{ColorBlockBodyFg}{ColorText}
+\colorlet{ColorExampleBlockBodyFg}{ColorText}
+\colorlet{ColorAlertedBlockBodyFg}{ColorText}
+
+\colorlet{ColorNormalText}{ColorText}
+\colorlet{ColorFrameTitle}{ColorTitle}
+\colorlet{ColorFrameSubtitle}{ColorSubtitle}
+\colorlet{ColorSectionInToc}{ColorTitle}
+\colorlet{ColorEnumerateColor}{ColorItemizeItem}
+\colorlet{ColorSectionInHeadFoot}{ColorStructure}
+
+%%%%% set beamer color (general colors)
+\setbeamercolor*{background canvas}{bg=ColorBackground}
+\setbeamercolor*{normal text}{fg=ColorNormalText}
+\setbeamercolor*{alerted text}{fg=ColorAlertedText}
+\setbeamercolor*{example text}{fg=ColorExampleText}
+\setbeamercolor*{structure}{fg=ColorStructure}
+
+%% minor color changes
+\setbeamercolor*{title}{fg=ColorTitle}
+\setbeamercolor*{subtitle}{fg=ColorSubtitle}
+\setbeamercolor*{frametitle}{fg=ColorFrameTitle}
+\setbeamercolor*{framesubtitle}{fg=ColorFrameSubtitle}
+
+\setbeamercolor*{itemize item}{fg=ColorItemizeItem}
+\setbeamercolor*{enumerate item}{fg=ColorEnumerateColor}
+\setbeamercolor{button}{bg=MyBackground,fg=blue,}
+
+
+
+% font settings
+\setbeamerfont{structure}{family=\rmfamily,series=\bfseries}
+\setbeamerfont{title}{size=\Huge,parent=structure}
+\setbeamerfont{subtitle}{size=\Large,parent=title}
+\setbeamerfont{section in toc}{size=\Large,parent=structure}
+\setbeamerfont{section in head/foot}{size=\tiny,parent=structure}
+\setbeamerfont{subsection in toc}{size=\large,parent={section in toc}}
+\setbeamerfont{frametitle}{parent=structure,size=\Large}
+\setbeamerfont{framesubtitle}{parent=frametitle,size=\large}
+\setbeamerfont{caption}{size=\footnotesize}
+\setbeamerfont{block title}{size=\normalsize,series=\mdseries,parent={structure,block body}}
+\setbeamerfont{item}{parent=structure,series=\mdseries}
+
+\setmainfont{Yanone Kaffeesatz}
+\setsansfont{Gill Sans}
+\setmonofont{iA Writer Mono S}
+% \setmainfont{Computer Modern Roman}
+% \setsansfont{Computer Modern Sans Serif}
+% \setmonofont{Computer Modern Typewriter}
+
+\newfontfamily{\Handwritten}{Nothing You Could Do}
 
 \hypersetup{
   colorlinks=false,
@@ -99,18 +191,43 @@
     \end{frame}
 }
 
-\setbeamercolor{frametitle}{fg=black}  % used to be blue
-\setbeamercolor{title}{fg=black}
-\setbeamertemplate{footline}[frame number]
+
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{itemize items}{-}
-\setbeamercolor{itemize item}{fg=blue}
-\setbeamercolor{itemize subitem}{fg=blue}
-\setbeamercolor{enumerate item}{fg=blue}
-\setbeamercolor{enumerate subitem}{fg=blue}
-\setbeamercolor{button}{bg=MyBackground,fg=blue,}
+\setbeamertemplate{itemize item}{$\ast$}
+\setbeamertemplate{itemize subitem}{$\ast$}
+\setbeamertemplate{itemize subsubitem}{$\ast$}
 
+\setbeamertemplate{frametitle}{
+  {\usebeamercolor[fg]{normal text} \mdseries | }~\insertframetitle%
+  \hfill\ifx\insertframesubtitle\@empty\else\\[0.2em] {\usebeamercolor[fg]{normal text} \mdseries\hspace{0.3em} }~{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\fi
+}
 
+\setbeamertemplate{frametitle continuation}[from second][\insertcontinuationtext]
+\setbeamertemplate{headline}
+{%
+\begin{beamercolorbox}{section in head/foot}
+\vskip2pt\insertnavigation{\paperwidth}\vskip5pt
+\end{beamercolorbox}%
+}
+
+\setbeamertemplate{footline}{
+  \newbox\tmpbox\setbox\tmpbox\hbox{[\insertframenumber/\inserttotalframenumber]}
+  \vspace{5.2mm}
+  \hspace{2mm}\noindent\hfill\box\tmpbox\hspace{2mm}
+  \vspace{1.3mm}
+}
+
+\setbeamertemplate{title page}{
+  \renewcommand\thefootnote{\fnsymbol{footnote}}
+  \setcounter{footnote}{1} % \dagger
+  {\usebeamerfont{title}\usebeamercolor[fg]{title}\bfseries\boldmath\inserttitle}
+  \ifx\insertsubtitle\@empty\else\\[0.7em] {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\fi~\\[2em]
+  \insertauthor\
+  \\[1pt]
+  \insertdate\\
+  \renewcommand\thefootnote{\arabic{footnote}}
+  \setcounter{footnote}{0}
+}
 
 % If you like road maps, rather than having clutter at the top, have a roadmap show up at the end of each section
 % (and after your introduction)
@@ -122,11 +239,31 @@
 %        \tableofcontents[currentsection]
 %    \end{frame}
 % }
-\setbeamercolor{section in toc}{fg=blue}
-\setbeamercolor{subsection in toc}{fg=red}
+% \setbeamercolor{section in toc}{fg=blue}
+% \setbeamercolor{subsection in toc}{fg=red}
 \setbeamersize{text margin left=1em,text margin right=1em}
 
-\newenvironment{wideitemize}{\itemize\addtolength{\itemsep}{10pt}}{\enditemize}
+% table of contents
+\setbeamertemplate{section in toc}{
+  \inserttocsection\\\smallskip
+}
+\setbeamertemplate{subsection in toc}{~$\ast$~~\inserttocsubsection\\\smallskip}
+\setbeamertemplate{subsection in toc shaded}[default][100]
+
+% block
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\addtobeamertemplate{block begin}{%
+  \setlength{\textwidth}{0.85\textwidth}%
+}{}
+\addtobeamertemplate{block alerted begin}{%
+  \setlength{\textwidth}{0.85\textwidth}%
+}{}
+\addtobeamertemplate{block example begin}{%
+  \setlength{\textwidth}{0.85\textwidth}%
+}{}
+
+
+\newenvironment{wideitemize}{\itemize\setlength{\leftmarginii}{0.2cm}\addtolength{\itemsep}{10pt}}{\enditemize}
 
 % No like break between theorem content and theorem name
 \makeatletter

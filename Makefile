@@ -1,8 +1,8 @@
 main.pdf: *.tex # img/*.pdf
-	pdflatex main
+	xelatex main
 	bibtex main
-	pdflatex main
-	pdflatex main
+	xelatex main
+	xelatex main
 
 .PHONY: clean
 
